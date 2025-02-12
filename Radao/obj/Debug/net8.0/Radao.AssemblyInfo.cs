@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Radao")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dff5325c66870cdb3f5c08ba5adc2c67b45a5d03")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+817bada70bc72e42e02ecc3f380b474956197afd")]
 [assembly: System.Reflection.AssemblyProductAttribute("Radao")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Radao")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,6 +1,12 @@
-﻿namespace Radao.Data
+﻿using Microsoft.EntityFrameworkCore;
+using Radao.Models;
+
+
+namespace Radao.Data
 {
-    public class RadaoContext
+    public class RadaoContext : DbContext
     {
+
+
     }
 }

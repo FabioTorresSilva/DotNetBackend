@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Utilizador\\Desktop\\Sprint3\\Radao\\Radao.csproj": {}
+    "C:\\Users\\silva\\OneDrive\\Ambiente de Trabalho\\Sprint3\\Sprint3DotNet\\Radao\\Radao.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Utilizador\\Desktop\\Sprint3\\Radao\\Radao.csproj": {
+    "C:\\Users\\silva\\OneDrive\\Ambiente de Trabalho\\Sprint3\\Sprint3DotNet\\Radao\\Radao.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Utilizador\\Desktop\\Sprint3\\Radao\\Radao.csproj",
+        "projectUniqueName": "C:\\Users\\silva\\OneDrive\\Ambiente de Trabalho\\Sprint3\\Sprint3DotNet\\Radao\\Radao.csproj",
         "projectName": "Radao",
-        "projectPath": "C:\\Users\\Utilizador\\Desktop\\Sprint3\\Radao\\Radao.csproj",
-        "packagesPath": "C:\\Users\\Utilizador\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Utilizador\\Desktop\\Sprint3\\Radao\\obj\\",
+        "projectPath": "C:\\Users\\silva\\OneDrive\\Ambiente de Trabalho\\Sprint3\\Sprint3DotNet\\Radao\\Radao.csproj",
+        "packagesPath": "C:\\Users\\silva\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\silva\\OneDrive\\Ambiente de Trabalho\\Sprint3\\Sprint3DotNet\\Radao\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Utilizador\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\silva\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,7 +42,7 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "all"
+          "auditMode": "direct"
         },
         "SdkAnalysisLevel": "9.0.100"
       },
@@ -89,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

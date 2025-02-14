@@ -16,11 +16,12 @@ namespace Radao.Services
         }
 
         /// <summary>
-        /// Adds device in context
+        /// Add new device to context
         /// </summary>
-        /// <param Device="device"></param>
-        /// <returns device></returns>
+        /// <param name="device"></param>
+        /// <returns></returns>
         /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ParamIsNull"></exception>
         public async Task<Device> AddDeviceAsync(Device device)
         {
             // Ensure database exists
@@ -41,33 +42,48 @@ namespace Radao.Services
         }
 
         /// <summary>
-        /// Gets the device with Id equal to id
+        /// Get device from context with Id equal to id
         /// </summary>
         /// <param name="id"></param>
-        /// <returns Device with Id equal to id></returns>
+        /// <returns></returns>
         /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ObjIsNull"></exception>
         public async Task<Device> GetDeviceByIdAsync(int id)
         {
             // Ensure database exists
             if (_context.Devices == null)
                 throw new DbSetNotInitialize();
 
-            return await _context.Devices.SingleOrDefaultAsync(d => d.Id == id);
+            // Gets device with Id equal to the updatedDevice
+            Device device = await _context.Devices.SingleOrDefaultAsync(d => d.Id == id);
+
+            // Ensures updatedDevice exists in the context
+            if (device == null)
+                throw new ObjIsNull();
+
+            return device;
         }
 
         /// <summary>
-        /// Gets all of the devices on the database
+        /// Gets all devices
         /// </summary>
-        /// <returns List of all Devices></returns>
+        /// <returns></returns>
         /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="EmptyList"></exception>
         public async Task<List<Device>> GetDevicesdAsync()
         {
             // Ensure database exists
             if (_context.Devices == null) 
                 throw new DbSetNotInitialize();
 
-            
-            return await _context.Devices.ToListAsync();
+            // Gets List of devices
+            List<Device> devices = await _context.Devices.ToListAsync();
+
+            // Ensures list is not empty
+            if (devices.Count == 0)
+                throw new EmptyList();
+
+            return devices;
         }
 
         /// <summary>

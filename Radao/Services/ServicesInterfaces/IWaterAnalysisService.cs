@@ -11,12 +11,12 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Creates a new WaterAnalysis.
         /// </summary>
-        Task<WaterAnalysis> AddWaterAnalysisAsync(WaterAnalysisFullDto waterAnalysisFullDto);
+        Task<WaterAnalysis> AddWaterAnalysisAsync(WaterAnalysis waterAnalysis);
 
         /// <summary>
         /// Updates a WaterAnalysis.
         /// </summary>
-        Task<WaterAnalysis> UpdateWaterAnalysisAsync(WaterAnalysisFullDto waterAnalysisFullDto);
+        Task<WaterAnalysis> UpdateWaterAnalysisAsync(WaterAnalysis updatedWaterAnalysis);
 
         /// <summary>
         /// Gets a WaterAnalysis by id.

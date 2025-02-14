@@ -1,1 +1,32 @@
+# Ignore .NET build artifacts
+bin/
+obj/
+out/
+*.dll
+*.exe
+*.pdb
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs and temporary files
+*.log
+*.tmp
+*.cache
+logs/
+
+# Visual Studio specific
+.vscode/
 .vs/
+.idea/
+
+# Dependency management
+node_modules/
+packages/
+
+# Docker-specific ignores
+.dockerignore
+docker-compose.override.yml

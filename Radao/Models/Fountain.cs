@@ -20,7 +20,7 @@ namespace Radao.Models
         /// </summary>
         [Required]
         [MaxLength(500)]
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the susceptibility index of the fountain.
@@ -30,39 +30,25 @@ namespace Radao.Models
         public SusceptibilityIndex SusceptibilityIndex { get; set; }
 
         /// <summary>
-        /// Gets or sets the address associated with the fountain.
-        /// This field is required and establishes a relationship with the Address model.
-        /// </summary>
-        [Required]
-        public Address Address { get; set; }
-
-        /// <summary>
-        /// Gets or sets the foreign key for the address associated with the fountain.
-        /// This field is required and links to the Address model.
-        /// </summary>
-        [Required]
-        public int AddressId { get; set; }
-
-        /// <summary>
         /// Gets or sets the list of water analysis records associated with the fountain.
         /// This field is required and establishes a relationship with the WaterAnalysis model.
         /// </summary>
         [Required]
-        public List<WaterAnalysis> WaterAnalysis { get; set; }
+        public List<WaterAnalysis> WaterAnalysis { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the device associated with the fountain.
         /// This field is required and establishes a relationship with the Device model.
         /// </summary>
         [Required]
-        public Device Device { get; set; }
+        public Device? Device { get; set; }
 
         /// <summary>
         /// Gets or sets the foreign key for the device associated with the fountain.
         /// This field is required and links to the Device model.
         /// </summary>
         [Required]
-        public int DeviceId { get; set; }
+        public int? DeviceId { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the fountain's water is drinkable.

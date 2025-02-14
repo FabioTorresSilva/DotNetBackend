@@ -27,6 +27,15 @@ namespace Radao.Models
         [Required]
         public Fountain Fountain { get; set; }
 
+
+
+        /// <summary>
+        /// Gets or sets the fountainId associated with the water analysis.
+        /// This field is required.
+        /// </summary>
+        [Required]
+        public int FountainId {  get; set; }
+
         /// <summary>
         /// Gets or sets the date when the water analysis was conducted.
         /// This field is required.

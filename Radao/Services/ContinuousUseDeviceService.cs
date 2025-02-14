@@ -17,6 +17,19 @@ namespace Radao.Services
         public Task<ContinuousUseDevice> AddContinuousUseDeviceAsync(ContinuousUseDeviceFullDto continuousUseDeviceFullDto)
         {
             throw new NotImplementedException();
+            //!!!! USE SERVICE THAT CHECKS IF THERES A FOUNTAIN USING THIS DEVICE
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
         }
 
         public Task<ContinuousUseDevice> GetContinuousUseDeviceByIdAsync(int id)

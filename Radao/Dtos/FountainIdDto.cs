@@ -4,15 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Radao.Dtos
 {
-    /// <summary> 
-    /// Class that represents an Fountain data transfer object with all of the arguments of the model including ID
+    /// <summary>
+    /// Class that represents an Fountain data transfer object with all of the arguments of the model
     /// </summary>
-    public class FountainIdDto
+    public class FountainFullDto
     {
-        /// <summary>
-        /// The id of the fountain.
-        /// </summary>
-        public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the description of the fountain.
@@ -46,18 +42,16 @@ namespace Radao.Dtos
         public double Longitude { get; set; }
 
         /// <summary>
-        /// Constructor for the FountainIdDto class
+        /// The constructor for the FountainFullDto class
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="description"></param>
         /// <param name="susceptibilityIndex"></param>
         /// <param name="deviceId"></param>
         /// <param name="isDrinkable"></param>
         /// <param name="longitude"></param>
         /// <param name="latitude"></param>
-        public FountainIdDto(int id, string description, SusceptibilityIndex susceptibilityIndex, int? deviceId, bool isDrinkable, double longitude, double latitude)
+        public FountainFullDto(string description, SusceptibilityIndex susceptibilityIndex, int? deviceId, bool isDrinkable, double longitude, double latitude)
         {
-            this.id = id;
             Description = description;
             SusceptibilityIndex = susceptibilityIndex;
             DeviceId = deviceId;

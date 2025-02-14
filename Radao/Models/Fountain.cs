@@ -9,6 +9,8 @@ namespace Radao.Models
     /// </summary>
     public class Fountain
     {
+        private object id;
+
         /// <summary>
         /// Gets or sets the unique identifier for the fountain.
         /// </summary>
@@ -73,5 +75,45 @@ namespace Radao.Models
         /// </summary>
         [Required]
         public double Longitude { get; set; }
+
+        /// <summary>
+        /// Constructor for the Fountain class without id
+        /// </summary>
+        /// <param name="description"></param>
+        /// <param name="susceptibilityIndex"></param>
+        /// <param name="deviceId"></param>
+        /// <param name="isDrinkable"></param>
+        /// <param name="longitude"></param>
+        /// <param name="latitude"></param>
+        public Fountain(string description, SusceptibilityIndex susceptibilityIndex, int? deviceId, bool isDrinkable, double longitude, double latitude)
+        {
+            Description = description;
+            SusceptibilityIndex = susceptibilityIndex;
+            DeviceId = deviceId;
+            IsDrinkable = isDrinkable;
+            Longitude = longitude;
+            Latitude = latitude;
+        }
+
+        /// <summary>
+        /// Constructor for the Fountain class with id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="description"></param>
+        /// <param name="susceptibilityIndex"></param>
+        /// <param name="deviceId"></param>
+        /// <param name="isDrinkable"></param>
+        /// <param name="longitude"></param>
+        /// <param name="latitude"></param>
+        public Fountain(object id, string description, SusceptibilityIndex susceptibilityIndex, int? deviceId, bool isDrinkable, double longitude, double latitude)
+        {
+            this.id = id;
+            Description = description;
+            SusceptibilityIndex = susceptibilityIndex;
+            DeviceId = deviceId;
+            IsDrinkable = isDrinkable;
+            Longitude = longitude;
+            Latitude = latitude;
+        }
     }
 }

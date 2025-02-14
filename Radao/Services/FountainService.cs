@@ -59,6 +59,20 @@ namespace Radao.Services
             if (existingFountain != null)
                 throw new FountainAlreadyExists();
 
+            //USE SERVICE THAT CHECKS IF THERES A DEVICE IN THIS FOUNTAIN
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+
             // Add the fountain to the database
             await _context.Fountains.AddAsync(fountainFull);
             await _context.SaveChangesAsync();

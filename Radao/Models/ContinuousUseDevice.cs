@@ -5,7 +5,7 @@ namespace Radao.Models
     /// <summary>
     /// Represents a continuous use device associated with a fountain, including analysis frequency and the last analysis date.
     /// </summary>
-    public class ContinuousUseDevice
+    public class ContinuousUseDevice : Device
     {
         /// <summary>
         /// Gets or sets the fountain associated with the continuous use device.

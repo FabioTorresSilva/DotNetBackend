@@ -113,6 +113,8 @@ namespace Radao.Services
             // Updates the device on the database
             device.Model = updatedDevice.Model;
             device.SerialNumber = updatedDevice.SerialNumber;
+            device.ExpirationDate = updatedDevice.ExpirationDate;
+
 
             // Saves context changes
             await _context.SaveChangesAsync();

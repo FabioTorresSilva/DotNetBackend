@@ -1,5 +1,4 @@
-﻿using Radao.Dtos;
-using Radao.Models;
+﻿using Radao.Models;
 
 namespace Radao.Services.ServicesInterfaces
 {
@@ -9,14 +8,14 @@ namespace Radao.Services.ServicesInterfaces
     public interface IFountainService
     {
         /// <summary>
-        /// Creates a new Device.
+        /// Creates a new Fountain.
         /// </summary>
-        Task<Fountain> AddFountainAsync(FountainFullDto fountainFullDto);
+        Task<Fountain> AddFountainAsync(Fountain fountainFull);
 
         /// <summary>
         /// Updates a Fountain.
         /// </summary>
-        Task<Fountain> UpdateFountainAsync(FountainFullDto fountainFullDto);
+        Task<Fountain> UpdateFountainAsync(Fountain fountainFull);
 
         /// <summary>
         /// Gets a Fountain by id.
@@ -26,6 +25,6 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Gets the list of Fountain.
         /// </summary>
-        Task<List<Fountain>> GetFountainsdAsync();
+        Task<List<Fountain>> GetFountainsAsync();
     }
 }

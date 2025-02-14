@@ -111,8 +111,8 @@ namespace Radao.Services
                 throw new ObjIsNull();
 
             // Updates the device on the database
-            device.Description = updatedDevice.Description;
-            device.ExpirationDate = updatedDevice.ExpirationDate;
+            device.Model = updatedDevice.Model;
+            device.SerialNumber = updatedDevice.SerialNumber;
 
             // Saves context changes
             await _context.SaveChangesAsync();

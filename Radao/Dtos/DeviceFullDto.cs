@@ -11,11 +11,16 @@ namespace Radao.Dtos
         /// <summary>
         /// Device Model
         /// </summary>
-        public String Model { get; set; };
+        public String Model { get; set; }
 
         /// <summary>
         /// Device Serial Number 
         /// </summary>
-        public String Serial { get; set; }
+        public String SerialNumber { get; set; }
+
+        /// <summary>
+        /// Device Expiration Date
+        /// </summary>
+        public String ExpirationDate { get; set; }
     }
 }

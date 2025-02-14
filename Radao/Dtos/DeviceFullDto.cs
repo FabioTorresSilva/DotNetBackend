@@ -9,13 +9,13 @@ namespace Radao.Dtos
     {
 
         /// <summary>
-        /// Gets or sets the description of the device.
+        /// Device Model
         /// </summary>
-        public string Description { get; set; } = string.Empty;
+        public String Model { get; set; };
 
         /// <summary>
-        /// Gets or sets the expiration date of the device.
+        /// Device Serial Number 
         /// </summary>
-        public DateOnly ExpirationDate { get; set; }
+        public String Serial { get; set; }
     }
 }

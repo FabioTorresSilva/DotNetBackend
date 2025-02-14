@@ -1,12 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Radao.Dtos
+﻿namespace Radao.Dtos
 {
-    /// <summary>
-    /// Class that represents an Device data transfer object with all of the arguments of the model
-    /// </summary>
-    public class DeviceFullDto
+    public class DeviceIdDto
     {
+        /// <summary>
+        /// Device Id 
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Device Model 
+        /// </summary>
         public String Model { get; set; }
 
         /// <summary>
@@ -20,16 +23,17 @@ namespace Radao.Dtos
         public DateOnly ExpirationDate { get; set; }
 
         /// <summary>
-        /// 3 Arguments DeviceFullDto constructor
+        /// 4 Arguments DeviceFullDto constructor
         /// </summary>
         /// <param name="model"></param>
         /// <param name="serialNumber"></param>
         /// <param name="expirationDate"></param>
-        public DeviceFullDto(string model, string serialNumber, DateOnly expirationDate)
+        public DeviceIdDto(int id, string model, string serialNumber, DateOnly expirationDate)
         {
+            Id = id;
             Model = model;
             SerialNumber = serialNumber;
-            this.ExpirationDate = expirationDate;
+            ExpirationDate = expirationDate;
         }
     }
 }

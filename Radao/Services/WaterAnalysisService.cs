@@ -34,6 +34,17 @@ namespace Radao.Services
             if (waterAnalysis == null)
                 throw new ParamIsNull();
 
+            //Use service to add device and fountain
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+
             // Adds device to the database
             await _context.WaterAnalysises.AddAsync(waterAnalysis);
 

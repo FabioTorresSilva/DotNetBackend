@@ -1,4 +1,6 @@
-﻿namespace Radao.Mapper
+﻿using Radao.Models;
+
+namespace Radao.Mapper
 {
     public class WaterAnalysisMapper
     {

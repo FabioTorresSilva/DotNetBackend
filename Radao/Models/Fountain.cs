@@ -1,5 +1,6 @@
 ﻿using Radao.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Radao.Models
 {
@@ -34,6 +35,7 @@ namespace Radao.Models
         /// This field is required and establishes a relationship with the WaterAnalysis model.
         /// </summary>
         [Required]
+        [JsonIgnore]
         public List<WaterAnalysis> WaterAnalysis { get; set; } = null!;
 
         /// <summary>
@@ -41,6 +43,7 @@ namespace Radao.Models
         /// This field is required and establishes a relationship with the Device model.
         /// </summary>
         [Required]
+        [JsonIgnore]
         public Device? Device { get; set; }
 
         /// <summary>

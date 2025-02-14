@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Radao.Models
 {
@@ -25,6 +26,7 @@ namespace Radao.Models
         /// This field is required and establishes a relationship with the Fountain model.
         /// </summary>
         [Required]
+        [JsonIgnore]
         public Fountain Fountain { get; set; }
 
 
@@ -48,6 +50,7 @@ namespace Radao.Models
         /// This field is required and establishes a relationship with the Device model.
         /// </summary>
         [Required]
+        [JsonIgnore]
         public Device Device { get; set; }
 
         /// <summary>

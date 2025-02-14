@@ -14,13 +14,18 @@ namespace Radao.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the description of the device.
+        /// Gets or sets the Model of the device.
         /// This field is required and can have a maximum length of 500 characters.
         /// </summary>
         [Required]
         [MaxLength(500)]
-        public string Description { get; set; }
+        public string Model { get; set; }
 
+        /// <summary>
+        /// Gets or sets the SerialNumber of the device.
+        /// </summary>
+        [Required]
+        public string SerialNumber { get; set; }
         /// <summary>
         /// Gets or sets the expiration date of the device.
         /// This field is required.

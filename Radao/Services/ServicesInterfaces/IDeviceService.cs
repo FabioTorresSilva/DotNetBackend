@@ -11,12 +11,12 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Creates a new Device.
         /// </summary>
-        Task<Device> AddDeviceAsync(DeviceFullDto deviceFullDto);
+        Task<Device> AddDeviceAsync(Device device);
 
         /// <summary>
         /// Updates a Device.
         /// </summary>
-        Task<Device> UpdateDeviceAsync(DeviceFullDto deviceFullDto);
+        Task<Device> UpdateDeviceAsync(Device deviceupdatedDevice);
 
         /// <summary>
         /// Gets a Device by id.

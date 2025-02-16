@@ -1,18 +1,12 @@
-﻿using Radao.Models;
-using System.ComponentModel.DataAnnotations;
-
-namespace Radao.Dtos
+﻿namespace Radao.Dtos
 {
-    /// <summary>
-    /// Class that represents an ContinuousUseDevice data transfer object with all of the arguments of the model
-    /// </summary>
-    public class ContinuousUseDeviceFullDto : DeviceFullDto
+    public class ContinuousUseDeviceIdDto : DeviceIdDto
     {
 
         /// <summary>
         /// Gets or sets the foreign key for the fountain associated with the continuous use device.
         /// </summary>
-        public int? FountainId { get; set; }
+        public int FountainId { get; set; }
 
         /// <summary>
         /// Gets or sets the frequency of analysis for the continuous use device.
@@ -30,8 +24,8 @@ namespace Radao.Dtos
         /// <param name="fountainId"></param>
         /// <param name="analysisFrequency"></param>
         /// <param name="lastAnalysisDate"></param>
-        public ContinuousUseDeviceFullDto(string model, string serialNumber, DateOnly expirationDat, int? fountainId, int analysisFrequency, DateOnly lastAnalysisDate) 
-            : base(model, serialNumber, expirationDat)
+        public ContinuousUseDeviceIdDto(int id, string model, string serialNumber, DateOnly expirationDat, int fountainId, int analysisFrequency, DateOnly lastAnalysisDate)
+            : base(id, model, serialNumber, expirationDat)
         {
             FountainId = fountainId;
             AnalysisFrequency = analysisFrequency;

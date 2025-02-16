@@ -8,19 +8,19 @@ namespace Radao.Models
     /// </summary>
     public class ContinuousUseDevice : Device
     {
+
         /// <summary>
         /// Gets or sets the fountain associated with the continuous use device.
         /// This field is required and establishes a relationship with the Fountain model.
         /// </summary>
-        [Required]
         [JsonIgnore]
-        public Fountain Fountain { get; set; }
+        public Fountain? Fountain { get; set; }
 
         /// <summary>
         /// Gets or sets the foreign key for the fountain associated with the continuous use device.
         /// This field is optional and links to the Fountain model.
         /// </summary>
-        public int FountainId { get; set; }
+        public int? FountainId { get; set; }
 
         /// <summary>
         /// Gets or sets the frequency of analysis for the continuous use device.
@@ -35,5 +35,41 @@ namespace Radao.Models
         /// </summary>
         [Required]
         public DateOnly LastAnalysisDate { get; set; }
+
+        /// <summary>
+        /// No Id constructor
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="serialNumber"></param>
+        /// <param name="expirationDate"></param>
+        /// <param name="fountain"></param>
+        /// <param name="fountainId"></param>
+        /// <param name="lastAnalysisDate"></param>
+        public ContinuousUseDevice(string model, string serialNumber, DateOnly expirationDate, int? fountainId, DateOnly lastAnalysisDate) 
+            : base(model, serialNumber, expirationDate)
+        {
+            Fountain = fountain;
+            FountainId = fountainId;
+            LastAnalysisDate = lastAnalysisDate;
+        }
+
+        /// <summary>
+        /// All arguments constructor 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <param name="serialNumber"></param>
+        /// <param name="expirationDate"></param>
+        /// <param name="fountain"></param>
+        /// <param name="fountainId"></param>
+        /// <param name="lastAnalysisDate"></param>
+        public ContinuousUseDevice(int id, string model, string serialNumber, DateOnly expirationDate, int? fountainId, DateOnly lastAnalysisDate)
+            : base(id, model, serialNumber, expirationDate)
+        {
+            Fountain = fountain;
+            FountainId = fountainId;
+            LastAnalysisDate = lastAnalysisDate;
+        }
     }
 }
+

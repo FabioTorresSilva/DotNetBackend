@@ -4,7 +4,7 @@ using Radao.Dtos;
 namespace Radao.Mapper
 {
     /// <summary>
-    /// Maps the fountain data to the Fountain DTO
+    /// Maps Fountain 
     /// </summary>
     public class FountainMapper
     {

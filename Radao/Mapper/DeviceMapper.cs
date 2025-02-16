@@ -35,7 +35,6 @@ namespace Radao.Mapper
             return new Device(dto.Id, dto.Model, dto.SerialNumber, dto.ExpirationDate);
         }
 
-
         /// <summary>
         /// Creates a IdDtoToDevice using a Device
         /// </summary>

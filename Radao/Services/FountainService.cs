@@ -120,7 +120,13 @@ namespace Radao.Services
             return fountains;
         }
 
-        
+        /// <summary>
+        /// Updates a Fountain.
+        /// </summary>
+        /// <param name="fountainFull"></param>
+        /// <returns></returns>
+        /// <exception cref="ParamIsNull"></exception>
+        /// <exception cref="ObjIsNull"></exception>
         public async Task<Fountain> UpdateFountainAsync(Fountain fountainFull)
         {
             // Check if the fountain is null

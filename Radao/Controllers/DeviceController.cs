@@ -8,7 +8,7 @@ namespace Radao.Controllers
 {
     [ApiController]
     [Route("api/device")]
-    public class DeviceController : ControllerBase
+    public class DeviceController : Controller
     {
         private readonly IDeviceService _deviceService;
 
@@ -113,10 +113,6 @@ namespace Radao.Controllers
         {
             try
             {
-                // Check if the id is valid
-                if (id <= 0)
-                    return BadRequest("Invalid device ID.");
-
                 // Map the DTO to the domain model
                 var updatedDevice = new Device
                     (

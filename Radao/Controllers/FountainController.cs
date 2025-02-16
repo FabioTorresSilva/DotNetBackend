@@ -105,7 +105,13 @@ namespace Radao.Controllers
                 // Get all fountains
                 var fountains = await _fountainService.GetFountainsAsync();
                 // Map the domain model to the DTO and return it
-                var fountainDtos = fountains.ConvertAll(f => new FountainFullDto(f.Description, f.SusceptibilityIndex, f.DeviceId, f.IsDrinkable, f.Latitude, f.Longitude));
+                var fountainDtos = fountains.ConvertAll(f => new FountainFullDto(
+                    f.Description,
+                    f.SusceptibilityIndex,
+                    f.DeviceId,
+                    f.IsDrinkable,
+                    f.Latitude,
+                    f.Longitude));
                 return Ok(fountainDtos);
             }
             catch (ObjIsNull e)

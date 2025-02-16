@@ -99,14 +99,6 @@ namespace Radao.Services
             return waterAnalysises;
         }
 
-        /// <summary>
-        /// Updates WaterAnalysis 
-        /// </summary>
-        /// <param name="updatedWaterAnalysis"></param>
-        /// <returns></returns>
-        /// <exception cref="DbSetNotInitialize"></exception>
-        /// <exception cref="ParamIsNull"></exception>
-        /// <exception cref="ObjIsNull"></exception>
         public async Task<WaterAnalysis> UpdateWaterAnalysisAsync(WaterAnalysis updatedWaterAnalysis)
         {
             // Ensure database exists

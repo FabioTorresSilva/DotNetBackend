@@ -1,14 +1,11 @@
-﻿using Radao.Models;
-using System.ComponentModel.DataAnnotations;
-
-namespace Radao.Dtos
+﻿namespace Radao.Dtos
 {
-    /// <summary>
-    /// Class that represents an WaterAnalysis data transfer object with all of the arguments of the model
-    /// </summary>
-    public class WaterAnalysisFullDto
+    public class WaterAnalysisIdDto
     {
-
+        /// <summary>
+        /// Gets or sets the id of the water analysis.
+        /// </summary>
+        public int Id { get; set; }
         /// <summary>
         /// Gets or sets the radon concentration level measured during the water analysis.
         /// </summary>
@@ -30,14 +27,16 @@ namespace Radao.Dtos
         public int DeviceId { get; set; }
 
         /// <summary>
-        /// Constructor for the WaterAnalysisFullDto class
+        /// Constructor for the WaterAnalysisIdDto class
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="radonConcentration"></param>
         /// <param name="fountainId"></param>
         /// <param name="date"></param>
         /// <param name="deviceId"></param>
-        public WaterAnalysisFullDto(double radonConcentration, int fountainId, DateOnly date, int deviceId)
+        public WaterAnalysisIdDto(int id, double radonConcentration, int fountainId, DateOnly date, int deviceId)
         {
+            Id = id;
             RadonConcentration = radonConcentration;
             FountainId = fountainId;
             Date = date;

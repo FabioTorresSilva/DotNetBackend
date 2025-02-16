@@ -57,7 +57,7 @@ namespace Radao.Dtos
         /// <param name="latitude"></param>
         public FountainIdDto(int id, string description, SusceptibilityIndex susceptibilityIndex, int? deviceId, bool isDrinkable, double longitude, double latitude)
         {
-            this.id = id;
+            Id = id;
             Description = description;
             SusceptibilityIndex = susceptibilityIndex;
             DeviceId = deviceId;

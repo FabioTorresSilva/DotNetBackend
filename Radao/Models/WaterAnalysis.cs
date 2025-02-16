@@ -59,5 +59,38 @@ namespace Radao.Models
         /// </summary>
         [Required]
         public int DeviceId { get; set; }
+
+        /// <summary>
+        /// WaterAnalysis constructor with all arguments
+        /// </summary>
+        /// <param name="radonConcentration"></param>
+        /// <param name="fountainId"></param>
+        /// <param name="date"></param>
+        /// <param name="deviceId"></param>
+        public WaterAnalysis(double radonConcentration, int fountainId, DateOnly date, int deviceId)
+        {
+            RadonConcentration = radonConcentration;
+            FountainId = fountainId;
+            Date = date;
+            DeviceId = deviceId;
+        }
+
+
+        /// <summary>
+        /// WaterAnalysis constructor with all arguments including ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="radonConcentration"></param>
+        /// <param name="fountainId"></param>
+        /// <param name="date"></param>
+        /// <param name="deviceId"></param>
+        public WaterAnalysis(int id, double radonConcentration, int fountainId, DateOnly date, int deviceId)
+        {
+            Id = id;
+            RadonConcentration = radonConcentration;
+            FountainId = fountainId;
+            Date = date;
+            DeviceId = deviceId;
+        }
     }
 }

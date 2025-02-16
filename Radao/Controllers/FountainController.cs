@@ -4,6 +4,7 @@ using Radao.Exceptions.Fountains;
 using Radao.Exceptions;
 using Radao.Models;
 using Radao.Services.ServicesInterfaces;
+using Radao.Mapper;
 
 namespace Radao.Controllers
 {
@@ -15,14 +16,16 @@ namespace Radao.Controllers
     public class FountainController : Controller
     {
         private readonly IFountainService _fountainService;
+        private readonly FountainMapper _fountainMapper;
 
         /// <summary>
         /// Constructor Service Injection.
         /// </summary>
         /// <param name="fountainService"></param>
-        public FountainController(IFountainService fountainService)
+        public FountainController(IFountainService fountainService, FountainMapper fountainMapper)
         {
             _fountainService = fountainService;
+            _fountainMapper = fountainMapper;
         }
 
         /// <summary>
@@ -36,19 +39,15 @@ namespace Radao.Controllers
             try
             {
                 // Map the DTO to the domain model
-                var fountain = new Fountain
-                (
-                    fountainDto.Description,
-                    fountainDto.SusceptibilityIndex,
-                    fountainDto.DeviceId,
-                    fountainDto.IsDrinkable,
-                    fountainDto.Latitude,
-                    fountainDto.Longitude
-                );
+                var fountain = _fountainMapper.FullDtoToFountain(fountainDto);
+
                 // Add the fountain
                 var addedFountain = await _fountainService.AddFountainAsync(fountain);
+
+                var resultDto = _fountainMapper.FountainToFullDto(addedFountain);
+
                 // Map the domain model to the DTO and return it
-                return CreatedAtAction(nameof(GetFountainById), new { id = addedFountain.Id }, addedFountain);
+                return CreatedAtAction(nameof(GetFountainById), new { id = addedFountain.Id }, resultDto);
             }
             catch (DbSetNotInitialize e)
             {
@@ -80,8 +79,10 @@ namespace Radao.Controllers
             {
                 // Check if the id is valid
                 var fountain = await _fountainService.GetFountainByIdAsync(id);
+
                 // Map the domain model to the DTO and return it
-                return Ok(new FountainFullDto(fountain.Description, fountain.SusceptibilityIndex, fountain.DeviceId, fountain.IsDrinkable, fountain.Latitude, fountain.Longitude));
+                var resultDto = _fountainMapper.FountainToFullDto(fountain);
+                return Ok(resultDto);
             }
             catch (ParamIsNull e)
             {
@@ -104,15 +105,10 @@ namespace Radao.Controllers
             {
                 // Get all fountains
                 var fountains = await _fountainService.GetFountainsAsync();
+
                 // Map the domain model to the DTO and return it
-                var fountainDtos = fountains.ConvertAll(f => new FountainFullDto(
-                    f.Description,
-                    f.SusceptibilityIndex,
-                    f.DeviceId,
-                    f.IsDrinkable,
-                    f.Latitude,
-                    f.Longitude));
-                return Ok(fountainDtos);
+                var fountainsDto = fountains.Select(f => _fountainMapper.FountainToFullDto(f));
+                return Ok(fountainsDto);
             }
             catch (ObjIsNull e)
             {
@@ -127,25 +123,21 @@ namespace Radao.Controllers
         /// <param name="fountainDto"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateFountain(int id, [FromBody] FountainFullDto fountainDto)
+        public async Task<IActionResult> UpdateFountain(int id, [FromBody] FountainIdDto fountainIdDto)
         {
             try
             {
+                // Ensure the id is valid
+                fountainIdDto.Id = id;
+
                 // Map the DTO to the domain model
-                var updatedFountain = new Fountain
-                (
-                    id,
-                    fountainDto.Description,
-                    fountainDto.SusceptibilityIndex,
-                    fountainDto.DeviceId,
-                    fountainDto.IsDrinkable,
-                    fountainDto.Latitude,
-                    fountainDto.Longitude
-                );
+                var updatedFountain = _fountainMapper.IdDtoToFountain(fountainIdDto);
+
                 // Update the fountain
                 var fountain = await _fountainService.UpdateFountainAsync(updatedFountain);
-                // Map the domain model to the DTO and return it
-                return Ok(fountain);
+                var resultDto = _fountainMapper.FountainToIdDto(fountain);
+                return Ok(resultDto);
+
             }
             catch (ParamIsNull e)
             {

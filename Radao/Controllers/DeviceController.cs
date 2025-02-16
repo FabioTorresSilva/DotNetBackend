@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Radao.Dtos;
 using Radao.Exceptions;
+using Radao.Mapper;
 using Radao.Models;
 using Radao.Services.ServicesInterfaces;
 
@@ -11,14 +12,16 @@ namespace Radao.Controllers
     public class DeviceController : Controller
     {
         private readonly IDeviceService _deviceService;
+        private readonly DeviceMapper _deviceMapper;
 
         /// <summary>
         /// Constructor Service Injection
         /// </summary>
         /// <param name="deviceService"></param>
-        public DeviceController(IDeviceService deviceService)
+        public DeviceController(IDeviceService deviceService, DeviceMapper deviceMapper )
         {
             _deviceService = deviceService;
+            _deviceMapper = deviceMapper;
         }
 
         /// <summary>
@@ -32,16 +35,14 @@ namespace Radao.Controllers
             try
             {
                 // Map the DTO to the domain model
-                var device = new Device
-                (
-                    deviceDto.Model,
-                    deviceDto.SerialNumber,
-                    deviceDto.ExpirationDate
-                );
+                var device = _deviceMapper.FullDtoToDevice(deviceDto);
+
                 // Add the device
                 var addedDevice = await _deviceService.AddDeviceAsync(device);
+
                 // Map the domain model to the DTO and return it
-                return CreatedAtAction(nameof(GetDeviceById), new { id = addedDevice.Id }, addedDevice);
+                var resultDto = _deviceMapper.DeviceToIdDto(addedDevice);
+                return CreatedAtAction(nameof(GetDeviceById), new { id = addedDevice.Id }, resultDto);
             }
             catch (DbSetNotInitialize e)
             {
@@ -65,8 +66,10 @@ namespace Radao.Controllers
             {
                 // Check if the id is valid
                 var device = await _deviceService.GetDeviceByIdAsync(id);
+
                 // Map the domain model to the DTO and return it
-                return Ok(new DeviceFullDto(device.Model, device.SerialNumber, device.ExpirationDate));
+                var resultDto = _deviceMapper.DeviceToFullDto(device);
+                return Ok(resultDto);
             }
             catch (DbSetNotInitialize e)
             {
@@ -88,9 +91,10 @@ namespace Radao.Controllers
             {
                 // Get all devices
                 var devices = await _deviceService.GetDevicesdAsync();
+
                 // Map the domain models to the DTOs and return them
-                var deviceDtos = devices.ConvertAll(d => new DeviceFullDto(d.Model, d.SerialNumber, d.ExpirationDate));
-                return Ok(deviceDtos);
+                var devicesDto = devices.Select(d => _deviceMapper.DeviceToFullDto(d));
+                return Ok(devicesDto);
             }
             catch (DbSetNotInitialize e)
             {
@@ -109,23 +113,20 @@ namespace Radao.Controllers
         /// <param name="deviceDto"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDevice(int id, [FromBody] DeviceFullDto deviceDto)
+        public async Task<IActionResult> UpdateDevice(int id, [FromBody] DeviceIdDto deviceIdDto)
         {
             try
             {
-                // Map the DTO to the domain model
-                var updatedDevice = new Device
-                    (
-                    id,
-                    deviceDto.Model,
-                    deviceDto.SerialNumber,
-                    deviceDto.ExpirationDate
-                    );
+                //ensure the id in the URL matches the id in the body
+                deviceIdDto.Id = id;
 
-                // Update the device
-                var device = await _deviceService.UpdateDeviceAsync(updatedDevice);
+                // Map the DTO to the domain model
+                var updatedDevice = _deviceMapper.IdDtoToDevice(deviceIdDto);
+
                 // Map the domain model to the DTO and return it
-                return Ok(new DeviceIdDto(device.Id, device.Model, device.SerialNumber, device.ExpirationDate));
+                var device = await _deviceService.UpdateDeviceAsync(updatedDevice);
+                var resultDto = _deviceMapper.DeviceToIdDto(device);
+                return Ok(resultDto);
             }
             catch (DbSetNotInitialize e)
             {

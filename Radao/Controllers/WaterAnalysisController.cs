@@ -70,6 +70,7 @@ namespace Radao.Controllers
             {
                 // Get the water analysis
                 var waterAnalysis = await _waterAnalysisService.GetWaterAnalysisByIdAsync(id);
+
                 // Map the domain model to the DTO and return it
                 var resultDto = _waterAnalysisMapper.WaterAnalysisToFullDto(waterAnalysis);
                 return Ok(resultDto);
@@ -95,6 +96,7 @@ namespace Radao.Controllers
             {
                 // Get all water analyses
                 var analyses = await _waterAnalysisService.GetWaterAnalysisesdAsync();
+
                 // Map the domain model to the DTO and return it
                 var analysesDto = analyses.Select(a => _waterAnalysisMapper.WaterAnalysisToFullDto(a));
                 return Ok(analysesDto);

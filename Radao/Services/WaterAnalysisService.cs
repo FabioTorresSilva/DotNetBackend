@@ -125,7 +125,7 @@ namespace Radao.Services
         /// <exception cref="DbSetNotInitialize"></exception>
         /// <exception cref="ParamIsNull"></exception>
         /// <exception cref="ObjIsNull"></exception>
-        public async Task<WaterAnalysis> UpdateWaterAnalysisAsync(WaterAnalysisIdDto updatedWaterAnalysis)
+        public async Task<WaterAnalysis> UpdateWaterAnalysisAsync(WaterAnalysis updatedWaterAnalysis)
         {
             // Ensure database exists
             if (_context.WaterAnalysises == null)

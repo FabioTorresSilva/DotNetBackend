@@ -16,7 +16,7 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Updates a Fountain.
         /// </summary>
-        Task<Fountain> UpdateFountainAsync(FountainIdDto fountainIdDto);
+        Task<Fountain> UpdateFountainAsync(Fountain fountain);
 
         /// <summary>
         /// Gets a Fountain by id.

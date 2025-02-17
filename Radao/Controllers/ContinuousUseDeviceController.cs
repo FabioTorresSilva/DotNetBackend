@@ -120,11 +120,13 @@ namespace Radao.Controllers
                 continuousUseDeviceIdDto.Id = id;
 
                 // Map the DTO to the domain model
-                var updatedContinuousUseDevice = _continuousUseDeviceMapper.ContinuousUseDeviceToIdDto(continuousUseDeviceIdDto);
+                var updatedContinuousUseDevice = _continuousUseDeviceMapper.IdDtoToContinuousUseDevice(continuousUseDeviceIdDto);
 
                 // Map the domain model to the DTO and return it
-                var device = await _deviceService.UpdateDeviceAsync(updatedDevice);
-                var resultDto = _deviceMapper.DeviceToIdDto(device);
+                var continuousUseDevice = await _continuousUseDeviceService.UpdateContinuousUseDeviceAsync(updatedContinuousUseDevice);
+
+                var resultDto = _continuousUseDeviceMapper.ContinuousUseDeviceToIdDto(continuousUseDevice);
+
                 return Ok(resultDto);
             }
             catch (DbSetNotInitialize e)

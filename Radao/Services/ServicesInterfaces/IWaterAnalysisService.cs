@@ -16,7 +16,7 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Updates a WaterAnalysis.
         /// </summary>
-        Task<WaterAnalysis> UpdateWaterAnalysisAsync(WaterAnalysis updatedWaterAnalysis);
+        Task<WaterAnalysis> UpdateWaterAnalysisAsync(WaterAnalysisIdDto updatedWaterAnalysis);
 
         /// <summary>
         /// Gets a WaterAnalysis by id.

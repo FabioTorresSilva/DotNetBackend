@@ -43,16 +43,25 @@ namespace Radao.Services
             if (waterAnalysis == null)
                 throw new ParamIsNull();
 
-            //Use service to add device and fountain
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
+            // Gets Fountain with Id equal to the updatedContinuousUseDeviceIdDto.FountainId
+            var fountain = await _context.Fountains.SingleOrDefaultAsync(c => c.Id == waterAnalysis.FountainId);
+
+            // Ensures fountain is not null
+            if (fountain == null)
+                throw new ObjIsNull();
+
+            // Updates the waterAnalysis.Fountain argument
+            waterAnalysis.Fountain = fountain;
+
+            // Gets device with Id equal to the updatedWaterAnalysis.DeviceId
+            var device = await _context.Devices.SingleOrDefaultAsync(c => c.Id == waterAnalysis.DeviceId);
+
+            // Ensures device is not null
+            if (device == null)
+                throw new ObjIsNull();
+
+            // Updates the updatedWaterAnalysis.Device argument
+            waterAnalysis.Device = device;
 
             // Adds waterAnalysis to the database
             await _context.WaterAnalysises.AddAsync(waterAnalysis);
@@ -116,7 +125,7 @@ namespace Radao.Services
         /// <exception cref="DbSetNotInitialize"></exception>
         /// <exception cref="ParamIsNull"></exception>
         /// <exception cref="ObjIsNull"></exception>
-        public async Task<WaterAnalysis> UpdateWaterAnalysisAsync(WaterAnalysis updatedWaterAnalysis)
+        public async Task<WaterAnalysis> UpdateWaterAnalysisAsync(WaterAnalysisIdDto updatedWaterAnalysis)
         {
             // Ensure database exists
             if (_context.WaterAnalysises == null)
@@ -135,11 +144,31 @@ namespace Radao.Services
 
             // Updates the WaterAnalysis object on the database
             waterAnalysis.RadonConcentration = updatedWaterAnalysis.RadonConcentration;
-            waterAnalysis.Fountain = updatedWaterAnalysis.Fountain;
             waterAnalysis.FountainId = updatedWaterAnalysis.FountainId;
             waterAnalysis.Date = updatedWaterAnalysis.Date;
-            waterAnalysis.Device = updatedWaterAnalysis.Device;
             waterAnalysis.DeviceId = updatedWaterAnalysis.DeviceId;
+            
+
+            // Gets Fountain with Id equal to the updatedContinuousUseDeviceIdDto.FountainId
+            var fountain = await _context.Fountains.SingleOrDefaultAsync(c => c.Id == updatedWaterAnalysis.FountainId);
+
+            // Ensures fountain is not null
+            if (fountain == null)
+               throw new ObjIsNull();
+
+            // Updates the waterAnalysis.Fountain argument
+            waterAnalysis.Fountain = fountain;
+
+            // Gets device with Id equal to the updatedWaterAnalysis.DeviceId
+            var device = await _context.Devices.SingleOrDefaultAsync(c => c.Id == updatedWaterAnalysis.DeviceId);
+
+            // Ensures device is not null
+            if (device == null)
+                throw new ObjIsNull();
+
+            // Updates the updatedWaterAnalysis.Device argument
+            waterAnalysis.Device = device;
+
 
             // Saves context changes
             await _context.SaveChangesAsync();

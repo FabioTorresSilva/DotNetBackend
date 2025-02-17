@@ -29,7 +29,6 @@ namespace Radao.Models
         /// Gets or sets the susceptibility index of the fountain.
         /// This field is required.
         /// </summary>
-        [Required]
         public SusceptibilityIndex SusceptibilityIndex { get; set; }
 
         /// <summary>

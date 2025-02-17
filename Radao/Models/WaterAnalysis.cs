@@ -29,14 +29,12 @@ namespace Radao.Models
         [JsonIgnore]
         public Fountain Fountain { get; set; }
 
-
-
         /// <summary>
         /// Gets or sets the fountainId associated with the water analysis.
         /// This field is required.
         /// </summary>
         [Required]
-        public int FountainId {  get; set; }
+        public int FountainId { get; set; }
 
         /// <summary>
         /// Gets or sets the date when the water analysis was conducted.
@@ -74,7 +72,6 @@ namespace Radao.Models
             Date = date;
             DeviceId = deviceId;
         }
-
 
         /// <summary>
         /// WaterAnalysis constructor with all arguments including ID

@@ -41,5 +41,26 @@ namespace Radao.Data
         /// Gets or sets the collection of WaterAnalysises in the database.
         /// </summary>
         public DbSet<WaterAnalysis> WaterAnalysises { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<WaterAnalysis>()
+                .HasOne(w => w.Fountain)
+                .WithMany(f => f.WaterAnalysis) // Ensure this matches your navigation property
+                .HasForeignKey(w => w.FountainId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevents cascade delete
+
+            modelBuilder.Entity<WaterAnalysis>()
+                .HasOne(w => w.Device)
+                .WithMany() // If Device has a navigation property, update accordingly
+                .HasForeignKey(w => w.DeviceId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Fountain>()
+                .HasOne(f => f.Device)
+                .WithMany() // If Device has a navigation property, update accordingly
+                .HasForeignKey(f => f.DeviceId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }

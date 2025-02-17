@@ -42,7 +42,8 @@ namespace Radao.Controllers
 
                 // Map the domain model to the DTO and return it
                 var resultDto = _deviceMapper.DeviceToIdDto(addedDevice);
-                return CreatedAtAction(nameof(GetDeviceById), new { id = addedDevice.Id }, resultDto);
+
+                return Ok(resultDto);  
             }
             catch (DbSetNotInitialize e)
             {
@@ -69,6 +70,7 @@ namespace Radao.Controllers
 
                 // Map the domain model to the DTO and return it
                 var resultDto = _deviceMapper.DeviceToFullDto(device);
+
                 return Ok(resultDto);
             }
             catch (DbSetNotInitialize e)
@@ -94,6 +96,7 @@ namespace Radao.Controllers
 
                 // Map the domain models to the DTOs and return them
                 var devicesDto = devices.Select(d => _deviceMapper.DeviceToFullDto(d));
+
                 return Ok(devicesDto);
             }
             catch (DbSetNotInitialize e)

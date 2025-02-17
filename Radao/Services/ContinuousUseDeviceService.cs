@@ -72,6 +72,10 @@ namespace Radao.Services
             if (_context.ContinuousUseDevices == null)
                 throw new DbSetNotInitialize();
 
+            // Ensure Id is valid
+            if (id <= 0)
+                throw new ParamIsNull();
+
             // Gets device with Id equal to the updatedDevice
             ContinuousUseDevice continuousUseDevice = await _context.ContinuousUseDevices.SingleOrDefaultAsync(d => d.Id == id);
 

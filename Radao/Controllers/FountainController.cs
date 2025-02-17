@@ -82,6 +82,7 @@ namespace Radao.Controllers
 
                 // Map the domain model to the DTO and return it
                 var resultDto = _fountainMapper.FountainToFullDto(fountain);
+
                 return Ok(resultDto);
             }
             catch (ParamIsNull e)

@@ -76,6 +76,10 @@ namespace Radao.Services
             if (_context.WaterAnalysises == null)
                 throw new DbSetNotInitialize();
 
+            // Ensure Id is valid
+            if (id <= 0)
+                throw new ParamIsNull();
+
             // Gets device with Id equal to the updatedDevice
             WaterAnalysis waterAnalysis = await _context.WaterAnalysises.SingleOrDefaultAsync(d => d.Id == id);
 

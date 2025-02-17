@@ -65,6 +65,10 @@ namespace Radao.Services
             if (_context.Devices == null)
                 throw new DbSetNotInitialize();
 
+            // Ensure Id is valid
+            if( id <=  0 )
+                throw new ParamIsNull();
+
             // Gets device with Id equal to the updatedDevice
             Device device = await _context.Devices.SingleOrDefaultAsync(d => d.Id == id);
 

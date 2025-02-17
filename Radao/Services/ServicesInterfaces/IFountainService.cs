@@ -1,4 +1,5 @@
-﻿using Radao.Models;
+﻿using Radao.Dtos;
+using Radao.Models;
 
 namespace Radao.Services.ServicesInterfaces
 {
@@ -15,7 +16,7 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Updates a Fountain.
         /// </summary>
-        Task<Fountain> UpdateFountainAsync(Fountain fountainFull);
+        Task<Fountain> UpdateFountainAsync(FountainIdDto fountainIdDto);
 
         /// <summary>
         /// Gets a Fountain by id.

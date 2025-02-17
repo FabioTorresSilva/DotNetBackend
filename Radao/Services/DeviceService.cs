@@ -1,4 +1,5 @@
 ﻿using Radao.Data;
+using Radao.Dtos;
 using Radao.Exceptions;
 using Radao.Models;
 using Radao.Services.ServicesInterfaces;
@@ -103,28 +104,27 @@ namespace Radao.Services
         /// <returns></returns>
         /// <exception cref="DbSetNotInitialize"></exception>
         /// <exception cref="ObjIsNull"></exception>
-        public async Task<Device> UpdateDeviceAsync(Device updatedDevice)
+        public async Task<Device> UpdateDeviceAsync(DeviceIdDto deviceIdDto)
         {
             // Ensure database exists
             if (_context.Devices == null)
                 throw new DbSetNotInitialize();
 
             // Ensure device is not null
-            if (updatedDevice == null)
+            if (deviceIdDto == null)
                 throw new ParamIsNull();
 
-            // Gets device with Id equal to the updatedDevice
-            var device = await _context.Devices.SingleOrDefaultAsync(c => c.Id == updatedDevice.Id);
+            // Gets device with Id equal to the deviceIdDto
+            var device = await _context.Devices.SingleOrDefaultAsync(c => c.Id == deviceIdDto.Id);
 
-            // Ensures updatedDevice exists in the context
+            // Ensures deviceIdDto exists in the context
             if (device == null)
                 throw new ObjIsNull();
 
             // Updates the device on the database
-            device.Model = updatedDevice.Model;
-            device.SerialNumber = updatedDevice.SerialNumber;
-            device.ExpirationDate = updatedDevice.ExpirationDate;
-
+            device.Model = deviceIdDto.Model;
+            device.SerialNumber = deviceIdDto.SerialNumber;
+            device.ExpirationDate = deviceIdDto.ExpirationDate;
 
             // Saves context changes
             await _context.SaveChangesAsync();

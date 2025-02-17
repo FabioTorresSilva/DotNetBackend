@@ -1,4 +1,5 @@
 ﻿using Radao.Data;
+using Radao.Dtos;
 using Radao.Exceptions;
 using Radao.Exceptions.Fountains;
 using Radao.Models;
@@ -127,31 +128,45 @@ namespace Radao.Services
         /// <returns></returns>
         /// <exception cref="ParamIsNull"></exception>
         /// <exception cref="ObjIsNull"></exception>
-        public async Task<Fountain> UpdateFountainAsync(Fountain fountainFull)
+        public async Task<Fountain> UpdateFountainAsync(FountainIdDto fountaindIdDto)
         {
+            // Ensure database exists
+            if (_context.Fountains == null)
+                throw new DbSetNotInitialize();
+
             // Check if the fountain is null
-            if (fountainFull == null)
+            if (fountaindIdDto == null)
                 throw new ParamIsNull();
 
             // Find the existing fountain
-            var fountain = await _context.Fountains.FindAsync(fountainFull.Id);
+            var fountain = await _context.Fountains.FindAsync(fountaindIdDto.Id);
 
             // Ensure the fountain exists
             if (fountain == null)
                 throw new ObjIsNull();
 
             // Update the fountain
-            fountain.Description = fountainFull.Description;
-            fountain.SusceptibilityIndex = fountainFull.SusceptibilityIndex;
-            fountain.WaterAnalysis = fountainFull.WaterAnalysis;
-            fountain.Device = fountainFull.Device;
-            fountain.DeviceId = fountainFull.DeviceId;
-            fountain.IsDrinkable = fountainFull.IsDrinkable;
-            fountain.Latitude = fountainFull.Latitude;
-            fountain.Longitude = fountainFull.Longitude;
+            fountain.Description = fountaindIdDto.Description;
+            fountain.SusceptibilityIndex = fountaindIdDto.SusceptibilityIndex;
+            fountain.DeviceId = fountaindIdDto.DeviceId;
+            fountain.IsDrinkable = fountaindIdDto.IsDrinkable;
+            fountain.Latitude = fountaindIdDto.Latitude;
+            fountain.Longitude = fountaindIdDto.Longitude;
+
+            // Check if DeviceId exists before updating
+            if (fountaindIdDto.DeviceId != null)
+            {
+                var device = await _context.ContinuousUseDevices.SingleOrDefaultAsync(d => d.Id == fountaindIdDto.DeviceId);
+
+                if (device == null)
+                    throw new ObjIsNull(); // Device does not exist
+
+                fountain.DeviceId = fountaindIdDto.DeviceId;
+                // If Fountain has a navigation property to Device, update it
+                fountain.Device = device;
+            }
 
             // Save changes
-            _context.Fountains.Update(fountain);
             await _context.SaveChangesAsync();
 
             return fountain;

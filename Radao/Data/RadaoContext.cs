@@ -5,14 +5,11 @@ using Radao.Models;
 
 namespace Radao.Data
 {
-
-
     /// <summary>
     /// Represents the database context for the Radao project.
     /// </summary>
     public class RadaoContext : DbContext
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AuctionContext"/> class.
         /// </summary>
@@ -44,6 +41,5 @@ namespace Radao.Data
         /// Gets or sets the collection of WaterAnalysises in the database.
         /// </summary>
         public DbSet<WaterAnalysis> WaterAnalysises { get; set; }
-
     }
 }

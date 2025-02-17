@@ -46,7 +46,7 @@ namespace Radao.Controllers
 
                 // Map the domain model to the DTO and return it
                 var resultDto = _waterAnalysisMapper.WaterAnalysisToFullDto(addedWaterAnalysis);
-                return CreatedAtAction(nameof(GetWaterAnalysisById), new { id = addedWaterAnalysis.Id }, resultDto);
+                return Ok(addedWaterAnalysis);
             }
             catch (DbSetNotInitialize e)
             {

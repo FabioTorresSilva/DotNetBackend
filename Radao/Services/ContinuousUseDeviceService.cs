@@ -113,35 +113,35 @@ namespace Radao.Services
         /// <param name="continuousUseDeviceFullDto"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<ContinuousUseDevice> UpdateContinuousUseDeviceAsync(ContinuousUseDeviceIdDto updatedContinuousUseDeviceIdDto)
+        public async Task<ContinuousUseDevice> UpdateContinuousUseDeviceAsync(ContinuousUseDevice updatedContinuousUseDevice)
         {
             // Ensure database exists
             if (_context.ContinuousUseDevices == null)
                 throw new DbSetNotInitialize();
 
             // Ensure updatedContinuousUseDeviceFullDto is not null
-            if (updatedContinuousUseDeviceIdDto == null)
+            if (updatedContinuousUseDevice == null)
                 throw new ParamIsNull();
 
             // Gets ContinuousUseDevice with Id equal to the updatedContinuousUseDeviceFullDto
-            var continuousUseDevice = await _context.ContinuousUseDevices.SingleOrDefaultAsync(c => c.Id == updatedContinuousUseDeviceIdDto.Id);
+            var continuousUseDevice = await _context.ContinuousUseDevices.SingleOrDefaultAsync(c => c.Id == updatedContinuousUseDevice.Id);
 
             // Ensures continuousUseDevice is not null
             if (continuousUseDevice == null)
                 throw new ObjIsNull();            
 
             // Updates the continuousUseDevice object
-            continuousUseDevice.Model = updatedContinuousUseDeviceIdDto.Model;
-            continuousUseDevice.SerialNumber = updatedContinuousUseDeviceIdDto.SerialNumber;
-            continuousUseDevice.ExpirationDate = updatedContinuousUseDeviceIdDto.ExpirationDate;
-            continuousUseDevice.FountainId = updatedContinuousUseDeviceIdDto.FountainId;
-            continuousUseDevice.LastAnalysisDate = updatedContinuousUseDeviceIdDto.LastAnalysisDate;
+            continuousUseDevice.Model = updatedContinuousUseDevice.Model;
+            continuousUseDevice.SerialNumber = updatedContinuousUseDevice.SerialNumber;
+            continuousUseDevice.ExpirationDate = updatedContinuousUseDevice.ExpirationDate;
+            continuousUseDevice.FountainId = updatedContinuousUseDevice.FountainId;
+            continuousUseDevice.LastAnalysisDate = updatedContinuousUseDevice.LastAnalysisDate;
 
             // Checks if updatedContinuousUseDeviceIdDto.FountainId exists
-            if (updatedContinuousUseDeviceIdDto.FountainId != null)
+            if (updatedContinuousUseDevice.FountainId != null)
             {
                 // Gets Fountai with Id equal to the updatedContinuousUseDeviceIdDto.FountainId
-                var fountain = await _context.Fountains.SingleOrDefaultAsync(c => c.Id == updatedContinuousUseDeviceIdDto.FountainId);
+                var fountain = await _context.Fountains.SingleOrDefaultAsync(c => c.Id == updatedContinuousUseDevice.FountainId);
 
                 // Ensures fountain is not null
                 if (fountain == null)

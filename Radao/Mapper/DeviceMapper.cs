@@ -3,6 +3,9 @@ using Radao.Models;
 
 namespace Radao.Mapper
 {
+    /// <summary>
+    /// Maps Device
+    /// </summary>
     public class DeviceMapper
     {
         /// <summary>

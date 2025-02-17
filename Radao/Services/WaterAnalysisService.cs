@@ -7,11 +7,20 @@ using System.Data.Entity;
 
 namespace Radao.Services
 {
+    /// <summary>
+    /// Service that defines WaterAnalysis-related business operations.
+    /// </summary>
     public class WaterAnalysisService : IWaterAnalysisService
     {
-
+        /// <summary>
+        /// The database context.
+        /// </summary>
         private readonly RadaoContext _context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WaterAnalysisService"/> class.
+        /// </summary>
+        /// <param name="context"></param>
         public WaterAnalysisService(RadaoContext context)
         {
             _context = context;
@@ -99,6 +108,14 @@ namespace Radao.Services
             return waterAnalysises;
         }
 
+        /// <summary>
+        /// Updates a WaterAnalysis
+        /// </summary>
+        /// <param name="updatedWaterAnalysis"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ParamIsNull"></exception>
+        /// <exception cref="ObjIsNull"></exception>
         public async Task<WaterAnalysis> UpdateWaterAnalysisAsync(WaterAnalysis updatedWaterAnalysis)
         {
             // Ensure database exists

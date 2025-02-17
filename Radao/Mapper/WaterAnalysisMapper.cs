@@ -3,6 +3,9 @@ using Radao.Models;
 
 namespace Radao.Mapper
 {
+    /// <summary>
+    /// Maps WaterAnalysis
+    /// </summary>
     public class WaterAnalysisMapper
     {
         /// <summary>
@@ -35,6 +38,11 @@ namespace Radao.Mapper
             return new WaterAnalysisFullDto(WaterAnalisys.RadonConcentration, WaterAnalisys.FountainId, WaterAnalisys.Date, WaterAnalisys.DeviceId);
         }
 
+        /// <summary>
+        /// Maps the WaterAnalysis model to the WaterAnalysisIdDTO
+        /// </summary>
+        /// <param name="WaterAnalisys"></param>
+        /// <returns></returns>
         public WaterAnalysisIdDto WaterAnalysisToIdDto(WaterAnalysis WaterAnalisys)
         {
             return new WaterAnalysisIdDto(WaterAnalisys.Id, WaterAnalisys.RadonConcentration, WaterAnalisys.FountainId, WaterAnalisys.Date, WaterAnalisys.DeviceId);

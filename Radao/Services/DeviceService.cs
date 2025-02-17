@@ -6,10 +6,20 @@ using System.Data.Entity;
 
 namespace Radao.Services
 {
+    /// <summary>
+    /// Service that defines Device-related business operations.
+    /// </summary>
     public class DeviceService : IDeviceService
     {
+        /// <summary>
+        /// The database context.
+        /// </summary>
         private readonly RadaoContext _context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeviceService"/> class.
+        /// </summary>
+        /// <param name="context"></param>
         public DeviceService(RadaoContext context)
         {
             _context = context;

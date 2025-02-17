@@ -6,7 +6,7 @@
         /// <summary>
         /// Gets or sets the foreign key for the fountain associated with the continuous use device.
         /// </summary>
-        public int FountainId { get; set; }
+        public int? FountainId { get; set; }
 
         /// <summary>
         /// Gets or sets the frequency of analysis for the continuous use device.

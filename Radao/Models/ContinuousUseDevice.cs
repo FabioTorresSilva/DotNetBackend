@@ -48,7 +48,6 @@ namespace Radao.Models
         public ContinuousUseDevice(string model, string serialNumber, DateOnly expirationDate, int? fountainId, DateOnly lastAnalysisDate) 
             : base(model, serialNumber, expirationDate)
         {
-            Fountain = fountain;
             FountainId = fountainId;
             LastAnalysisDate = lastAnalysisDate;
         }
@@ -66,7 +65,6 @@ namespace Radao.Models
         public ContinuousUseDevice(int id, string model, string serialNumber, DateOnly expirationDate, int? fountainId, DateOnly lastAnalysisDate)
             : base(id, model, serialNumber, expirationDate)
         {
-            Fountain = fountain;
             FountainId = fountainId;
             LastAnalysisDate = lastAnalysisDate;
         }

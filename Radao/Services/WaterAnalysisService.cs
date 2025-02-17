@@ -54,7 +54,7 @@ namespace Radao.Services
             //
             //
 
-            // Adds device to the database
+            // Adds waterAnalysis to the database
             await _context.WaterAnalysises.AddAsync(waterAnalysis);
 
             // Saves database changes
@@ -122,14 +122,14 @@ namespace Radao.Services
             if (_context.WaterAnalysises == null)
                 throw new DbSetNotInitialize();
 
-            // Ensure device is not null
+            // Ensure updatedWaterAnalysis is not null
             if (updatedWaterAnalysis == null)
                 throw new ParamIsNull();
 
-            // Gets device with Id equal to the updatedDevice
+            // Gets waterAnalysis with Id equal to the updatedWaterAnalysis
             var waterAnalysis = await _context.WaterAnalysises.SingleOrDefaultAsync(c => c.Id == updatedWaterAnalysis.Id);
 
-            // Ensures updatedDevice exists in the context
+            // Ensures waterAnalysis is not null
             if (waterAnalysis == null)
                 throw new ObjIsNull();
 

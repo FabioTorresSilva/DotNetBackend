@@ -280,5 +280,115 @@ namespace Radao.Services
 
             return fountains;
         }
+
+        public async Task DeleteFountainAsync(int id)
+        {
+            // Ensure the DbSet is initialized
+            if (_context.Fountains == null)
+                throw new DbSetNotInitialize();
+
+            // Validate the input
+            if (id <= 0)
+                throw new ParamIsNull();
+
+            // Find the fountain by ID
+            var fountain = await _context.Fountains.FindAsync(id);
+
+            // Check if the fountain exists
+            if (fountain == null)
+                throw new ObjIsNull();
+
+            // Remove the fountain
+            _context.Fountains.Remove(fountain);
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Updates SuscepibilityIndex Of a fountain
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <param name="newIndex"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ParamIsNull"></exception>
+        /// <exception cref="ObjIsNull"></exception>
+        public async Task<Fountain> UpdateFountainSusceptibilityAsync(int fountainId, SusceptibilityIndex newIndex)
+        {
+            // Ensure the DbSet is initialized.
+            if (_context.Fountains == null)
+                throw new DbSetNotInitialize();
+
+            // Validate the input.
+            if (fountainId <= 0)
+                throw new ParamIsNull();
+
+            // Explicitly check if newIndex is a valid enum value
+            if (!Enum.IsDefined(typeof(SusceptibilityIndex), newIndex))
+                throw new InvalidEnumValueException();
+
+            // Retrieve the fountain.
+            var fountain = await _context.Fountains.FindAsync(fountainId);
+            if (fountain == null)
+                throw new ObjIsNull();
+
+            // Update the susceptibility index.
+            fountain.SusceptibilityIndex = newIndex;
+
+            // Save changes to the database.
+            _context.Fountains.Update(fountain);
+            await _context.SaveChangesAsync();
+
+            return fountain;
+        }
+
+        /// <summary>
+        /// Switchs the current Continuous use device to a different one
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <param name="newDeviceId"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ParamIsNull"></exception>
+        /// <exception cref="ObjIsNull"></exception>
+        public async Task<Fountain> UpdateFountainContinuousUseDeviceAsync(int fountainId, int newDeviceId)
+        {
+            // Ensure the DbSet is initialized.
+            if (_context.Fountains == null || _context.ContinuousUseDevices == null)
+                throw new DbSetNotInitialize();
+
+            // Validate the input.
+            if (fountainId <= 0 || newDeviceId <= 0)
+                throw new ParamIsNull();
+
+            // Retrieve the fountain with its related ContinuousUseDevice.
+            var fountain = await _context.Fountains
+                .Include(f => f.Device) // Ensure to load the related ContinuousUseDevice
+                .FirstOrDefaultAsync(f => f.Id == fountainId);
+
+            if (fountain == null)
+                throw new ObjIsNull();
+
+            // Retrieve the new ContinuousUseDevice.
+            var newDevice = await _context.ContinuousUseDevices.FindAsync(newDeviceId);
+            if (newDevice == null)
+                throw new ObjIsNull();
+
+            // Swap the devices.
+            fountain.Device = newDevice;
+            fountain.DeviceId = newDeviceId; 
+            newDevice.Fountain = fountain;   
+            newDevice.FountainId = fountainId; 
+
+            // Save changes to the database.
+            _context.Fountains.Update(fountain);
+            _context.ContinuousUseDevices.Update(newDevice); 
+            await _context.SaveChangesAsync();
+
+            return fountain;
+        }
+        
+
     }
 }

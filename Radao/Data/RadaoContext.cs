@@ -17,10 +17,6 @@ namespace Radao.Data
         public RadaoContext(DbContextOptions<RadaoContext> options) : base(options)
         { }
 
-        /// <summary>
-        /// Gets or sets the collection of Addresses in the database.
-        /// </summary>
-        public DbSet<Address> Addresses { get; set; }
 
         /// <summary>
         /// Gets or sets the collection of ContinuousUseDevices in the database.

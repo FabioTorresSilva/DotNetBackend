@@ -1,7 +1,7 @@
 ﻿using Radao.Data;
 using Radao.Dtos;
+using Radao.Enums;
 using Radao.Exceptions;
-using Radao.Exceptions.Fountains;
 using Radao.Models;
 using Radao.Services.ServicesInterfaces;
 using System.Data.Entity;
@@ -317,5 +317,38 @@ namespace Radao.Services
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <param name="newIndex"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ParamIsNull"></exception>
+        /// <exception cref="ObjIsNull"></exception>
+        public async Task<Fountain> UpdateFountainSusceptibilityAsync(int fountainId, SusceptibilityIndex newIndex)
+        {
+            // Ensure the DbSet is initialized.
+            if (_context.Fountains == null)
+                throw new DbSetNotInitialize();
+
+            // Validate the input.
+            if (fountainId <= 0)
+                throw new ParamIsNull();
+
+            // Retrieve the fountain.
+            var fountain = await _context.Fountains.FindAsync(fountainId);
+            if (fountain == null)
+                throw new ObjIsNull();
+
+            // Update the susceptibility index.
+            fountain.SusceptibilityIndex = newIndex;
+
+            // Save changes to the database.
+            _context.Fountains.Update(fountain);
+            await _context.SaveChangesAsync();
+
+            return fountain;
+        }
     }
 }

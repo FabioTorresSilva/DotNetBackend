@@ -1,4 +1,5 @@
 ﻿using Radao.Dtos;
+using Radao.Enums;
 using Radao.Models;
 
 namespace Radao.Services.ServicesInterfaces
@@ -54,5 +55,10 @@ namespace Radao.Services.ServicesInterfaces
         /// <param name="id"></param>
         /// <returns></returns>
         Task DeleteFountainAsync(int id);
-    }
+
+        Task<Fountain> UpdateFountainSusceptibilityAsync(int fountainId, SusceptibilityIndex newIndex);
+        Task<Fountain> UpdateFountainContinuousUseDeviceAsync(int fountainId, int newDeviceId);
+
+    }   
+
 }

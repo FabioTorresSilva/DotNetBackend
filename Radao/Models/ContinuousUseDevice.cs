@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Radao.Models
@@ -20,6 +21,8 @@ namespace Radao.Models
         /// Gets or sets the foreign key for the fountain associated with the continuous use device.
         /// This field is optional and links to the Fountain model.
         /// </summary>
+
+        [ForeignKey("Fountain")]
         public int? FountainId { get; set; }
 
         /// <summary>

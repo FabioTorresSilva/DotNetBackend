@@ -26,7 +26,7 @@ namespace Radao.Controllers
         /// <param name="continuousUseDeviceDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> AddContinuousUseDevice([FromBody] ContinuousUseDeviceFullDto continuousUseDeviceDto)
+        public async Task<IActionResult> AddContinuousUseDeviceAsync([FromBody] ContinuousUseDeviceFullDto continuousUseDeviceDto)
         {
             try
             {

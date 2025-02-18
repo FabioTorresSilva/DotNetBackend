@@ -13,9 +13,11 @@ out/
 
 Radao/appsettings.json
 Radao/appsettings.*.json
+
 /appsettings.json
 /appsettings.*.json
-
+appsettings.json
+appsettings.*.json
 # Ignore NuGet packages
 *.nupkg
 packages/

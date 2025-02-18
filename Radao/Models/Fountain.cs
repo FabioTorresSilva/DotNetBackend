@@ -39,19 +39,19 @@ namespace Radao.Models
         public List<WaterAnalysis> WaterAnalysis { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets the device associated with the fountain.
+        /// Gets or sets the ContinuousUseDevice associated with the fountain.
         /// This field is required and establishes a relationship with the Device model.
         /// </summary>
         [Required]
         [JsonIgnore]
-        public Device? Device { get; set; }
+        public ContinuousUseDevice? ContinuousUseDevice { get; set; }
 
         /// <summary>
-        /// Gets or sets the foreign key for the device associated with the fountain.
-        /// This field is required and links to the Device model.
+        /// Gets or sets the foreign key for the ContinuousUseDevice associated with the fountain.
+        /// This field is required and links to the ContinuousUseDevice model.
         /// </summary>
 
-        public int? DeviceId { get; set; }
+        public int? ContinuousUseDeviceId { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the fountain's water is drinkable.
@@ -79,15 +79,15 @@ namespace Radao.Models
         /// </summary>
         /// <param name="description"></param>
         /// <param name="susceptibilityIndex"></param>
-        /// <param name="deviceId"></param>
+        /// <param name="continuousUseDeviceId"></param>
         /// <param name="isDrinkable"></param>
         /// <param name="longitude"></param>
         /// <param name="latitude"></param>
-        public Fountain(string description, SusceptibilityIndex susceptibilityIndex, int? deviceId, bool isDrinkable, double longitude, double latitude)
+        public Fountain(string description, SusceptibilityIndex susceptibilityIndex, int? continuousUseDeviceId, bool isDrinkable, double longitude, double latitude)
         {
             Description = description;
             SusceptibilityIndex = susceptibilityIndex;
-            DeviceId = deviceId;
+            ContinuousUseDeviceId = continuousUseDeviceId;
             IsDrinkable = isDrinkable;
             Longitude = longitude;
             Latitude = latitude;
@@ -99,16 +99,16 @@ namespace Radao.Models
         /// <param name="id"></param>
         /// <param name="description"></param>
         /// <param name="susceptibilityIndex"></param>
-        /// <param name="deviceId"></param>
+        /// <param name="continuousUseDeviceId"></param>
         /// <param name="isDrinkable"></param>
         /// <param name="longitude"></param>
         /// <param name="latitude"></param>
-        public Fountain(int id, string description, SusceptibilityIndex susceptibilityIndex, int? deviceId, bool isDrinkable, double longitude, double latitude)
+        public Fountain(int id, string description, SusceptibilityIndex susceptibilityIndex, int? continuousUseDeviceId, bool isDrinkable, double longitude, double latitude)
         {
             this.Id = id;
             Description = description;
             SusceptibilityIndex = susceptibilityIndex;
-            DeviceId = deviceId;
+            ContinuousUseDeviceId = continuousUseDeviceId;
             IsDrinkable = isDrinkable;
             Longitude = longitude;
             Latitude = latitude;

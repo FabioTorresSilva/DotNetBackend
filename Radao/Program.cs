@@ -21,6 +21,10 @@ builder.Services.AddScoped<IFountainService, FountainService>();
 builder.Services.AddScoped<FountainMapper>(); // Register FountainMapper
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<DeviceMapper>(); // Register DeviceMapper
+builder.Services.AddScoped<IContinuousUseDeviceService, ContinuousUseDeviceService>(); 
+builder.Services.AddScoped<ContinuousUseDeviceMapper>(); //Register ContinuousUseDeviceMapper
+builder.Services.AddScoped<IWaterAnalysisService, WaterAnalysisService>();
+builder.Services.AddScoped<WaterAnalysisMapper>();
 
 var app = builder.Build();
 

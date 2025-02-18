@@ -53,9 +53,9 @@ namespace Radao.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Fountain>()
-                .HasOne(f => f.Device)
+                .HasOne(f => f.ContinuousUseDevice)
                 .WithMany() // If Device has a navigation property, update accordingly
-                .HasForeignKey(f => f.DeviceId)
+                .HasForeignKey(f => f.ContinuousUseDeviceId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

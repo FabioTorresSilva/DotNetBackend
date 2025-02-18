@@ -15,7 +15,7 @@ namespace Radao.Mapper
         /// <returns></returns>
         public Fountain FullDtoToFountain(FountainFullDto fountainDto)
         {
-            return new Fountain(fountainDto.Description, fountainDto.SusceptibilityIndex, fountainDto.DeviceId, fountainDto.IsDrinkable, fountainDto.Longitude, fountainDto.Latitude);
+            return new Fountain(fountainDto.Description, fountainDto.SusceptibilityIndex, fountainDto.ContinuousUseDeviceId, fountainDto.IsDrinkable, fountainDto.Longitude, fountainDto.Latitude);
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Radao.Mapper
         /// <returns></returns>
         public Fountain IdDtoToFountain(FountainIdDto fountainIdDto)
         {
-            return new Fountain(fountainIdDto.Id, fountainIdDto.Description, fountainIdDto.SusceptibilityIndex, fountainIdDto.DeviceId, fountainIdDto.IsDrinkable, fountainIdDto.Longitude, fountainIdDto.Latitude);
+            return new Fountain(fountainIdDto.Id, fountainIdDto.Description, fountainIdDto.SusceptibilityIndex, fountainIdDto.ContinuousUseDeviceId, fountainIdDto.IsDrinkable, fountainIdDto.Longitude, fountainIdDto.Latitude);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Radao.Mapper
         /// <returns></returns>
         public FountainFullDto FountainToFullDto(Fountain fountain)
         {
-            return new FountainFullDto(fountain.Description, fountain.SusceptibilityIndex, fountain.DeviceId, fountain.IsDrinkable, fountain.Longitude, fountain.Latitude);
+            return new FountainFullDto(fountain.Description, fountain.SusceptibilityIndex, fountain.ContinuousUseDeviceId, fountain.IsDrinkable, fountain.Longitude, fountain.Latitude);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Radao.Mapper
         /// <returns></returns>
         public FountainIdDto FountainToIdDto(Fountain fountain)
         {
-            return new FountainIdDto(fountain.Id, fountain.Description, fountain.SusceptibilityIndex, fountain.DeviceId, fountain.IsDrinkable, fountain.Longitude, fountain.Latitude);
+            return new FountainIdDto(fountain.Id, fountain.Description, fountain.SusceptibilityIndex, fountain.ContinuousUseDeviceId, fountain.IsDrinkable, fountain.Longitude, fountain.Latitude);
         }
     }
 }

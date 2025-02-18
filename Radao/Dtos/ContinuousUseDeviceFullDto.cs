@@ -30,12 +30,13 @@ namespace Radao.Dtos
         /// <param name="fountainId"></param>
         /// <param name="analysisFrequency"></param>
         /// <param name="lastAnalysisDate"></param>
-        public ContinuousUseDeviceFullDto(string model, string serialNumber, DateOnly expirationDat, int? fountainId, int analysisFrequency, DateOnly lastAnalysisDate) 
-            : base(model, serialNumber, expirationDat)
+        public ContinuousUseDeviceFullDto(string model, string serialNumber, DateOnly expirationDate, int? fountainId, int analysisFrequency, DateOnly lastAnalysisDate) 
+            : base(model, serialNumber, expirationDate)
         {
             FountainId = fountainId;
             AnalysisFrequency = analysisFrequency;
             LastAnalysisDate = lastAnalysisDate;
         }
-    }
+
+            }
 }

@@ -1,6 +1,4 @@
 ﻿using Radao.Enums;
-using Radao.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace Radao.Dtos
 {
@@ -25,10 +23,10 @@ namespace Radao.Dtos
         public SusceptibilityIndex SusceptibilityIndex { get; set; }
 
         /// <summary>
-        /// Gets or sets the foreign key for the device associated with the fountain.
-        /// This field is required and links to the Device model.
+        /// Gets or sets the foreign key for the ContinuousUseDevice associated with the fountain.
+        /// This field is required and links to the ContinuousUseDevice model.
         /// </summary>
-        public int? DeviceId { get; set; }
+        public int? ContinuousUseDeviceId { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the fountain's water is drinkable.
@@ -51,16 +49,16 @@ namespace Radao.Dtos
         /// <param name="id"></param>
         /// <param name="description"></param>
         /// <param name="susceptibilityIndex"></param>
-        /// <param name="deviceId"></param>
+        /// <param name="continuousUseDeviceId"></param>
         /// <param name="isDrinkable"></param>
         /// <param name="longitude"></param>
         /// <param name="latitude"></param>
-        public FountainIdDto(int id, string description, SusceptibilityIndex susceptibilityIndex, int? deviceId, bool isDrinkable, double longitude, double latitude)
+        public FountainIdDto(int id, string description, SusceptibilityIndex susceptibilityIndex, int? continuousUseDeviceId, bool isDrinkable, double longitude, double latitude)
         {
             Id = id;
             Description = description;
             SusceptibilityIndex = susceptibilityIndex;
-            DeviceId = deviceId;
+            ContinuousUseDeviceId = continuousUseDeviceId;
             IsDrinkable = isDrinkable;
             Longitude = longitude;
             Latitude = latitude;

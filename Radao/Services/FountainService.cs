@@ -46,8 +46,9 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Check if the device is null
-            var device = fountainFull.DeviceId.HasValue ? await _context.Devices.FindAsync(fountainFull.DeviceId) : null;
-
+            var device = _context.Devices.FirstOrDefault(c => c.Id == fountainFull.ContinuousUseDeviceId);
+            if (device == null)
+                throw new ObjIsNull();
 
             // Check if the fountain already exists
             var existingFountain =  _context.Fountains.FirstOrDefault(f => f.Latitude == fountainFull.Latitude && f.Longitude == fountainFull.Longitude);
@@ -57,10 +58,10 @@ namespace Radao.Services
                 throw new FountainAlreadyExists();
 
             // If a Fountain already has an associated device, prevent adding a new one
-            if (fountainFull.DeviceId != null)
+            if (fountainFull.ContinuousUseDeviceId != null)
             {
                 // Checks if the device exists in db 
-                var existingDevice = _context.Devices.FirstOrDefault(d => d.Id == fountainFull.DeviceId);
+                var existingDevice = _context.Devices.FirstOrDefault(d => d.Id == fountainFull.ContinuousUseDeviceId);
                 if (existingDevice != null)
                     throw new DeviceAlreadyAssigned();
             }
@@ -139,21 +140,21 @@ namespace Radao.Services
             // Update the fountain
             fountain.Description = updatedfountain.Description;
             fountain.SusceptibilityIndex = updatedfountain.SusceptibilityIndex;
-            fountain.DeviceId = updatedfountain.DeviceId;
+            fountain.ContinuousUseDeviceId = updatedfountain.ContinuousUseDeviceId;
             fountain.IsDrinkable = updatedfountain.IsDrinkable;
             fountain.Latitude = updatedfountain.Latitude;
             fountain.Longitude = updatedfountain.Longitude;
 
             // Check if DeviceId exists before updating
-            if (updatedfountain.DeviceId != null)
+            if (updatedfountain.ContinuousUseDeviceId != null)
             {
-                var device = await _context.ContinuousUseDevices.SingleOrDefaultAsync(d => d.Id == updatedfountain.DeviceId);
+                var continuousUseDevice = await _context.ContinuousUseDevices.SingleOrDefaultAsync(d => d.Id == updatedfountain.ContinuousUseDeviceId);
 
-                if (device == null)
+                if (continuousUseDevice == null)
                     throw new ObjIsNull(); // Device does not exist
 
                 // If Fountain has a navigation property to Device, update it
-                fountain.Device = device;
+                fountain.ContinuousUseDevice = continuousUseDevice;
             }
 
             // Save changes
@@ -166,13 +167,13 @@ namespace Radao.Services
         /// Links ContinuousUseDevice to a fountain
         /// </summary>
         /// <param name="fountainId"></param>
-        /// <param name="deviceId"></param>
+        /// <param name="continuousUseDeviceId"></param>
         /// <returns></returns>
         /// <exception cref="DbSetNotInitialize"></exception>
         /// <exception cref="ObjIsNull"></exception>
         /// <exception cref="DeviceAlreadyAssigned"></exception>
         /// <exception cref="FountainAlreadyAssigned"></exception>
-        public async Task<Fountain> AddContinuousUseDeviceToFountainAsync(int fountainId, int deviceId)
+        public async Task<Fountain> AddContinuousUseDeviceToFountainAsync(int fountainId, int continuousUseDeviceId)
         {
             // Ensure required DbSets are initialized.
             if (_context.Fountains == null || _context.ContinuousUseDevices == null)
@@ -184,25 +185,25 @@ namespace Radao.Services
                 throw new ObjIsNull();
 
             // Check if the fountain already has a device assigned.
-            if (fountain.DeviceId != null)
+            if (fountain.ContinuousUseDeviceId != null)
                 throw new DeviceAlreadyAssigned();
 
             // Retrieve the device from the ContinuousUseDevices DbSet.
-            var device = await _context.ContinuousUseDevices.SingleOrDefaultAsync(d => d.Id == deviceId);
-            if (device == null)
+            var continuousUseDevice = await _context.ContinuousUseDevices.SingleOrDefaultAsync(d => d.Id == continuousUseDeviceId);
+            if (continuousUseDevice == null)
                 throw new ObjIsNull();
 
             // Check if the device is already associated with another fountain.
-            if (device.FountainId != null)
+            if (continuousUseDevice.FountainId != null)
                 throw new FountainAlreadyAssigned();
 
             // Assign the device to the fountain.
-            fountain.DeviceId = deviceId;
-            fountain.Device = device;
+            fountain.ContinuousUseDeviceId = continuousUseDeviceId;
+            fountain.ContinuousUseDevice = continuousUseDevice;
 
             // Assign the fountain to the device
-            device.FountainId = fountainId;
-            device.Fountain = fountain;
+            continuousUseDevice.FountainId = fountainId;
+            continuousUseDevice.Fountain = fountain;
 
             // Persist the changes to the database.
             await _context.SaveChangesAsync();
@@ -230,22 +231,22 @@ namespace Radao.Services
             if (fountain == null)
                 throw new ObjIsNull();
 
-            // Check if the fountain has a device assigned.
-            if (fountain.DeviceId == null)
+            // Check if the fountain has a continuousUseDevice assigned.
+            if (fountain.ContinuousUseDeviceId == null)
                 throw new NoDeviceAssignedToFountain();
 
             // Retrieve the device associated with the fountain.
-            var device = await _context.ContinuousUseDevices.SingleOrDefaultAsync(d => d.Id == fountain.DeviceId);
-            if (device == null)
+            var continuousUseDevice = await _context.ContinuousUseDevices.SingleOrDefaultAsync(d => d.Id == fountain.ContinuousUseDeviceId);
+            if (continuousUseDevice == null)
                 throw new FountainDeviceNotFound();
 
-            // Clear the device association from the fountain.
-            fountain.DeviceId = null;
-            fountain.Device = null;
+            // Clear the continuousUseDevice association from the fountain.
+            fountain.ContinuousUseDeviceId = null;
+            fountain.ContinuousUseDevice = null;
 
-            // Clear the fountain association from the device.
-            device.FountainId = null;
-            device.Fountain = null;
+            // Clear the fountain association from the continuousUseDevice.
+            continuousUseDevice.FountainId = null;
+            continuousUseDevice.Fountain = null;
 
             // Persist changes to the database.
             await _context.SaveChangesAsync();
@@ -353,38 +354,38 @@ namespace Radao.Services
         /// <exception cref="DbSetNotInitialize"></exception>
         /// <exception cref="ParamIsNull"></exception>
         /// <exception cref="ObjIsNull"></exception>
-        public async Task<Fountain> UpdateFountainContinuousUseDeviceAsync(int fountainId, int newDeviceId)
+        public async Task<Fountain> UpdateFountainContinuousUseDeviceAsync(int fountainId, int newContinuousUseDeviceId)
         {
             // Ensure the DbSet is initialized.
             if (_context.Fountains == null || _context.ContinuousUseDevices == null)
                 throw new DbSetNotInitialize();
 
             // Validate the input.
-            if (fountainId <= 0 || newDeviceId <= 0)
+            if (fountainId <= 0 || newContinuousUseDeviceId <= 0)
                 throw new ParamIsNull();
 
             // Retrieve the fountain with its related ContinuousUseDevice.
             var fountain = await _context.Fountains
-                .Include(f => f.Device) // Ensure to load the related ContinuousUseDevice
+                .Include(f => f.ContinuousUseDevice) // Ensure to load the related ContinuousUseDevice
                 .FirstOrDefaultAsync(f => f.Id == fountainId);
 
             if (fountain == null)
                 throw new ObjIsNull();
 
             // Retrieve the new ContinuousUseDevice.
-            var newDevice = await _context.ContinuousUseDevices.FindAsync(newDeviceId);
-            if (newDevice == null)
+            var newContinuousUseDevice = await _context.ContinuousUseDevices.FindAsync(newContinuousUseDeviceId);
+            if (newContinuousUseDevice == null)
                 throw new ObjIsNull();
 
             // Swap the devices.
-            fountain.Device = newDevice;
-            fountain.DeviceId = newDeviceId; 
-            newDevice.Fountain = fountain;   
-            newDevice.FountainId = fountainId; 
+            fountain.ContinuousUseDevice = newContinuousUseDevice;
+            fountain.ContinuousUseDeviceId = newContinuousUseDeviceId;
+            newContinuousUseDevice.Fountain = fountain;
+            newContinuousUseDevice.FountainId = fountainId; 
 
             // Save changes to the database.
             _context.Fountains.Update(fountain);
-            _context.ContinuousUseDevices.Update(newDevice); 
+            _context.ContinuousUseDevices.Update(newContinuousUseDevice); 
             await _context.SaveChangesAsync();
 
             return fountain;

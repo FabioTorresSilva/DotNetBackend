@@ -140,8 +140,8 @@ namespace Radao.Controllers
                 // Update the fountain
                 var fountain = await _fountainService.UpdateFountainAsync(updatedFountain);
                 var resultDto = _fountainMapper.FountainToIdDto(fountain);
-                return Ok(resultDto);
 
+                return Ok(resultDto);
             }
             catch (ParamIsNull e)
             {
@@ -152,5 +152,116 @@ namespace Radao.Controllers
                 return NotFound(e.Message);
             }
         }
+
+        /// <summary>
+        /// Endpoint that links a device to a fountain
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        [HttpPost("{fountainId}/device")]
+        public async Task<IActionResult> AddContinuousUseDeviceToFountain(int fountainId, [FromBody] int deviceId)
+        {
+            try
+            {
+                // Call the service method to assign the device to the fountain.
+                var fountain = await _fountainService.AddContinuousUseDeviceToFountainAsync(fountainId, deviceId);
+
+                // Map the updated fountain to the DTO for the response.
+                var resultDto = _fountainMapper.FountainToFullDto(fountain);
+
+                return Ok(resultDto);
+            }
+            catch (DbSetNotInitialize e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            catch (ParamIsNull e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ObjIsNull e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (DeviceAlreadyAssigned e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (FountainAlreadyAssigned e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Removes a Device link to a fountain
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <returns></returns>
+        [HttpDelete("{fountainId}/device")]
+        public async Task<IActionResult> RemoveDeviceFromFountain(int fountainId)
+        {
+            try
+            {
+                // Call the service method to remove the device from the specified fountain.
+                var updatedFountain = await _fountainService.RemoveDeviceFromFountainAsync(fountainId);
+
+                // Map the updated fountain to the DTO.
+                var resultDto = _fountainMapper.FountainToFullDto(updatedFountain);
+
+                return Ok(resultDto);
+            }
+            catch (DbSetNotInitialize e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            catch (ParamIsNull e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ObjIsNull e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Finds fountains with given description
+        /// </summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        [HttpGet("search")]
+        public async Task<IActionResult> GetFountainsByDescription([FromQuery] string description)
+        {
+            try
+            {
+                // Call the service to get fountains by description
+                var fountains = await _fountainService.GetFountainsByDescriptionAsync(description);
+
+                // Map the result to DTOs
+                var fountainsDto = fountains.Select(f => _fountainMapper.FountainToFullDto(f));
+
+                // Return the results
+                return Ok(fountainsDto);
+            }
+            catch (DbSetNotInitialize e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            catch (ParamIsNull e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (NoFountainMatchesDescription e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
     }
 }

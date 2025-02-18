@@ -46,9 +46,10 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Check if the device is null
-            var device = await _context.Devices.FindAsync(fountainFull.DeviceId);
+            var device = fountainFull.DeviceId.HasValue ? await _context.Devices.FindAsync(fountainFull.DeviceId) : null;
 
-                     // Check if the fountain already exists
+
+            // Check if the fountain already exists
             var existingFountain =  _context.Fountains.FirstOrDefault(f => f.Latitude == fountainFull.Latitude && f.Longitude == fountainFull.Longitude);
 
             // Check if the fountain already exists

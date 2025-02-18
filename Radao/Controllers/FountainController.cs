@@ -4,6 +4,7 @@ using Radao.Exceptions;
 using Radao.Models;
 using Radao.Services.ServicesInterfaces;
 using Radao.Mapper;
+using Radao.Enums;
 
 namespace Radao.Controllers
 {
@@ -16,15 +17,18 @@ namespace Radao.Controllers
     {
         private readonly IFountainService _fountainService;
         private readonly FountainMapper _fountainMapper;
+        private readonly WaterAnalysisMapper _waterAnalysisMapper;
+
 
         /// <summary>
         /// Constructor Service Injection.
         /// </summary>
         /// <param name="fountainService"></param>
-        public FountainController(IFountainService fountainService, FountainMapper fountainMapper)
+        public FountainController(IFountainService fountainService, FountainMapper fountainMapper, WaterAnalysisMapper waterAnalysisMapper)
         {
             _fountainService = fountainService;
             _fountainMapper = fountainMapper;
+            _waterAnalysisMapper = waterAnalysisMapper;
         }
 
         /// <summary>
@@ -292,7 +296,103 @@ namespace Radao.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the susceptibility index of a fountain.
+        /// </summary>
+        /// <param name="fountainId">The ID of the fountain.</param>
+        /// <param name="newIndex">The new susceptibility index value.</param>
+        /// <returns></returns>
+        [HttpPut("{fountainId}/susceptibility")]
+        public async Task<IActionResult> UpdateFountainSusceptibility(int fountainId, [FromBody] SusceptibilityIndex newIndex)
+        {
+            try
+            {
+                // Call the service to update the susceptibility index
+                var updatedFountain = await _fountainService.UpdateFountainSusceptibilityAsync(fountainId, newIndex);
 
+                // Map the updated fountain entity to a DTO
+                var updatedFountainDto = _fountainMapper.FountainToFullDto(updatedFountain);
+
+                // Return the updated fountain dto in the response
+                return Ok(updatedFountainDto);
+            }
+            catch (ParamIsNull e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ObjIsNull e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (InvalidEnumValueException e)
+            {
+                return BadRequest($"Invalid Susceptibility Index: {e.Message}");
+            }
+            catch (DbSetNotInitialize e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Switches A continuous use device of a fountain to another
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <param name="newDeviceId"></param>
+        /// <returns></returns>
+        [HttpPut("{fountainId}/device/{newDeviceId}")]
+        public async Task <IActionResult> UpdateFountainContinuousDevice(int fountainId, int newDeviceId)
+        {
+            try
+            {
+                // Call the service to update the ContinuousUseDevice of the fountain
+                var updatedFountain = await _fountainService.UpdateFountainContinuousUseDeviceAsync(fountainId, newDeviceId);
+
+                // Map the updated fountain entity to a full DTO
+                var updatedFountainDto = _fountainMapper.FountainToFullDto(updatedFountain);
+
+                // Return the updated fountain DTO
+                return Ok(updatedFountainDto);
+            }
+            catch (ParamIsNull e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ObjIsNull e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (DbSetNotInitialize e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        [HttpGet("{fountainId}/water-analysis")]
+        public async Task<IActionResult> GetWaterAnalysis(int fountainId, [FromQuery] int? count = null)
+        {
+            try
+            {
+                var waterAnalyses = await _fountainService.GetWaterAnalysisAsync(fountainId, count);
+                var waterAnalysesDto = waterAnalyses.Select(w => _waterAnalysisMapper.WaterAnalysisToFullDto(w));
+
+                return Ok(waterAnalysesDto);
+            }
+            catch (ParamIsNull e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ObjIsNull e)
+            {
+                return NotFound(e.Message);
+            }
+        }
 
     }
 }

@@ -56,7 +56,20 @@ namespace Radao.Services.ServicesInterfaces
         /// <returns></returns>
         Task DeleteFountainAsync(int id);
 
+        /// <summary>
+        /// Changes susceptibility index of a fountain
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <param name="newIndex"></param>
+        /// <returns></returns>
         Task<Fountain> UpdateFountainSusceptibilityAsync(int fountainId, SusceptibilityIndex newIndex);
+
+        /// <summary>
+        /// switches continuous use device of a fountain to another
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <param name="newDeviceId"></param>
+        /// <returns></returns>
         Task<Fountain> UpdateFountainContinuousUseDeviceAsync(int fountainId, int newDeviceId);
 
     }   

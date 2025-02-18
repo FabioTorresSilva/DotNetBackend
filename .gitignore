@@ -11,6 +11,10 @@ bin/
 obj/
 out/
 
+appsettings.json
+appsettings.*.json
+
+
 # Ignore NuGet packages
 *.nupkg
 packages/

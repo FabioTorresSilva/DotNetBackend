@@ -21,6 +21,7 @@ builder.Services.AddScoped<IFountainService, FountainService>();
 builder.Services.AddScoped<FountainMapper>(); // Register FountainMapper
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<DeviceMapper>(); // Register DeviceMapper
+builder.Services.AddScoped<IContinuousUseDeviceService, ContinuousUseDeviceService>(); // ContinuousUseDevice
 
 var app = builder.Build();
 

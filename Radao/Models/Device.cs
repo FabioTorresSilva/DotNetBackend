@@ -48,7 +48,6 @@ namespace Radao.Models
             this.ExpirationDate = expirationDate;
         }
 
-
         /// <summary>
         /// All arguments Device constructor
         /// </summary>

@@ -34,9 +34,9 @@ namespace Radao.Data
         public DbSet<Fountain> Fountains { get; set; }
 
         /// <summary>
-        /// Gets or sets the collection of WaterAnalysises in the database.
+        /// Gets or sets the collection of WaterAnalysis in the database.
         /// </summary>
-        public DbSet<WaterAnalysis> WaterAnalysises { get; set; }
+        public DbSet<WaterAnalysis> WaterAnalysis { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

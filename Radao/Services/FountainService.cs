@@ -387,5 +387,31 @@ namespace Radao.Services
             return fountain;
         }
 
+
+        public async Task<List<WaterAnalysis>> GetWaterAnalysisAsync(int fountainId, int? count = null)
+        {
+            // Ensure the DbSet is initialized.
+            if (_context.WaterAnalysis == null || _context.Fountains == null)
+                throw new DbSetNotInitialize();
+
+            // Validate the input.
+            if (fountainId <= 0)
+                throw new ParamIsNull();
+
+            // Base query to retrieve water analyses for the fountain.
+            var query = _context.WaterAnalysis
+                .Where(w => w.FountainId == fountainId)
+                .OrderByDescending(w => w.Date);
+
+            // Execute query, applying Take if count is provided
+            var waterAnalyses = count.HasValue && count.Value > 0
+                ? await query.Take(count.Value).ToListAsync()
+                : await query.ToListAsync();
+
+            if (waterAnalyses == null || waterAnalyses.Count == 0)
+                throw new ObjIsNull("No water analyses found for this fountain.");
+
+            return waterAnalyses;
+        }
     }
 }

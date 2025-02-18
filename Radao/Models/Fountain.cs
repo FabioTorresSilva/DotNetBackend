@@ -50,7 +50,7 @@ namespace Radao.Models
         /// Gets or sets the foreign key for the device associated with the fountain.
         /// This field is required and links to the Device model.
         /// </summary>
-        
+
         public int? DeviceId { get; set; }
 
         /// <summary>

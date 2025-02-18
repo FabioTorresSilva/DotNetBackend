@@ -4,6 +4,7 @@ using Radao.Exceptions;
 using Radao.Models;
 using Radao.Services.ServicesInterfaces;
 using Radao.Mapper;
+using Radao.Enums;
 
 namespace Radao.Controllers
 {
@@ -292,7 +293,70 @@ namespace Radao.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the susceptibility index of a fountain.
+        /// </summary>
+        /// <param name="fountainId">The ID of the fountain.</param>
+        /// <param name="newIndex">The new susceptibility index value.</param>
+        /// <returns></returns>
+        [HttpPut("{fountainId}/susceptibility")]
+        public async Task<IActionResult> UpdateFountainSusceptibility(int fountainId, [FromBody] SusceptibilityIndex newIndex)
+        {
+            try
+            {
+                // Call the service to update the susceptibility index
+                var updatedFountain = await _fountainService.UpdateFountainSusceptibilityAsync(fountainId, newIndex);
 
+                // Map the updated fountain entity to a DTO
+                var updatedFountainDto = _fountainMapper.FountainToFullDto(updatedFountain);
 
+                // Return the updated fountain dto in the response
+                return Ok(updatedFountainDto);
+            }
+            catch (ParamIsNull e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ObjIsNull e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (InvalidEnumValueException e)
+            {
+                return BadRequest($"Invalid Susceptibility Index: {e.Message}");
+            }
+            catch (DbSetNotInitialize e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpPut("{fountainId}/device/{newDeviceId}")]
+        public async Task <IActionResult> UpdateFountainContinuousDevice(int fountainId, int newDeviceId)
+        {
+            try
+            {
+                // Call the service to update the ContinuousUseDevice of the fountain
+                var updatedFountain = await _fountainService.UpdateFountainContinuousUseDeviceAsync(fountainId, newDeviceId);
+
+                // Map the updated fountain entity to a full DTO
+                var updatedFountainDto = _fountainMapper.FountainToFullDto(updatedFountain);
+
+                // Return the updated fountain DTO
+                return Ok(updatedFountainDto);
+            }
+            catch (ParamIsNull e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ObjIsNull e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (DbSetNotInitialize e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
     }
 }

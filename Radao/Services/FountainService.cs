@@ -198,7 +198,13 @@ namespace Radao.Services
 
             // Check if the device is already associated with another fountain.
             if (device.FountainId != null)
-                throw new FountainAlreadyAssigned();
+                throw new DeviceAlreadyAssigned();
+
+            // Ensure the device is not expired
+            if (device.ExpirationDate < DateOnly.FromDateTime(DateTime.UtcNow))
+            {
+                throw new DeviceExpired();
+            }
 
             // Assign the device to the fountain.
             fountain.DeviceId = deviceId;
@@ -286,5 +292,30 @@ namespace Radao.Services
 
             return fountains;
         }
+
+        public async Task DeleteFountainAsync(int id)
+        {
+            // Ensure the DbSet is initialized
+            if (_context.Fountains == null)
+                throw new DbSetNotInitialize();
+
+            // Validate the input
+            if (id <= 0)
+                throw new ParamIsNull();
+
+            // Find the fountain by ID
+            var fountain = await _context.Fountains.FindAsync(id);
+
+            // Check if the fountain exists
+            if (fountain == null)
+                throw new ObjIsNull();
+
+            // Remove the fountain
+            _context.Fountains.Remove(fountain);
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

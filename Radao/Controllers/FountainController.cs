@@ -263,5 +263,34 @@ namespace Radao.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes a fountain
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFountain(int fountainId)
+        {
+            try
+            {
+                // Finds a fountain by id and deletes it
+                await _fountainService.DeleteFountainAsync(fountainId);
+
+                return Ok(new { message = "Fountain deleted successfully." });
+            }
+            catch (ParamIsNull e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ObjIsNull e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (DbSetNotInitialize e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
     }
 }

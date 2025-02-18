@@ -47,5 +47,12 @@ namespace Radao.Services.ServicesInterfaces
         /// <param name="description"></param>
         /// <returns></returns>
         Task<List<Fountain>> GetFountainsByDescriptionAsync(string description);
+
+        /// <summary>
+        /// Deletes a fountain
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task DeleteFountainAsync(int id);
     }
 }

@@ -11,8 +11,8 @@ bin/
 obj/
 out/
 
-../appsettings.json
-../appsettings.*.json
+Radao/appsettings.json
+Radao/appsettings.*.json
 
 
 # Ignore NuGet packages

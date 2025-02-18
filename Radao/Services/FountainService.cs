@@ -1,7 +1,5 @@
 ﻿using Radao.Data;
-using Radao.Dtos;
 using Radao.Exceptions;
-using Radao.Exceptions.Fountains;
 using Radao.Models;
 using Radao.Services.ServicesInterfaces;
 using System.Data.Entity;
@@ -49,12 +47,8 @@ namespace Radao.Services
             // Check if the device is null
             var device = await _context.Devices.FindAsync(fountainFull.DeviceId);
 
-            // Check if the device is null
-            if (device == null)
-                throw new ObjIsNull();
-
-            // Check if the fountain already exists
-            var existingFountain = await _context.Fountains.FirstOrDefaultAsync(f => f.Latitude == fountainFull.Latitude && f.Longitude == fountainFull.Longitude);
+                     // Check if the fountain already exists
+            var existingFountain =  _context.Fountains.FirstOrDefault(f => f.Latitude == fountainFull.Latitude && f.Longitude == fountainFull.Longitude);
 
             // Check if the fountain already exists
             if (existingFountain != null)
@@ -64,7 +58,7 @@ namespace Radao.Services
             if (fountainFull.DeviceId != null)
             {
                 // Checks if the device exists in db 
-                var existingDevice = await _context.Devices.FirstOrDefaultAsync(d => d.Id == fountainFull.DeviceId);
+                var existingDevice = _context.Devices.FirstOrDefault(d => d.Id == fountainFull.DeviceId);
                 if (existingDevice != null)
                     throw new DeviceAlreadyAssigned();
             }

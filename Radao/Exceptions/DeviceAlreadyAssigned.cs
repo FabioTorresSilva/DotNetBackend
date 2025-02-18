@@ -1,16 +1,16 @@
 ﻿namespace Radao.Exceptions
 {
-    public class ObjIsNull : Exception
+    public class DeviceAlreadyAssigned : Exception
     {
         /// <summary>
         /// Default constructor
         /// </summary>
-        public ObjIsNull() : base("Object is null.") { }
+        public DeviceAlreadyAssigned() : base("Device Already Assigned.") { }
 
         /// <summary>
         /// Constructor with custom message
         /// </summary>
         /// <param name="message"></param>
-        public ObjIsNull(string message) : base(message) { }
+        public DeviceAlreadyAssigned(string message) : base(message) { }
     }
 }

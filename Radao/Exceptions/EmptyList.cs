@@ -7,8 +7,6 @@
         /// </summary>
         public EmptyList() : base("List is empty.") { }
 
-
-
         /// <summary>
         /// Constructor with custom message
         /// </summary>

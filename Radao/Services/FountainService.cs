@@ -60,19 +60,14 @@ namespace Radao.Services
             if (existingFountain != null)
                 throw new FountainAlreadyExists();
 
-            //USE SERVICE THAT CHECKS IF THERES A DEVICE IN THIS FOUNTAIN
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
+            // If a Fountain already has an associated device, prevent adding a new one
+            if (fountainFull.DeviceId != null)
+            {
+                // Checks if the device exists in db 
+                var existingDevice = await _context.Devices.FirstOrDefaultAsync(d => d.Id == fountainFull.DeviceId);
+                if (existingDevice != null)
+                    throw new DeviceAlreadyAssigned();
+            }
 
             // Add the fountain to the database
             await _context.Fountains.AddAsync(fountainFull);
@@ -88,14 +83,14 @@ namespace Radao.Services
         /// <returns></returns>
         /// <exception cref="ParamIsNull"></exception>
         /// <exception cref="ObjIsNull"></exception>
-        public Task<Fountain> GetFountainByIdAsync(int id)
+        public async Task<Fountain> GetFountainByIdAsync(int id)
         {
             // Check if the id is valid
             if (id <= 0)
                 throw new ParamIsNull();
 
             // Check if the fountain exists
-            var fountain = _context.Fountains.FirstOrDefaultAsync(f => f.Id == id);
+            var fountain = await _context.Fountains.FirstOrDefaultAsync(f => f.Id == id);
 
             // Ensure the fountain exists
             if (fountain == null)
@@ -169,6 +164,127 @@ namespace Radao.Services
             await _context.SaveChangesAsync();
 
             return fountain;
+        }
+
+        /// <summary>
+        /// Links ContinuousUseDevice to a fountain
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ObjIsNull"></exception>
+        /// <exception cref="DeviceAlreadyAssigned"></exception>
+        /// <exception cref="FountainAlreadyAssigned"></exception>
+        public async Task<Fountain> AddContinuousUseDeviceToFountainAsync(int fountainId, int deviceId)
+        {
+            // Ensure required DbSets are initialized.
+            if (_context.Fountains == null || _context.ContinuousUseDevices == null)
+                throw new DbSetNotInitialize();
+
+            // Retrieve the fountain by its Id.
+            var fountain = await _context.Fountains.SingleOrDefaultAsync(f => f.Id == fountainId);
+            if (fountain == null)
+                throw new ObjIsNull();
+
+            // Check if the fountain already has a device assigned.
+            if (fountain.DeviceId != null)
+                throw new DeviceAlreadyAssigned();
+
+            // Retrieve the device from the ContinuousUseDevices DbSet.
+            var device = await _context.ContinuousUseDevices.SingleOrDefaultAsync(d => d.Id == deviceId);
+            if (device == null)
+                throw new ObjIsNull();
+
+            // Check if the device is already associated with another fountain.
+            if (device.FountainId != null)
+                throw new FountainAlreadyAssigned();
+
+            // Assign the device to the fountain.
+            fountain.DeviceId = deviceId;
+            fountain.Device = device;
+
+            // Assign the fountain to the device
+            device.FountainId = fountainId;
+            device.Fountain = fountain;
+
+            // Persist the changes to the database.
+            await _context.SaveChangesAsync();
+
+            return fountain;
+        }
+
+        /// <summary>
+        /// Removes the device associated with a fountain
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ObjIsNull"></exception>
+        /// <exception cref="NoDeviceAssignedToFountain"></exception>
+        /// <exception cref="FountainDeviceNotFound"></exception>
+        public async Task<Fountain> RemoveDeviceFromFountainAsync(int fountainId)
+        {
+            // Ensure the required DbSets are initialized.
+            if (_context.Fountains == null || _context.ContinuousUseDevices == null)
+                throw new DbSetNotInitialize();
+
+            // Retrieve the fountain by its Id.
+            var fountain = await _context.Fountains.SingleOrDefaultAsync(f => f.Id == fountainId);
+            if (fountain == null)
+                throw new ObjIsNull();
+
+            // Check if the fountain has a device assigned.
+            if (fountain.DeviceId == null)
+                throw new NoDeviceAssignedToFountain();
+
+            // Retrieve the device associated with the fountain.
+            var device = await _context.ContinuousUseDevices.SingleOrDefaultAsync(d => d.Id == fountain.DeviceId);
+            if (device == null)
+                throw new FountainDeviceNotFound();
+
+            // Clear the device association from the fountain.
+            fountain.DeviceId = null;
+            fountain.Device = null;
+
+            // Clear the fountain association from the device.
+            device.FountainId = null;
+            device.Fountain = null;
+
+            // Persist changes to the database.
+            await _context.SaveChangesAsync();
+
+            return fountain;
+        }
+
+        /// <summary>
+        /// Gets a List of Fountains with by description
+        /// </summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ParamIsNull"></exception>
+        /// <exception cref="ObjIsNull"></exception>
+        public async Task<List<Fountain>> GetFountainsByDescriptionAsync(string description)
+        {
+            // Ensure the DbSet is initialized.
+            if (_context.Fountains == null)
+                throw new DbSetNotInitialize();
+
+            // Validate the input.
+            if (string.IsNullOrWhiteSpace(description))
+                throw new ParamIsNull();
+
+            // Retrieve all fountains where the description contains the provided text.
+            var fountains = await _context.Fountains
+                .Where(f => f.Description.Contains(description))
+                .ToListAsync();
+
+            // Optionally, throw an exception if no fountains are found, or return an empty list.
+            if (fountains == null || fountains.Count == 0)
+                throw new NoFountainMatchesDescription();
+
+            return fountains;
         }
     }
 }

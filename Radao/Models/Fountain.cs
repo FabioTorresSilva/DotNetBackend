@@ -9,8 +9,6 @@ namespace Radao.Models
     /// </summary>
     public class Fountain
     {
-        private object id;
-
         /// <summary>
         /// Gets or sets the unique identifier for the fountain.
         /// </summary>
@@ -104,9 +102,9 @@ namespace Radao.Models
         /// <param name="isDrinkable"></param>
         /// <param name="longitude"></param>
         /// <param name="latitude"></param>
-        public Fountain(object id, string description, SusceptibilityIndex susceptibilityIndex, int? deviceId, bool isDrinkable, double longitude, double latitude)
+        public Fountain(int id, string description, SusceptibilityIndex susceptibilityIndex, int? deviceId, bool isDrinkable, double longitude, double latitude)
         {
-            this.id = id;
+            this.Id = id;
             Description = description;
             SusceptibilityIndex = susceptibilityIndex;
             DeviceId = deviceId;

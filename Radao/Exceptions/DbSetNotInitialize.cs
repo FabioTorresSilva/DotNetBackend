@@ -1,13 +1,11 @@
 ﻿namespace Radao.Exceptions
 {
-    public class DbSetNotInitialize : Exception    {
-
+    public class DbSetNotInitialize : Exception
+    {
         /// <summary>
         /// Default constructor
         /// </summary>
         public DbSetNotInitialize() : base("DbSet is not initialized.") { }
-
-        
 
         /// <summary>
         /// Constructor with custom message

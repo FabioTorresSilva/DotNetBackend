@@ -1,16 +1,16 @@
 ﻿namespace Radao.Exceptions
 {
-    public class ObjIsNull : Exception
+    public class FountainAlreadyAssigned : Exception
     {
         /// <summary>
         /// Default constructor
         /// </summary>
-        public ObjIsNull() : base("Object is null.") { }
+        public FountainAlreadyAssigned() : base("Fountain Already Assigned to a device.") { }
 
         /// <summary>
         /// Constructor with custom message
         /// </summary>
         /// <param name="message"></param>
-        public ObjIsNull(string message) : base(message) { }
+        public FountainAlreadyAssigned(string message) : base(message) { }
     }
 }

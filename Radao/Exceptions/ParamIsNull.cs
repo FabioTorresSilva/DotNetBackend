@@ -7,8 +7,6 @@
         /// </summary>
         public ParamIsNull() : base("Param is null.") { }
 
-
-
         /// <summary>
         /// Constructor with custom message
         /// </summary>

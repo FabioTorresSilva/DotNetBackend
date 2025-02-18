@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Radao.Dtos;
-using Radao.Exceptions.Fountains;
 using Radao.Exceptions;
 using Radao.Models;
 using Radao.Services.ServicesInterfaces;
@@ -64,6 +63,10 @@ namespace Radao.Controllers
             catch (FountainAlreadyExists e)
             {
                 return Conflict(e.Message);
+            }
+            catch (DeviceAlreadyAssigned e)
+            {
+                return BadRequest(e.Message);
             }
         }
 

@@ -27,5 +27,25 @@ namespace Radao.Services.ServicesInterfaces
         /// Gets the list of Fountain.
         /// </summary>
         Task<List<Fountain>> GetFountainsAsync();
+
+        /// <summary>
+        /// Associates a ContinuousUseDevice To a Fountain
+        /// </summary>
+        /// <returns></returns>
+        Task<Fountain> AddContinuousUseDeviceToFountainAsync(int fountainId, int deviceId);
+
+        /// <summary>
+        /// Removes the device associated with a fountain
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <returns></returns>
+        Task<Fountain> RemoveDeviceFromFountainAsync(int fountainId);
+
+        /// <summary>
+        /// Lists fountains that match a description
+        /// </summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        Task<List<Fountain>> GetFountainsByDescriptionAsync(string description);
     }
 }

@@ -1,16 +1,16 @@
 ﻿namespace Radao.Exceptions
 {
-    public class ObjIsNull : Exception
+    public class FountainDeviceNotFound : Exception
     {
         /// <summary>
         /// Default constructor
         /// </summary>
-        public ObjIsNull() : base("Object is null.") { }
+        public FountainDeviceNotFound() : base("Error finding Fountain Device.") { }
 
         /// <summary>
         /// Constructor with custom message
         /// </summary>
         /// <param name="message"></param>
-        public ObjIsNull(string message) : base(message) { }
+        public FountainDeviceNotFound(string message) : base(message) { }
     }
 }

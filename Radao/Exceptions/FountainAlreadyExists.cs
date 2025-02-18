@@ -1,4 +1,4 @@
-﻿namespace Radao.Exceptions.Fountains
+﻿namespace Radao.Exceptions
 {
     public class FountainAlreadyExists : Exception
     {

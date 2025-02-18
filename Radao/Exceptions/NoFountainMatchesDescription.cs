@@ -1,16 +1,16 @@
 ﻿namespace Radao.Exceptions
 {
-    public class ObjIsNull : Exception
+    public class NoFountainMatchesDescription : Exception
     {
         /// <summary>
         /// Default constructor
         /// </summary>
-        public ObjIsNull() : base("Object is null.") { }
+        public NoFountainMatchesDescription() : base("No Fountains Found With this Description.") { }
 
         /// <summary>
         /// Constructor with custom message
         /// </summary>
         /// <param name="message"></param>
-        public ObjIsNull(string message) : base(message) { }
+        public NoFountainMatchesDescription(string message) : base(message) { }
     }
 }

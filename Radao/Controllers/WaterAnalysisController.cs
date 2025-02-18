@@ -86,20 +86,20 @@ namespace Radao.Controllers
         }
 
         /// <summary>
-        /// Gets all water analyses.
+        /// Gets all water analysis.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetAllWaterAnalyses()
+        public async Task<IActionResult> GetAllWaterAnalysis()
         {
             try
             {
-                // Get all water analyses
-                var analyses = await _waterAnalysisService.GetWaterAnalysisesdAsync();
+                // Get all water analysis
+                var analysis = await _waterAnalysisService.GetWaterAnalysisAsync();
 
                 // Map the domain model to the DTO and return it
-                var analysesDto = analyses.Select(a => _waterAnalysisMapper.WaterAnalysisToFullDto(a));
-                return Ok(analysesDto);
+                var analysisDto = analysis.Select(a => _waterAnalysisMapper.WaterAnalysisToFullDto(a));
+                return Ok(analysisDto);
             }
             catch (DbSetNotInitialize e)
             {

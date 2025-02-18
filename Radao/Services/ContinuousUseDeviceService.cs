@@ -156,5 +156,38 @@ namespace Radao.Services
 
             return continuousUseDevice;
         }
+
+        /// <summary>
+        /// Updates the continuous use device analysis Frequency
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <param name="newFrequency"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ParamIsNull"></exception>
+        /// <exception cref="ObjIsNull"></exception>
+        public async Task<ContinuousUseDevice> UpdateDeviceAnalysisFrequencyAsync(int deviceId, int newFrequency)
+        {
+            // Ensure database exists
+            if (_context.ContinuousUseDevices == null)
+                throw new DbSetNotInitialize();
+
+            // Validate input
+            if (deviceId <= 0 || newFrequency <= 0)
+                throw new ParamIsNull();
+
+            // Find the device
+            var device = await _context.ContinuousUseDevices.FindAsync(deviceId);
+            if (device == null)
+                throw new ObjIsNull("Device not found.");
+
+            // Update periodicity
+            device.AnalysisFrequency = newFrequency;
+
+            // Save changes
+            await _context.SaveChangesAsync();
+
+            return device;
+        }
     }
 }

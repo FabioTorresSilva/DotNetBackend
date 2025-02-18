@@ -51,7 +51,7 @@ namespace Radao.Services
                 throw new ObjIsNull();
 
             // Check if the fountain already exists
-            var existingFountain =  _context.Fountains.FirstOrDefault(f => f.Latitude == fountainFull.Latitude && f.Longitude == fountainFull.Longitude);
+            var existingFountain = _context.Fountains.FirstOrDefault(f => f.Latitude == fountainFull.Latitude && f.Longitude == fountainFull.Longitude);
 
             // Check if the fountain already exists
             if (existingFountain != null)
@@ -381,17 +381,25 @@ namespace Radao.Services
             fountain.ContinuousUseDevice = newContinuousUseDevice;
             fountain.ContinuousUseDeviceId = newContinuousUseDeviceId;
             newContinuousUseDevice.Fountain = fountain;
-            newContinuousUseDevice.FountainId = fountainId; 
+            newContinuousUseDevice.FountainId = fountainId;
 
             // Save changes to the database.
             _context.Fountains.Update(fountain);
-            _context.ContinuousUseDevices.Update(newContinuousUseDevice); 
+            _context.ContinuousUseDevices.Update(newContinuousUseDevice);
             await _context.SaveChangesAsync();
 
             return fountain;
         }
 
-
+        /// <summary>
+        /// Gets the last x/all water analysis from a fountain
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ParamIsNull"></exception>
+        /// <exception cref="ObjIsNull"></exception>
         public async Task<List<WaterAnalysis>> GetWaterAnalysisAsync(int fountainId, int? count = null)
         {
             // Ensure the DbSet is initialized.
@@ -412,10 +420,55 @@ namespace Radao.Services
                 ? await query.Take(count.Value).ToListAsync()
                 : await query.ToListAsync();
 
+            // checks if theres a water analyse ou count 
             if (waterAnalyses == null || waterAnalyses.Count == 0)
-                throw new ObjIsNull("No water analyses found for this fountain.");
+                throw new ObjIsNull();
 
             return waterAnalyses;
         }
+
+        /// <summary>
+        /// Adds a water analysis to a fountain.
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <param name="waterAnalysis"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ParamIsNull"></exception>
+        /// <exception cref="ObjIsNull"></exception>
+        public async Task<WaterAnalysis> AddWaterAnalysisAsync(int fountainId, WaterAnalysis waterAnalysis)
+        {
+            // Ensure the DbSet is initialized.
+            if (_context.WaterAnalysis == null || _context.Fountains == null)
+                throw new DbSetNotInitialize();
+
+            // Validate the input.
+            if (fountainId <= 0 || waterAnalysis == null)
+                throw new ParamIsNull();
+
+            // Retrieve the fountain.
+            var fountain = await _context.Fountains.FindAsync(fountainId);
+            if (fountain == null)
+                throw new ObjIsNull();
+
+            if (waterAnalysis.DeviceId != null)
+            {
+                var device = await _context.ContinuousUseDevices.FindAsync(waterAnalysis.DeviceId);
+                if (device.FountainId != fountainId)
+                {
+                    throw new AssociatedToAnotherFountain();
+                }
+            }
+            
+            // Assign the fountain ID to the new WaterAnalysis.
+            waterAnalysis.FountainId = fountainId;
+
+            // Add the new WaterAnalysis to the database.
+            await _context.WaterAnalysis.AddAsync(waterAnalysis);
+            await _context.SaveChangesAsync();
+
+            return waterAnalysis;
+        }
+
     }
 }

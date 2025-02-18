@@ -27,5 +27,13 @@ namespace Radao.Services.ServicesInterfaces
         /// Gets the list of ContinuousUseDevice.
         /// </summary>
         Task<List<ContinuousUseDevice>> GetContinuousUseDevicesdAsync();
+
+        /// <summary>
+        /// Updates de Analysis Frequency of a device
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <param name="newFrequency"></param>
+        /// <returns></returns>
+        Task<ContinuousUseDevice> UpdateDeviceAnalysisFrequencyAsync(int deviceId, int newFrequency)
     }
 }

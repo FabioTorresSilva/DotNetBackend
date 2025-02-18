@@ -64,7 +64,7 @@ namespace Radao.Services
             waterAnalysis.Device = device;
 
             // Adds waterAnalysis to the database
-            await _context.WaterAnalysises.AddAsync(waterAnalysis);
+            await _context.WaterAnalysis.AddAsync(waterAnalysis);
 
             // Saves database changes
             await _context.SaveChangesAsync();
@@ -82,7 +82,7 @@ namespace Radao.Services
         public async Task<WaterAnalysis> GetWaterAnalysisByIdAsync(int id)
         {
             // Ensure database exists
-            if (_context.WaterAnalysises == null)
+            if (_context.WaterAnalysis == null)
                 throw new DbSetNotInitialize();
 
             // Ensure Id is valid
@@ -90,7 +90,7 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Gets device with Id equal to the updatedDevice
-            WaterAnalysis waterAnalysis = await _context.WaterAnalysises.SingleOrDefaultAsync(d => d.Id == id);
+            WaterAnalysis waterAnalysis = await _context.WaterAnalysis.SingleOrDefaultAsync(d => d.Id == id);
 
             // Ensures updatedDevice exists in the context
             if (waterAnalysis == null)
@@ -100,19 +100,19 @@ namespace Radao.Services
         }
 
         /// <summary>
-        /// Gets list of all water analysises
+        /// Gets list of all water analysis
         /// </summary>
         /// <returns></returns>
         /// <exception cref="DbSetNotInitialize"></exception>
         /// <exception cref="EmptyList"></exception>
-        public async Task<List<WaterAnalysis>> GetWaterAnalysisesdAsync()
+        public async Task<List<WaterAnalysis>> GetWaterAnalysisAsync()
         {
             // Ensure database exists
-            if (_context.WaterAnalysises == null)
+            if (_context.WaterAnalysis == null)
                 throw new DbSetNotInitialize();
 
             // Gets List of water analysises
-            List<WaterAnalysis> waterAnalysises = await _context.WaterAnalysises.ToListAsync();
+            List<WaterAnalysis> waterAnalysises = await _context.WaterAnalysis.ToListAsync();
 
             // Ensures list is not empty
             if (waterAnalysises.Count == 0)
@@ -132,7 +132,7 @@ namespace Radao.Services
         public async Task<WaterAnalysis> UpdateWaterAnalysisAsync(WaterAnalysis updatedWaterAnalysis)
         {
             // Ensure database exists
-            if (_context.WaterAnalysises == null)
+            if (_context.WaterAnalysis == null)
                 throw new DbSetNotInitialize();
 
             // Ensure updatedWaterAnalysis is not null
@@ -140,7 +140,7 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Gets waterAnalysis with Id equal to the updatedWaterAnalysis
-            var waterAnalysis = await _context.WaterAnalysises.SingleOrDefaultAsync(c => c.Id == updatedWaterAnalysis.Id);
+            var waterAnalysis = await _context.WaterAnalysis.SingleOrDefaultAsync(c => c.Id == updatedWaterAnalysis.Id);
 
             // Ensures waterAnalysis is not null
             if (waterAnalysis == null)

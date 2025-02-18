@@ -73,13 +73,19 @@ namespace Radao.Services.ServicesInterfaces
         Task<Fountain> UpdateFountainContinuousUseDeviceAsync(int fountainId, int newDeviceId);
 
         /// <summary>
-        /// Gets all or a specific number o wateranalysis of a fountain
+        /// Gets all or a specific number of wateranalysis of a fountain
         /// </summary>
         /// <param name="fountainId"></param>
         /// <param name="count"></param>
         /// <returns></returns>
         Task<List<WaterAnalysis>> GetWaterAnalysisAsync(int fountainId, int? count = null);
 
-    }   
-
+        /// <summary>
+        /// adds a water analysis in a fountain
+        /// </summary>
+        /// <param name="fountainId"></param>
+        /// <param name="waterAnalysis"></param>
+        /// <returns></returns>
+        Task<WaterAnalysis> AddWaterAnalysisAsync(int fountainId, WaterAnalysis waterAnalysis);
+    }
 }

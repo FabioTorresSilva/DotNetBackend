@@ -142,5 +142,28 @@ namespace Radao.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpPut("{deviceId}/periodicity")]
+        public async Task<IActionResult> UpdateDevicePeriodicityAsync(int deviceId, [FromBody] int newPeriodicity)
+        {
+            try
+            {
+                var updatedDevice = await _continuousUseDeviceService.UpdateDeviceAnalysisFrequencyAsync(deviceId, newPeriodicity);
+                return Ok(updatedDevice);
+            }
+            catch (ParamIsNull e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ObjIsNull e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (DbSetNotInitialize e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
     }
 }

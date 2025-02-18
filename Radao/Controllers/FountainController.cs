@@ -379,10 +379,11 @@ namespace Radao.Controllers
         {
             try
             {
-                var waterAnalyses = await _fountainService.GetWaterAnalysisAsync(fountainId, count);
-                var waterAnalysesDto = waterAnalyses.Select(w => _waterAnalysisMapper.WaterAnalysisToFullDto(w));
+                /*var waterAnalyses = await _fountainService.GetWaterAnalysisAsync(fountainId, count);*/
+                /*  var waterAnalysesDto = waterAnalyses.Select(w => _waterAnalysisMapper.WaterAnalysisToFullDto(w));
 
-                return Ok(waterAnalysesDto);
+                  return Ok(waterAnalysesDto);*/
+                return Ok();
             }
             catch (ParamIsNull e)
             {

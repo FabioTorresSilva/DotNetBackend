@@ -281,6 +281,15 @@ namespace Radao.Services
 
             return fountains;
         }
+
+        /// <summary>
+        /// Deletes a fountain
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="DbSetNotInitialize"></exception>
+        /// <exception cref="ParamIsNull"></exception>
+        /// <exception cref="ObjIsNull"></exception>
         public async Task DeleteFountainAsync(int id)
         {
             // Ensure the DbSet is initialized

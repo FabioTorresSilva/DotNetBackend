@@ -1,5 +1,6 @@
 ﻿using Radao.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace Radao.Models
@@ -49,7 +50,7 @@ namespace Radao.Models
         /// Gets or sets the foreign key for the device associated with the fountain.
         /// This field is required and links to the Device model.
         /// </summary>
-        [Required]
+        
         public int? DeviceId { get; set; }
 
         /// <summary>

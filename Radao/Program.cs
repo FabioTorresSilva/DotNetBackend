@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Radao.Data;
 using Radao.Services.ServicesInterfaces;
 using Radao.Services;
+using Radao.Mapper; // Ensure this namespace is correct
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +16,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Register services
 builder.Services.AddScoped<IFountainService, FountainService>();
-
+builder.Services.AddScoped<FountainMapper>(); // Register FountainMapper
+builder.Services.AddScoped<IDeviceService, DeviceService>();
+builder.Services.AddScoped<DeviceMapper>(); // Register DeviceMapper
 
 var app = builder.Build();
 

@@ -1,6 +1,4 @@
 ﻿using Radao.Data;
-using Radao.Dtos;
-using Radao.Enums;
 using Radao.Exceptions;
 using Radao.Models;
 using Radao.Services.ServicesInterfaces;
@@ -49,12 +47,8 @@ namespace Radao.Services
             // Check if the device is null
             var device = await _context.Devices.FindAsync(fountainFull.DeviceId);
 
-            // Check if the device is null
-            if (device == null)
-                throw new ObjIsNull();
-
-            // Check if the fountain already exists
-            var existingFountain = await _context.Fountains.FirstOrDefaultAsync(f => f.Latitude == fountainFull.Latitude && f.Longitude == fountainFull.Longitude);
+                     // Check if the fountain already exists
+            var existingFountain =  _context.Fountains.FirstOrDefault(f => f.Latitude == fountainFull.Latitude && f.Longitude == fountainFull.Longitude);
 
             // Check if the fountain already exists
             if (existingFountain != null)
@@ -64,7 +58,7 @@ namespace Radao.Services
             if (fountainFull.DeviceId != null)
             {
                 // Checks if the device exists in db 
-                var existingDevice = await _context.Devices.FirstOrDefaultAsync(d => d.Id == fountainFull.DeviceId);
+                var existingDevice = _context.Devices.FirstOrDefault(d => d.Id == fountainFull.DeviceId);
                 if (existingDevice != null)
                     throw new DeviceAlreadyAssigned();
             }
@@ -198,13 +192,7 @@ namespace Radao.Services
 
             // Check if the device is already associated with another fountain.
             if (device.FountainId != null)
-                throw new DeviceAlreadyAssigned();
-
-            // Ensure the device is not expired
-            if (device.ExpirationDate < DateOnly.FromDateTime(DateTime.UtcNow))
-            {
-                throw new DeviceExpired();
-            }
+                throw new FountainAlreadyAssigned();
 
             // Assign the device to the fountain.
             fountain.DeviceId = deviceId;
@@ -291,64 +279,6 @@ namespace Radao.Services
                 throw new NoFountainMatchesDescription();
 
             return fountains;
-        }
-
-        public async Task DeleteFountainAsync(int id)
-        {
-            // Ensure the DbSet is initialized
-            if (_context.Fountains == null)
-                throw new DbSetNotInitialize();
-
-            // Validate the input
-            if (id <= 0)
-                throw new ParamIsNull();
-
-            // Find the fountain by ID
-            var fountain = await _context.Fountains.FindAsync(id);
-
-            // Check if the fountain exists
-            if (fountain == null)
-                throw new ObjIsNull();
-
-            // Remove the fountain
-            _context.Fountains.Remove(fountain);
-
-            // Save changes to the database
-            await _context.SaveChangesAsync();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fountainId"></param>
-        /// <param name="newIndex"></param>
-        /// <returns></returns>
-        /// <exception cref="DbSetNotInitialize"></exception>
-        /// <exception cref="ParamIsNull"></exception>
-        /// <exception cref="ObjIsNull"></exception>
-        public async Task<Fountain> UpdateFountainSusceptibilityAsync(int fountainId, SusceptibilityIndex newIndex)
-        {
-            // Ensure the DbSet is initialized.
-            if (_context.Fountains == null)
-                throw new DbSetNotInitialize();
-
-            // Validate the input.
-            if (fountainId <= 0)
-                throw new ParamIsNull();
-
-            // Retrieve the fountain.
-            var fountain = await _context.Fountains.FindAsync(fountainId);
-            if (fountain == null)
-                throw new ObjIsNull();
-
-            // Update the susceptibility index.
-            fountain.SusceptibilityIndex = newIndex;
-
-            // Save changes to the database.
-            _context.Fountains.Update(fountain);
-            await _context.SaveChangesAsync();
-
-            return fountain;
         }
     }
 }

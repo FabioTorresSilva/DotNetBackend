@@ -8,8 +8,7 @@ namespace Radao.Models
     /// </summary>
     public class ContinuousUseDevice : Device
     {
-        [Key]
-        public int ContinuousUseDeviceId { get; set; }
+        
         /// <summary>
         /// Gets or sets the fountain associated with the continuous use device.
         /// This field is required and establishes a relationship with the Fountain model.

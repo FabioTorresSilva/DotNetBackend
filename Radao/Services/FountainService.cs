@@ -1,4 +1,5 @@
 ﻿using Radao.Data;
+using Radao.Enums;
 using Radao.Exceptions;
 using Radao.Models;
 using Radao.Services.ServicesInterfaces;
@@ -280,7 +281,6 @@ namespace Radao.Services
 
             return fountains;
         }
-
         public async Task DeleteFountainAsync(int id)
         {
             // Ensure the DbSet is initialized
@@ -389,6 +389,5 @@ namespace Radao.Services
             return fountain;
         }
         
-
     }
 }

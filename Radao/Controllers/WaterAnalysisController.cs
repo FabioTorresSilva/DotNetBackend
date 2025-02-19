@@ -147,8 +147,5 @@ namespace Radao.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        
-
     }
 }

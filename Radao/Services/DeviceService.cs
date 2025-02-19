@@ -43,6 +43,11 @@ namespace Radao.Services
             if (device == null)
                 throw new ParamIsNull();
 
+            // Ensure device is unique
+            var existingDevice = _context.Devices.SingleOrDefault(d => d.SerialNumber == device.SerialNumber);
+            if (existingDevice != null)
+                throw new DeviceSerialNumberAlreadyExists();
+
             // Adds device to the database
             await _context.Devices.AddAsync(device);
 
@@ -69,8 +74,8 @@ namespace Radao.Services
             if( id <=  0 )
                 throw new ParamIsNull();
 
-            // Gets device with Id equal to the updatedDevice
-            Device device = await _context.Devices.SingleOrDefaultAsync(d => d.Id == id);
+            // Gets device with Id equal to the passed id
+            Device device =  _context.Devices.SingleOrDefault(d => d.Id == id);
 
             // Ensures updatedDevice exists in the context
             if (device == null)
@@ -92,7 +97,7 @@ namespace Radao.Services
                 throw new DbSetNotInitialize();
 
             // Gets List of devices
-            List<Device> devices = await _context.Devices.ToListAsync();
+            List<Device> devices =  _context.Devices.ToList();
 
             // Ensures list is not empty
             if (devices.Count == 0)
@@ -119,7 +124,7 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Gets device with Id equal to the deviceIdDto
-            var device = await _context.Devices.SingleOrDefaultAsync(c => c.Id == updatedDevice.Id);
+            var device =  _context.Devices.SingleOrDefault(c => c.Id == updatedDevice.Id);
 
             // Ensures deviceIdDto exists in the context
             if (device == null)

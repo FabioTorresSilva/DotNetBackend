@@ -16,7 +16,7 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Updates a ContinuousUseDevice.
         /// </summary>
-        Task<ContinuousUseDevice> UpdateContinuousUseDeviceAsync(ContinuousUseDevice updatedContinuousUseDevice);
+        Task<ContinuousUseDevice> UpdateContinuousUseDeviceAsync(ContinuousUseDevice updatedContinuousUseDevice , ContinuousUseDevice continuousUseDevice);
 
         /// <summary>
         /// Gets a ContinuousUseDevice by id.
@@ -26,7 +26,7 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Gets the list of ContinuousUseDevice.
         /// </summary>
-        Task<List<ContinuousUseDevice>> GetContinuousUseDevicesdAsync();
+        Task<List<ContinuousUseDevice>> GetContinuousUseDevicesAsync();
 
         /// <summary>
         /// Updates de Analysis Frequency of a device

@@ -49,6 +49,23 @@ namespace Radao.Controllers
             {
                 return BadRequest(e.Message);
             }
+            catch (PassedFountainDoesntExist e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ObjIsNull e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (FountainAlreadyAssigned e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (InvalidAnalysisFrequency e)
+            {
+                return BadRequest(e.Message);
+            }
+
         }
 
         /// <summary>
@@ -88,7 +105,7 @@ namespace Radao.Controllers
             try
             {
                 // Get all continuous use devices
-                var continuousUseDevices = await _continuousUseDeviceService.GetContinuousUseDevicesdAsync();
+                var continuousUseDevices = await _continuousUseDeviceService.GetContinuousUseDevicesAsync();
 
                 // Map the domain models to the DTOs and return them
                 var continuousUseDeviceDto = continuousUseDevices.Select(d => _continuousUseDeviceMapper.ContinuousUseDeviceToFullDto(d));
@@ -112,20 +129,21 @@ namespace Radao.Controllers
         /// <param name="deviceDto"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateContinuousUseDevice(int id, [FromBody] ContinuousUseDeviceIdDto continuousUseDeviceIdDto)
+        public async Task<IActionResult> UpdateContinuousUseDevice(int id, [FromBody] ContinuousUseDeviceFullDto continuousUseDeviceFullDto)
         {
             try
             {
-                //ensure the id in the URL matches the id in the body
-                continuousUseDeviceIdDto.Id = id;
+                // Retrieve the existing device from the database
+                var existingDevice = await _continuousUseDeviceService.GetContinuousUseDeviceByIdAsync(id);
 
-                // Map the DTO to the domain model
-                var updatedContinuousUseDevice = _continuousUseDeviceMapper.IdDtoToContinuousUseDevice(continuousUseDeviceIdDto);
+                // Map the DTO to the domain model (new data)
+                var newDeviceData = _continuousUseDeviceMapper.FullDtoToContinuousUseDevice(continuousUseDeviceFullDto);
 
-                // Map the domain model to the DTO and return it
-                var continuousUseDevice = await _continuousUseDeviceService.UpdateContinuousUseDeviceAsync(updatedContinuousUseDevice);
+                // Update the device using the service method
+                var updatedDevice = await _continuousUseDeviceService.UpdateContinuousUseDeviceAsync(newDeviceData, existingDevice);
 
-                var resultDto = _continuousUseDeviceMapper.ContinuousUseDeviceToIdDto(continuousUseDevice);
+                // Map the updated device back to a DTO for the response
+                var resultDto = _continuousUseDeviceMapper.ContinuousUseDeviceToIdDto(updatedDevice);
 
                 return Ok(resultDto);
             }
@@ -141,13 +159,29 @@ namespace Radao.Controllers
             {
                 return BadRequest(e.Message);
             }
+            catch (InvalidAnalysisFrequency e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (FountainAlreadyAssigned e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
+
+        /// <summary>
+        /// Updates Device periodicity
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <param name="newPeriodicity"></param>
+        /// <returns></returns>
         [HttpPut("{deviceId}/periodicity")]
         public async Task<IActionResult> UpdateDevicePeriodicityAsync(int deviceId, [FromBody] int newPeriodicity)
         {
             try
             {
+                // Updates the device analysis frequency 
                 var updatedDevice = await _continuousUseDeviceService.UpdateDeviceAnalysisFrequencyAsync(deviceId, newPeriodicity);
                 return Ok(updatedDevice);
             }

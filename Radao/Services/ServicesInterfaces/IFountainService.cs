@@ -33,7 +33,7 @@ namespace Radao.Services.ServicesInterfaces
         /// Associates a ContinuousUseDevice To a Fountain
         /// </summary>
         /// <returns></returns>
-        Task<Fountain> AddContinuousUseDeviceToFountainAsync(int fountainId, int deviceId);
+        Task<Fountain> AddContinuousUseDeviceToFountainAsync(int fountainId, int continuousUseDeviceId);
 
         /// <summary>
         /// Removes the device associated with a fountain

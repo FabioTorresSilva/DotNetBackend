@@ -273,14 +273,14 @@ namespace Radao.Controllers
         /// <param name="fountainId"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFountain(int fountainId)
+        public async Task<IActionResult> DeleteFountain(int id)
         {
             try
             {
                 // Finds a fountain by id and deletes it
-                await _fountainService.DeleteFountainAsync(fountainId);
+                await _fountainService.DeleteFountainAsync(id);
 
-                return Ok(new { message = "Fountain deleted successfully." });
+                return Ok("Fountain deleted successfully." );
             }
             catch (ParamIsNull e)
             {

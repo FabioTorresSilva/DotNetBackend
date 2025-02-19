@@ -91,7 +91,7 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Check if the fountain exists
-            var fountain = await _context.Fountains.FirstOrDefaultAsync(f => f.Id == id);
+            var fountain = _context.Fountains.FirstOrDefault(f => f.Id == id);
 
             // Ensure the fountain exists
             if (fountain == null)
@@ -108,7 +108,7 @@ namespace Radao.Services
         public async Task<List<Fountain>> GetFountainsAsync()
         {
             // Get the list of fountains
-            var fountains = await _context.Fountains.ToListAsync();
+            var fountains =  _context.Fountains.ToList();
 
             //Ensure the fountains exist
             if (fountains == null)
@@ -135,7 +135,7 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Find the existing fountain
-            var fountain = await _context.Fountains.FindAsync(updatedfountain.Id);
+            var fountain = _context.Fountains.Find(updatedfountain.Id);
 
             // Ensure the fountain exists
             if (fountain == null)
@@ -152,7 +152,7 @@ namespace Radao.Services
             // Check if DeviceId exists before updating
             if (updatedfountain.ContinuousUseDeviceId != null)
             {
-                var continuousUseDevice = await _context.ContinuousUseDevices.SingleOrDefaultAsync(d => d.Id == updatedfountain.ContinuousUseDeviceId);
+                var continuousUseDevice = _context.ContinuousUseDevices.SingleOrDefault(d => d.Id == updatedfountain.ContinuousUseDeviceId);
 
                 if (continuousUseDevice == null)
                     throw new ObjIsNull(); // Device does not exist
@@ -184,7 +184,7 @@ namespace Radao.Services
                 throw new DbSetNotInitialize();
 
             // Retrieve the fountain by its Id.
-            var fountain = await _context.Fountains.SingleOrDefaultAsync(f => f.Id == fountainId);
+            var fountain = _context.Fountains.SingleOrDefault(f => f.Id == fountainId);
             if (fountain == null)
                 throw new ObjIsNull();
 
@@ -193,7 +193,7 @@ namespace Radao.Services
                 throw new DeviceAlreadyAssigned();
 
             // Retrieve the device from the ContinuousUseDevices DbSet.
-            var continuousUseDevice = await _context.ContinuousUseDevices.SingleOrDefaultAsync(d => d.Id == continuousUseDeviceId);
+            var continuousUseDevice = _context.ContinuousUseDevices.SingleOrDefault(d => d.Id == continuousUseDeviceId);
             if (continuousUseDevice == null)
                 throw new ObjIsNull();
 
@@ -210,7 +210,7 @@ namespace Radao.Services
             continuousUseDevice.Fountain = fountain;
 
             // Persist the changes to the database.
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return fountain;
         }
@@ -289,27 +289,28 @@ namespace Radao.Services
         }
         public async Task DeleteFountainAsync(int id)
         {
-            // Ensure the DbSet is initialized
+            // Garantir que o DbSet esteja inicializado
             if (_context.Fountains == null)
                 throw new DbSetNotInitialize();
 
-            // Validate the input
+            // Validar o parâmetro
             if (id <= 0)
-                throw new ParamIsNull();
+                throw new ArgumentOutOfRangeException(nameof(id), "The ID must be higher than zero.");
 
-            // Find the fountain by ID
+            // Buscar a fonte de forma assíncrona
             var fountain = await _context.Fountains.FindAsync(id);
 
-            // Check if the fountain exists
+            // Verificar se a fonte existe
             if (fountain == null)
                 throw new ObjIsNull();
 
-            // Remove the fountain
+            // Remover a fonte
             _context.Fountains.Remove(fountain);
 
-            // Save changes to the database
+            // Salvar as alterações no banco de dados
             await _context.SaveChangesAsync();
         }
+
 
         /// <summary>
         /// Updates SuscepibilityIndex Of a fountain

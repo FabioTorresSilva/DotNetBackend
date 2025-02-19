@@ -60,7 +60,10 @@ namespace Radao.Controllers
             {
                 return BadRequest(e.Message);
             }
-            
+            catch (DeviceNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (FountainAlreadyExists e)
             {
                 return Conflict(e.Message);

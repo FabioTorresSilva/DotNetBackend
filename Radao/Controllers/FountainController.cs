@@ -387,8 +387,8 @@ namespace Radao.Controllers
         /// <param name="fountainId">The ID of the fountain.</param>
         /// <param name="count">Optional: The number of water analyses to retrieve.</param>
         /// <returns>A list of water analysis DTOs.</returns>
-        [HttpGet("{fountainId}/water-analysis")]
-        public async Task<IActionResult> GetWaterAnalysisAsync(int fountainId, [FromQuery] int? count = null)
+        [HttpGet("{fountainId}/water-analysis", Name = "GetWaterAnalysis")]
+        public async Task<IActionResult> GetWaterAnalysisAsync(int fountainId, [FromQuery] int? count)
         {
             try
             {
@@ -436,7 +436,9 @@ namespace Radao.Controllers
                 var newWaterAnalysis = await _fountainService.AddWaterAnalysisAsync(fountainId, waterAnalysis);
 
                 // Ensure `count` is explicitly passed as null to match route parameters
-                return CreatedAtAction(nameof(GetWaterAnalysisAsync), new { fountainId, count = (int?)null }, waterAnalysis);
+                return CreatedAtAction("GetWaterAnalysis", new { fountainId }, waterAnalysis);
+
+
             }
             catch (ParamIsNull e)
             {
@@ -455,7 +457,5 @@ namespace Radao.Controllers
                 return StatusCode(500, e.Message);
             }
         }
-
-
     }
 }

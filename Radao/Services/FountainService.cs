@@ -419,6 +419,9 @@ namespace Radao.Services
             if (fountainId <= 0)
                 throw new ParamIsNull();
 
+            if(count != null && count <= 0)
+                throw new CountNumberIsInvalidException();
+
             // Base query to retrieve water analyses for the fountain.
             var query = _context.WaterAnalysis
                 .Where(w => w.FountainId == fountainId)
@@ -429,7 +432,7 @@ namespace Radao.Services
                 ? query.Take(count.Value).ToList()
                 : query.ToList();
 
-            // checks if theres a water analyse ou count 
+            // checks if theres a water analyse or count 
             if (waterAnalyses == null || waterAnalyses.Count == 0)
                 throw new ObjIsNull();
 
@@ -474,7 +477,7 @@ namespace Radao.Services
 
             // Add the new WaterAnalysis to the database.
              _context.WaterAnalysis.Add(waterAnalysis);
-             _context.SaveChanges();
+             _context.SaveChangesAsync();
 
             return waterAnalysis;
         }

@@ -179,41 +179,45 @@ namespace Radao.Services
         /// <exception cref="FountainAlreadyAssigned"></exception>
         public async Task<Fountain> AddContinuousUseDeviceToFountainAsync(int fountainId, int continuousUseDeviceId)
         {
-            // Ensure required DbSets are initialized.
+            // Ensure that the DbSets are initialized.
             if (_context.Fountains == null || _context.ContinuousUseDevices == null)
                 throw new DbSetNotInitialize();
 
-            // Retrieve the fountain by its Id.
+            // Validate the input IDs.
+            if (fountainId <= 0 || continuousUseDeviceId <= 0)
+                throw new ArgumentOutOfRangeException("The IDs must be higher than zero.");
+
+            // Retrieve the fountain asynchronously.
             var fountain = _context.Fountains.SingleOrDefault(f => f.Id == fountainId);
             if (fountain == null)
-                throw new ObjIsNull();
+                throw new FountainNotFoundException($"Fountain with ID {fountainId} not found.");
 
-            // Check if the fountain already has a device assigned.
+            // Check if the fountain already has an assigned device.
             if (fountain.ContinuousUseDeviceId != null)
                 throw new DeviceAlreadyAssigned();
 
-            // Retrieve the device from the ContinuousUseDevices DbSet.
+            // Retrieve the continuous use device.
             var continuousUseDevice = _context.ContinuousUseDevices.SingleOrDefault(d => d.Id == continuousUseDeviceId);
             if (continuousUseDevice == null)
-                throw new ObjIsNull();
+                throw new DeviceNotFoundException($"Device with ID {continuousUseDeviceId} not found.");
 
             // Check if the device is already associated with another fountain.
             if (continuousUseDevice.FountainId != null)
                 throw new FountainAlreadyAssigned();
 
-            // Assign the device to the fountain.
+            // Assign the device to the fountain and vice versa.
             fountain.ContinuousUseDeviceId = continuousUseDeviceId;
             fountain.ContinuousUseDevice = continuousUseDevice;
-
-            // Assign the fountain to the device
             continuousUseDevice.FountainId = fountainId;
             continuousUseDevice.Fountain = fountain;
 
-            // Persist the changes to the database.
-            _context.SaveChanges();
+            // Save changes to the database asynchronously.
+            await _context.SaveChangesAsync();
 
             return fountain;
         }
+
+
 
         /// <summary>
         /// Removes the device associated with a fountain
@@ -224,14 +228,14 @@ namespace Radao.Services
         /// <exception cref="ObjIsNull"></exception>
         /// <exception cref="NoDeviceAssignedToFountain"></exception>
         /// <exception cref="FountainDeviceNotFound"></exception>
-        public async Task<Fountain> RemoveDeviceFromFountainAsync(int fountainId)
+        public async Task<Fountain> RemoveContinuousUseDeviceFromFountainAsync(int fountainId)
         {
             // Ensure the required DbSets are initialized.
             if (_context.Fountains == null || _context.ContinuousUseDevices == null)
                 throw new DbSetNotInitialize();
 
             // Retrieve the fountain by its Id.
-            var fountain = await _context.Fountains.SingleOrDefaultAsync(f => f.Id == fountainId);
+            var fountain = _context.Fountains.SingleOrDefault(f => f.Id == fountainId);
             if (fountain == null)
                 throw new ObjIsNull();
 
@@ -240,7 +244,7 @@ namespace Radao.Services
                 throw new NoDeviceAssignedToFountain();
 
             // Retrieve the device associated with the fountain.
-            var continuousUseDevice = await _context.ContinuousUseDevices.SingleOrDefaultAsync(d => d.Id == fountain.ContinuousUseDeviceId);
+            var continuousUseDevice = _context.ContinuousUseDevices.SingleOrDefault(d => d.Id == fountain.ContinuousUseDeviceId);
             if (continuousUseDevice == null)
                 throw new FountainDeviceNotFound();
 
@@ -277,9 +281,9 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Retrieve all fountains where the description contains the provided text.
-            var fountains = await _context.Fountains
+            var fountains = _context.Fountains
                 .Where(f => f.Description.Contains(description))
-                .ToListAsync();
+                .ToList();
 
             // Optionally, throw an exception if no fountains are found, or return an empty list.
             if (fountains == null || fountains.Count == 0)
@@ -298,7 +302,7 @@ namespace Radao.Services
                 throw new ArgumentOutOfRangeException(nameof(id), "The ID must be higher than zero.");
 
             // Buscar a fonte de forma assíncrona
-            var fountain = await _context.Fountains.FindAsync(id);
+            var fountain = _context.Fountains.Find(id);
 
             // Verificar se a fonte existe
             if (fountain == null)
@@ -336,7 +340,7 @@ namespace Radao.Services
                 throw new InvalidEnumValueException();
 
             // Retrieve the fountain.
-            var fountain = await _context.Fountains.FindAsync(fountainId);
+            var fountain = _context.Fountains.Find(fountainId);
             if (fountain == null)
                 throw new ObjIsNull();
 
@@ -345,7 +349,7 @@ namespace Radao.Services
 
             // Save changes to the database.
             _context.Fountains.Update(fountain);
-            await _context.SaveChangesAsync();
+             _context.SaveChanges();
 
             return fountain;
         }
@@ -370,9 +374,9 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Retrieve the fountain with its related ContinuousUseDevice.
-            var fountain = await _context.Fountains
+            var fountain = _context.Fountains
                 .Include(f => f.ContinuousUseDevice) // Ensure to load the related ContinuousUseDevice
-                .FirstOrDefaultAsync(f => f.Id == fountainId);
+                .FirstOrDefault(f => f.Id == fountainId);
 
             if (fountain == null)
                 throw new ObjIsNull();
@@ -391,7 +395,7 @@ namespace Radao.Services
             // Save changes to the database.
             _context.Fountains.Update(fountain);
             _context.ContinuousUseDevices.Update(newContinuousUseDevice);
-            await _context.SaveChangesAsync();
+             _context.SaveChanges();
 
             return fountain;
         }
@@ -422,8 +426,8 @@ namespace Radao.Services
 
             // Execute query, applying Take if count is provided
             var waterAnalyses = count.HasValue && count.Value > 0
-                ? await query.Take(count.Value).ToListAsync()
-                : await query.ToListAsync();
+                ? query.Take(count.Value).ToList()
+                : query.ToList();
 
             // checks if theres a water analyse ou count 
             if (waterAnalyses == null || waterAnalyses.Count == 0)
@@ -452,14 +456,14 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Retrieve the fountain.
-            var fountain = await _context.Fountains.FindAsync(fountainId);
+            var fountain =  _context.Fountains.Find(fountainId);
             if (fountain == null)
                 throw new ObjIsNull();
 
             if (waterAnalysis.DeviceId != null)
             {
-                var device = await _context.ContinuousUseDevices.FindAsync(waterAnalysis.DeviceId);
-                if (device.FountainId != fountainId)
+                var device = _context.ContinuousUseDevices.Find(waterAnalysis.DeviceId);
+                if (device?.FountainId != fountainId)
                 {
                     throw new AssociatedToAnotherFountain();
                 }
@@ -469,8 +473,8 @@ namespace Radao.Services
             waterAnalysis.FountainId = fountainId;
 
             // Add the new WaterAnalysis to the database.
-            await _context.WaterAnalysis.AddAsync(waterAnalysis);
-            await _context.SaveChangesAsync();
+             _context.WaterAnalysis.Add(waterAnalysis);
+             _context.SaveChanges();
 
             return waterAnalysis;
         }

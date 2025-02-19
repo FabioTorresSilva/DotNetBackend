@@ -196,6 +196,18 @@ namespace Radao.Controllers
             {
                 return BadRequest(e.Message);
             }
+            catch (ArgumentOutOfRangeException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (DeviceNotFoundException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (FountainNotFoundException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         /// <summary>
@@ -204,12 +216,12 @@ namespace Radao.Controllers
         /// <param name="fountainId"></param>
         /// <returns></returns>
         [HttpDelete("{fountainId}/device")]
-        public async Task<IActionResult> RemoveDeviceFromFountain(int fountainId)
+        public async Task<IActionResult> RemoveContinuousUseDeviceFromFountain(int fountainId)
         {
             try
             {
                 // Call the service method to remove the device from the specified fountain.
-                var updatedFountain = await _fountainService.RemoveDeviceFromFountainAsync(fountainId);
+                var updatedFountain = await _fountainService.RemoveContinuousUseDeviceFromFountainAsync(fountainId);
 
                 // Map the updated fountain to the DTO.
                 var resultDto = _fountainMapper.FountainToFullDto(updatedFountain);

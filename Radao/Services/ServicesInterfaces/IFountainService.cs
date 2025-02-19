@@ -40,7 +40,7 @@ namespace Radao.Services.ServicesInterfaces
         /// </summary>
         /// <param name="fountainId"></param>
         /// <returns></returns>
-        Task<Fountain> RemoveDeviceFromFountainAsync(int fountainId);
+        Task<Fountain> RemoveContinuousUseDeviceFromFountainAsync(int fountainId);
 
         /// <summary>
         /// Lists fountains that match a description

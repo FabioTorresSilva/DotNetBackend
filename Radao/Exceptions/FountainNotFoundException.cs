@@ -1,16 +1,16 @@
 ﻿namespace Radao.Exceptions
 {
-    public class DeviceAlreadyAssigned : Exception
+    public class FountainNotFoundException : Exception
     {
         /// <summary>
         /// Default constructor
         /// </summary>
-        public DeviceAlreadyAssigned() : base("Theres another device already assigned.") { }
-
+        public FountainNotFoundException() : base("The specified fountain does not exist.") { }
+        
         /// <summary>
         /// Constructor with custom message
         /// </summary>
         /// <param name="message"></param>
-        public DeviceAlreadyAssigned(string message) : base(message) { }
+        public FountainNotFoundException(string message) : base(message) { }
     }
 }

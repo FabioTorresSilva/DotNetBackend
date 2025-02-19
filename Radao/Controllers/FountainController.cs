@@ -60,10 +60,7 @@ namespace Radao.Controllers
             {
                 return BadRequest(e.Message);
             }
-            catch (ObjIsNull e)
-            {
-                return NotFound(e.Message);
-            }
+            
             catch (FountainAlreadyExists e)
             {
                 return Conflict(e.Message);

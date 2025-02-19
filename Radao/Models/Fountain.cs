@@ -42,7 +42,7 @@ namespace Radao.Models
         /// Gets or sets the ContinuousUseDevice associated with the fountain.
         /// This field is required and establishes a relationship with the Device model.
         /// </summary>
-        [Required]
+        
         [JsonIgnore]
         public ContinuousUseDevice? ContinuousUseDevice { get; set; }
 

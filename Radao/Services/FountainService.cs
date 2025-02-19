@@ -45,10 +45,14 @@ namespace Radao.Services
             if (fountainFull == null)
                 throw new ParamIsNull();
 
-            // Check if the device exists in the database
-            var existingDevice = _context.ContinuousUseDevices.Find(fountainFull.ContinuousUseDeviceId);
-            if (existingDevice == null)
-                throw new DeviceNotFoundException();
+            if(fountainFull.ContinuousUseDeviceId != null)
+            {
+                // Check if the device exists in the database
+                var existingDevice = _context.ContinuousUseDevices.Find(fountainFull.ContinuousUseDeviceId);
+                if (existingDevice == null)
+                    throw new DeviceNotFoundException();
+            }
+            
 
             // Check if the fountain already exists
             var existingFountain = _context.Fountains.FirstOrDefault(f => f.Latitude == fountainFull.Latitude && f.Longitude == fountainFull.Longitude);

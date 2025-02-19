@@ -185,7 +185,7 @@ namespace Radao.Services
             device.AnalysisFrequency = newFrequency;
 
             // Save changes
-            await _context.SaveChangesAsync();123132
+            await _context.SaveChangesAsync();
 
             return device;
         }

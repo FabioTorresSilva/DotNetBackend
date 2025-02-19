@@ -60,8 +60,8 @@ namespace Radao.Services
             // If a Fountain already has an associated device, prevent adding a new one
             if (fountainFull.ContinuousUseDeviceId != null)
             {
-                // Checks if the device exists in db 
-                var existingDevice = _context.Devices.FirstOrDefault(d => d.Id == fountainFull.ContinuousUseDeviceId);
+                 //Checks if the device exists in db 
+                var existingDevice = _context.ContinuousUseDevices.FirstOrDefault(d => d.Id == fountainFull.ContinuousUseDeviceId);
                 if (existingDevice != null)
                     throw new DeviceAlreadyAssigned();
             }

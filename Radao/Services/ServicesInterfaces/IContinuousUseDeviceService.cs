@@ -34,6 +34,6 @@ namespace Radao.Services.ServicesInterfaces
         /// <param name="deviceId"></param>
         /// <param name="newFrequency"></param>
         /// <returns></returns>
-        Task<ContinuousUseDevice> UpdateDeviceAnalysisFrequencyAsync(int deviceId, int newFrequency)
+        Task<ContinuousUseDevice> UpdateDeviceAnalysisFrequencyAsync(int deviceId, int newFrequency);
     }
 }

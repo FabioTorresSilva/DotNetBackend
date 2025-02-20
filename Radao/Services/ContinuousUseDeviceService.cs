@@ -128,7 +128,7 @@ namespace Radao.Services
 
             // Ensures continuousUseDevice is not null
             if (continuousUseDevice == null)
-                throw new ObjIsNull();            
+                throw new ContinuousUseDeviceNotFound();
 
             // Updates the continuousUseDevice object
             continuousUseDevice.Model = updatedContinuousUseDevice.Model;

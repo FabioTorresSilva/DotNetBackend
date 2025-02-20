@@ -60,7 +60,7 @@ namespace Radao.Controllers
             }
             catch (ObjIsNull e)
             {
-                               return NotFound(e.Message);
+                return NotFound(e.Message);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Radao.Controllers
             try
             {
                 // Get the water analysis
-                var waterAnalysis = await _waterAnalysisService.GetWaterAnalysisByIdAsync(id);
+                var waterAnalysis = await _waterAnalysisService.GetWaterAnalysisById(id);
 
                 // Map the domain model to the DTO and return it
                 var resultDto = _waterAnalysisMapper.WaterAnalysisToFullDto(waterAnalysis);
@@ -101,7 +101,7 @@ namespace Radao.Controllers
             try
             {
                 // Get all water analysis
-                var analysis = await _waterAnalysisService.GetWaterAnalysisAsync();
+                var analysis = await _waterAnalysisService.GetWaterAnalysis();
 
                 // Map the domain model to the DTO and return it
                 var analysisDto = analysis.Select(a => _waterAnalysisMapper.WaterAnalysisToFullDto(a));

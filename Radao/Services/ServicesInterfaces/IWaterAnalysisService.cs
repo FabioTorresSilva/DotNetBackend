@@ -21,7 +21,7 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Gets a WaterAnalysis by id.
         /// </summary>
-        Task<WaterAnalysis> GetWaterAnalysisByIdAsync(int id);
+        Task<WaterAnalysis> GetWaterAnalysisById(int id);
 
         /// <summary>
         /// Gets the list of WaterAnalysis.

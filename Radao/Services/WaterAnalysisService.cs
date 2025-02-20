@@ -79,7 +79,7 @@ namespace Radao.Services
         /// <returns></returns>
         /// <exception cref="DbSetNotInitialize"></exception>
         /// <exception cref="ObjIsNull"></exception>
-        public async Task<WaterAnalysis> GetWaterAnalysisByIdAsync(int id)
+        public async Task<WaterAnalysis> GetWaterAnalysisById(int id)
         {
             // Ensure database exists
             if (_context.WaterAnalysis == null)
@@ -90,7 +90,7 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Gets device with Id equal to the updatedDevice
-            WaterAnalysis waterAnalysis = await _context.WaterAnalysis.SingleOrDefaultAsync(d => d.Id == id);
+            WaterAnalysis waterAnalysis = _context.WaterAnalysis.SingleOrDefault(d => d.Id == id);
 
             // Ensures updatedDevice exists in the context
             if (waterAnalysis == null)

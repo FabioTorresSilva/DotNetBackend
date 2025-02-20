@@ -27,7 +27,7 @@ namespace Radao.Services
             _context = context;
         }
 
-        public async Task<ContinuousUseDevice> AddContinuousUseDeviceAsync(ContinuousUseDevice continuousUseDevice)
+        public async Task<ContinuousUseDevice> AddContinuousUseDevice(ContinuousUseDevice continuousUseDevice)
         {
             // Ensure database exists
             if (_context.ContinuousUseDevices == null)
@@ -40,8 +40,8 @@ namespace Radao.Services
             // Checks if updatedContinuousUseDeviceIdDto.FountainId exists
             if (continuousUseDevice.FountainId != null && continuousUseDevice.Fountain == null)
             {
-                // Gets Fountai with Id equal to the updatedContinuousUseDeviceIdDto.FountainId
-                var fountain = await _context.Fountains.SingleOrDefaultAsync(c => c.Id == continuousUseDevice.FountainId);
+                // Gets Fountain with Id equal to the updatedContinuousUseDeviceIdDto.FountainId
+                var fountain = _context.Fountains.SingleOrDefault(c => c.Id == continuousUseDevice.FountainId);
 
                 // Ensures fountain is not null
                 if (fountain == null)

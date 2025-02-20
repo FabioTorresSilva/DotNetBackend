@@ -11,7 +11,7 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Creates a new ContinuousUseDevice.
         /// </summary>
-        Task<ContinuousUseDevice> AddContinuousUseDeviceAsync(ContinuousUseDevice continuousUseDevice);
+        Task<ContinuousUseDevice> AddContinuousUseDevice(ContinuousUseDevice continuousUseDevice);
 
         /// <summary>
         /// Updates a ContinuousUseDevice.

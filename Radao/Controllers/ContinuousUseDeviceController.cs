@@ -34,7 +34,7 @@ namespace Radao.Controllers
                 var continuousUseDevice = _continuousUseDeviceMapper.FullDtoToContinuousUseDevice(continuousUseDeviceDto);
 
                 //Add the continuous use device
-                var addedContinuousUseDevice = await _continuousUseDeviceService.AddContinuousUseDeviceAsync(continuousUseDevice);
+                var addedContinuousUseDevice = await _continuousUseDeviceService.AddContinuousUseDevice(continuousUseDevice);
 
                 //Map the domain model to the DTO and return it
                 var resultDto = _continuousUseDeviceMapper.ContinuousUseDeviceToIdDto(addedContinuousUseDevice);

@@ -21,7 +21,7 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Gets a ContinuousUseDevice by id.
         /// </summary>
-        Task<ContinuousUseDevice> GetContinuousUseDeviceByIdAsync(int id);
+        Task<ContinuousUseDevice> GetContinuousUseDeviceById(int id);
 
         /// <summary>
         /// Gets the list of ContinuousUseDevice.

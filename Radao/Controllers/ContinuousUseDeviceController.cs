@@ -62,7 +62,7 @@ namespace Radao.Controllers
             try
             {
                 // Check if the id is valid
-                var continuousUseDevice = await _continuousUseDeviceService.GetContinuousUseDeviceByIdAsync(id);
+                var continuousUseDevice = await _continuousUseDeviceService.GetContinuousUseDeviceById(id);
 
                 // Map the domain model to the DTO and return it
                 var resultDto = _continuousUseDeviceMapper.ContinuousUseDeviceToFullDto(continuousUseDevice);

@@ -66,7 +66,7 @@ namespace Radao.Services
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<ContinuousUseDevice> GetContinuousUseDeviceByIdAsync(int id)
+        public async Task<ContinuousUseDevice> GetContinuousUseDeviceById(int id)
         {
             // Ensure database exists
             if (_context.ContinuousUseDevices == null)
@@ -77,7 +77,7 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Gets device with Id equal to the updatedDevice
-            ContinuousUseDevice continuousUseDevice = await _context.ContinuousUseDevices.SingleOrDefaultAsync(d => d.Id == id);
+            ContinuousUseDevice continuousUseDevice = _context.ContinuousUseDevices.SingleOrDefault(d => d.Id == id);
 
             // Ensures updatedDevice exists in the context
             if (continuousUseDevice == null)
@@ -179,7 +179,7 @@ namespace Radao.Services
             // Find the device
             var device = await _context.ContinuousUseDevices.FindAsync(deviceId);
             if (device == null)
-                throw new ObjIsNull("Device not found.");
+                throw new ObjIsNull();
 
             // Update periodicity
             device.AnalysisFrequency = newFrequency;

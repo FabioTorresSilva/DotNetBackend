@@ -88,7 +88,7 @@ namespace Radao.Controllers
             try
             {
                 // Get all continuous use devices
-                var continuousUseDevices = await _continuousUseDeviceService.GetContinuousUseDevicesdAsync();
+                var continuousUseDevices = await _continuousUseDeviceService.GetContinuousUseDevices();
 
                 // Map the domain models to the DTOs and return them
                 var continuousUseDeviceDto = continuousUseDevices.Select(d => _continuousUseDeviceMapper.ContinuousUseDeviceToFullDto(d));

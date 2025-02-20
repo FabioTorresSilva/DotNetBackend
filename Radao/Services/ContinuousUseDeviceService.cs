@@ -91,14 +91,14 @@ namespace Radao.Services
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<List<ContinuousUseDevice>> GetContinuousUseDevicesdAsync()
+        public async Task<List<ContinuousUseDevice>> GetContinuousUseDevices()
         {
             // Ensure database exists
             if (_context.ContinuousUseDevices == null)
                 throw new DbSetNotInitialize();
 
             // Gets List of ContinuousUseDevices
-            List<ContinuousUseDevice> continuousUseDevices = await _context.ContinuousUseDevices.ToListAsync();
+            List<ContinuousUseDevice> continuousUseDevices = _context.ContinuousUseDevices.ToList();
 
             // Ensures list is not empty
             if (continuousUseDevices.Count == 0)

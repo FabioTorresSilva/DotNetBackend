@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Radao.Dtos;
 using Radao.Exceptions;
 using Radao.Mapper;
 using Radao.Models;
 using Radao.Services.ServicesInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Radao.Controllers
 {
@@ -55,6 +57,10 @@ namespace Radao.Controllers
             catch (ParamIsNull e)
             {
                 return BadRequest(e.Message);
+            }
+            catch (ObjIsNull e)
+            {
+                               return NotFound(e.Message);
             }
         }
 

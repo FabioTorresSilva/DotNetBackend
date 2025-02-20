@@ -44,7 +44,7 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Gets Fountain with Id equal to the updatedContinuousUseDeviceIdDto.FountainId
-            var fountain = await _context.Fountains.SingleOrDefaultAsync(c => c.Id == waterAnalysis.FountainId);
+            var fountain = _context.Fountains.SingleOrDefault(c => c.Id == waterAnalysis.FountainId);
 
             // Ensures fountain is not null
             if (fountain == null)
@@ -54,7 +54,7 @@ namespace Radao.Services
             waterAnalysis.Fountain = fountain;
 
             // Gets device with Id equal to the updatedWaterAnalysis.DeviceId
-            var device = await _context.Devices.SingleOrDefaultAsync(c => c.Id == waterAnalysis.DeviceId);
+            var device = _context.Devices.SingleOrDefault(c => c.Id == waterAnalysis.DeviceId);
 
             // Ensures device is not null
             if (device == null)
@@ -105,14 +105,14 @@ namespace Radao.Services
         /// <returns></returns>
         /// <exception cref="DbSetNotInitialize"></exception>
         /// <exception cref="EmptyList"></exception>
-        public async Task<List<WaterAnalysis>> GetWaterAnalysisAsync()
+        public async Task<List<WaterAnalysis>> GetWaterAnalysis()
         {
             // Ensure database exists
             if (_context.WaterAnalysis == null)
                 throw new DbSetNotInitialize();
 
             // Gets List of water analysises
-            List<WaterAnalysis> waterAnalysises = await _context.WaterAnalysis.ToListAsync();
+            List<WaterAnalysis> waterAnalysises = _context.WaterAnalysis.ToList();
 
             // Ensures list is not empty
             if (waterAnalysises.Count == 0)
@@ -181,13 +181,3 @@ namespace Radao.Services
         }
     }
 }
-
-
-
-
-
-
-
-
-
-

@@ -135,7 +135,7 @@ namespace Radao.Controllers
                 var updatedWaterAnalysis = _waterAnalysisMapper.IdDtoToWaterAnalysis(waterAnalysisIdDto);
 
                 // Update the water analysis and return it
-                var waterAnalysis = await _waterAnalysisService.UpdateWaterAnalysisAsync(updatedWaterAnalysis);
+                var waterAnalysis = await _waterAnalysisService.UpdateWaterAnalysis(updatedWaterAnalysis);
                 var resultDto = _waterAnalysisMapper.WaterAnalysisToIdDto(waterAnalysis);
 
                 return Ok(resultDto);

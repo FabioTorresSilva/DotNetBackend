@@ -81,7 +81,7 @@ namespace Radao.Services
 
             // Ensures updatedDevice exists in the context
             if (continuousUseDevice == null)
-                throw new ObjIsNull();
+                throw new ContinuousUseDeviceNotFound();
 
             return continuousUseDevice;
         }
@@ -179,7 +179,7 @@ namespace Radao.Services
             // Find the device
             var device = await _context.ContinuousUseDevices.FindAsync(deviceId);
             if (device == null)
-                throw new ObjIsNull();
+                throw new ContinuousUseDeviceNotFound();
 
             // Update periodicity
             device.AnalysisFrequency = newFrequency;

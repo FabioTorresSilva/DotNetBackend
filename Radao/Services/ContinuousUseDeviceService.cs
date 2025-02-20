@@ -113,7 +113,7 @@ namespace Radao.Services
         /// <param name="continuousUseDeviceFullDto"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<ContinuousUseDevice> UpdateContinuousUseDeviceAsync(ContinuousUseDevice updatedContinuousUseDevice)
+        public async Task<ContinuousUseDevice> UpdateContinuousUseDevice(ContinuousUseDevice updatedContinuousUseDevice)
         {
             // Ensure database exists
             if (_context.ContinuousUseDevices == null)
@@ -124,7 +124,7 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Gets ContinuousUseDevice with Id equal to the updatedContinuousUseDeviceFullDto
-            var continuousUseDevice = await _context.ContinuousUseDevices.SingleOrDefaultAsync(c => c.Id == updatedContinuousUseDevice.Id);
+            var continuousUseDevice = _context.ContinuousUseDevices.SingleOrDefault(c => c.Id == updatedContinuousUseDevice.Id);
 
             // Ensures continuousUseDevice is not null
             if (continuousUseDevice == null)
@@ -141,11 +141,11 @@ namespace Radao.Services
             if (updatedContinuousUseDevice.FountainId != null)
             {
                 // Gets Fountai with Id equal to the updatedContinuousUseDeviceIdDto.FountainId
-                var fountain = await _context.Fountains.SingleOrDefaultAsync(c => c.Id == updatedContinuousUseDevice.FountainId);
+                var fountain = _context.Fountains.SingleOrDefault(c => c.Id == updatedContinuousUseDevice.FountainId);
 
                 // Ensures fountain is not null
                 if (fountain == null)
-                    throw new ObjIsNull();
+                    throw new ObjIsNull("fonte nao existe");
 
                 // Updates the continuousUseDevice.Fountain argument
                 continuousUseDevice.Fountain = fountain;

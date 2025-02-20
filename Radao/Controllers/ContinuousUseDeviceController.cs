@@ -123,7 +123,7 @@ namespace Radao.Controllers
                 var updatedContinuousUseDevice = _continuousUseDeviceMapper.IdDtoToContinuousUseDevice(continuousUseDeviceIdDto);
 
                 // Map the domain model to the DTO and return it
-                var continuousUseDevice = await _continuousUseDeviceService.UpdateContinuousUseDeviceAsync(updatedContinuousUseDevice);
+                var continuousUseDevice = await _continuousUseDeviceService.UpdateContinuousUseDevice(updatedContinuousUseDevice);
 
                 var resultDto = _continuousUseDeviceMapper.ContinuousUseDeviceToIdDto(continuousUseDevice);
 

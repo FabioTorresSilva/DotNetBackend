@@ -16,16 +16,16 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Updates a Device.
         /// </summary>
-        Task<Device> UpdateDeviceAsync(Device updatedDevice);
+        Task<Device> UpdateDevice(Device updatedDevice);
 
         /// <summary>
         /// Gets a Device by id.
         /// </summary>
-        Task<Device> GetDeviceByIdAsync(int id);
+        Task<Device> GetDeviceById(int id);
 
         /// <summary>
         /// Gets the list of Device.
         /// </summary>
-        Task<List<Device>> GetDevicesdAsync();
+        Task<List<Device>> GetDevices();
     }
 }

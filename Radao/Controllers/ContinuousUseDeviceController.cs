@@ -34,7 +34,7 @@ namespace Radao.Controllers
                 var continuousUseDevice = _continuousUseDeviceMapper.FullDtoToContinuousUseDevice(continuousUseDeviceDto);
 
                 //Add the continuous use device
-                var addedContinuousUseDevice = await _continuousUseDeviceService.AddContinuousUseDeviceAsync(continuousUseDevice);
+                var addedContinuousUseDevice = await _continuousUseDeviceService.AddContinuousUseDevice(continuousUseDevice);
 
                 //Map the domain model to the DTO and return it
                 var resultDto = _continuousUseDeviceMapper.ContinuousUseDeviceToIdDto(addedContinuousUseDevice);
@@ -62,7 +62,7 @@ namespace Radao.Controllers
             try
             {
                 // Check if the id is valid
-                var continuousUseDevice = await _continuousUseDeviceService.GetContinuousUseDeviceByIdAsync(id);
+                var continuousUseDevice = await _continuousUseDeviceService.GetContinuousUseDeviceById(id);
 
                 // Map the domain model to the DTO and return it
                 var resultDto = _continuousUseDeviceMapper.ContinuousUseDeviceToFullDto(continuousUseDevice);
@@ -73,7 +73,7 @@ namespace Radao.Controllers
             {
                 return StatusCode(500, e.Message);
             }
-            catch (ObjIsNull e)
+            catch (ContinuousUseDeviceNotFound e)
             {
                 return NotFound(e.Message);
             }
@@ -88,7 +88,7 @@ namespace Radao.Controllers
             try
             {
                 // Get all continuous use devices
-                var continuousUseDevices = await _continuousUseDeviceService.GetContinuousUseDevicesdAsync();
+                var continuousUseDevices = await _continuousUseDeviceService.GetContinuousUseDevices();
 
                 // Map the domain models to the DTOs and return them
                 var continuousUseDeviceDto = continuousUseDevices.Select(d => _continuousUseDeviceMapper.ContinuousUseDeviceToFullDto(d));
@@ -123,7 +123,7 @@ namespace Radao.Controllers
                 var updatedContinuousUseDevice = _continuousUseDeviceMapper.IdDtoToContinuousUseDevice(continuousUseDeviceIdDto);
 
                 // Map the domain model to the DTO and return it
-                var continuousUseDevice = await _continuousUseDeviceService.UpdateContinuousUseDeviceAsync(updatedContinuousUseDevice);
+                var continuousUseDevice = await _continuousUseDeviceService.UpdateContinuousUseDevice(updatedContinuousUseDevice);
 
                 var resultDto = _continuousUseDeviceMapper.ContinuousUseDeviceToIdDto(continuousUseDevice);
 
@@ -133,7 +133,7 @@ namespace Radao.Controllers
             {
                 return StatusCode(500, e.Message);
             }
-            catch (ObjIsNull e)
+            catch (FountainNotFound e)
             {
                 return NotFound(e.Message);
             }

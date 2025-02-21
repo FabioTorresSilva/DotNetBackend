@@ -24,8 +24,8 @@
         /// <param name="fountainId"></param>
         /// <param name="analysisFrequency"></param>
         /// <param name="lastAnalysisDate"></param>
-        public ContinuousUseDeviceIdDto(int id, string model, string serialNumber, DateOnly expirationDat, int? fountainId, int analysisFrequency, DateOnly lastAnalysisDate)
-            : base(id, model, serialNumber, expirationDat)
+        public ContinuousUseDeviceIdDto(int id, string model, string serialNumber, DateOnly expirationDate, int? fountainId, int analysisFrequency, DateOnly lastAnalysisDate)
+            : base(id, model, serialNumber, expirationDate)
         {
             FountainId = fountainId;
             AnalysisFrequency = analysisFrequency;

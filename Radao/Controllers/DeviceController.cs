@@ -66,7 +66,7 @@ namespace Radao.Controllers
             try
             {
                 // Check if the id is valid
-                var device = await _deviceService.GetDeviceByIdAsync(id);
+                var device = await _deviceService.GetDeviceById(id);
 
                 // Map the domain model to the DTO and return it
                 var resultDto = _deviceMapper.DeviceToFullDto(device);
@@ -92,7 +92,7 @@ namespace Radao.Controllers
             try
             {
                 // Get all devices
-                var devices = await _deviceService.GetDevicesdAsync();
+                var devices = await _deviceService.GetDevices();
 
                 // Map the domain models to the DTOs and return them
                 var devicesDto = devices.Select(d => _deviceMapper.DeviceToFullDto(d));
@@ -127,7 +127,7 @@ namespace Radao.Controllers
                 var updatedDevice = _deviceMapper.IdDtoToDevice(deviceIdDto);
 
                 // Map the domain model to the DTO and return it
-                var device = await _deviceService.UpdateDeviceAsync(updatedDevice);
+                var device = await _deviceService.UpdateDevice(updatedDevice);
                 var resultDto = _deviceMapper.DeviceToIdDto(device);
                 return Ok(resultDto);
             }

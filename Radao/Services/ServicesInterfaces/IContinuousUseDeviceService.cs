@@ -11,22 +11,22 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Creates a new ContinuousUseDevice.
         /// </summary>
-        Task<ContinuousUseDevice> AddContinuousUseDeviceAsync(ContinuousUseDevice continuousUseDevice);
+        Task<ContinuousUseDevice> AddContinuousUseDevice(ContinuousUseDevice continuousUseDevice);
 
         /// <summary>
         /// Updates a ContinuousUseDevice.
         /// </summary>
-        Task<ContinuousUseDevice> UpdateContinuousUseDeviceAsync(ContinuousUseDevice updatedContinuousUseDevice);
+        Task<ContinuousUseDevice> UpdateContinuousUseDevice(ContinuousUseDevice updatedContinuousUseDevice);
 
         /// <summary>
         /// Gets a ContinuousUseDevice by id.
         /// </summary>
-        Task<ContinuousUseDevice> GetContinuousUseDeviceByIdAsync(int id);
+        Task<ContinuousUseDevice> GetContinuousUseDeviceById(int id);
 
         /// <summary>
         /// Gets the list of ContinuousUseDevice.
         /// </summary>
-        Task<List<ContinuousUseDevice>> GetContinuousUseDevicesdAsync();
+        Task<List<ContinuousUseDevice>> GetContinuousUseDevices();
 
         /// <summary>
         /// Updates de Analysis Frequency of a device

@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Radao.Dtos;
 using Radao.Exceptions;
 using Radao.Mapper;
 using Radao.Models;
 using Radao.Services.ServicesInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Radao.Controllers
 {
@@ -56,6 +58,10 @@ namespace Radao.Controllers
             {
                 return BadRequest(e.Message);
             }
+            catch (ObjIsNull e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         /// <summary>
@@ -69,7 +75,7 @@ namespace Radao.Controllers
             try
             {
                 // Get the water analysis
-                var waterAnalysis = await _waterAnalysisService.GetWaterAnalysisByIdAsync(id);
+                var waterAnalysis = await _waterAnalysisService.GetWaterAnalysisById(id);
 
                 // Map the domain model to the DTO and return it
                 var resultDto = _waterAnalysisMapper.WaterAnalysisToFullDto(waterAnalysis);
@@ -95,7 +101,7 @@ namespace Radao.Controllers
             try
             {
                 // Get all water analysis
-                var analysis = await _waterAnalysisService.GetWaterAnalysisAsync();
+                var analysis = await _waterAnalysisService.GetWaterAnalysis();
 
                 // Map the domain model to the DTO and return it
                 var analysisDto = analysis.Select(a => _waterAnalysisMapper.WaterAnalysisToFullDto(a));
@@ -129,7 +135,7 @@ namespace Radao.Controllers
                 var updatedWaterAnalysis = _waterAnalysisMapper.IdDtoToWaterAnalysis(waterAnalysisIdDto);
 
                 // Update the water analysis and return it
-                var waterAnalysis = await _waterAnalysisService.UpdateWaterAnalysisAsync(updatedWaterAnalysis);
+                var waterAnalysis = await _waterAnalysisService.UpdateWaterAnalysis(updatedWaterAnalysis);
                 var resultDto = _waterAnalysisMapper.WaterAnalysisToIdDto(waterAnalysis);
 
                 return Ok(resultDto);

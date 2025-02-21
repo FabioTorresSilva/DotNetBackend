@@ -92,7 +92,7 @@ namespace Radao.Controllers
             try
             {
                 // Get all devices
-                var devices = await _deviceService.GetDevicesdAsync();
+                var devices = await _deviceService.GetDevices();
 
                 // Map the domain models to the DTOs and return them
                 var devicesDto = devices.Select(d => _deviceMapper.DeviceToFullDto(d));

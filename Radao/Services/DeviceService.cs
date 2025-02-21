@@ -85,14 +85,14 @@ namespace Radao.Services
         /// <returns></returns>
         /// <exception cref="DbSetNotInitialize"></exception>
         /// <exception cref="EmptyList"></exception>
-        public async Task<List<Device>> GetDevicesdAsync()
+        public async Task<List<Device>> GetDevices()
         {
             // Ensure database exists
             if (_context.Devices == null) 
                 throw new DbSetNotInitialize();
 
             // Gets List of devices
-            List<Device> devices = await _context.Devices.ToListAsync();
+            List<Device> devices = _context.Devices.ToList();
 
             // Ensures list is not empty
             if (devices.Count == 0)

@@ -26,6 +26,6 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Gets the list of Device.
         /// </summary>
-        Task<List<Device>> GetDevicesdAsync();
+        Task<List<Device>> GetDevices();
     }
 }

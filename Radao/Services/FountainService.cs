@@ -174,8 +174,10 @@ namespace Radao.Services
         /// <param name="continuousUseDeviceId"></param>
         /// <returns></returns>
         /// <exception cref="DbSetNotInitialize"></exception>
-        /// <exception cref="ObjIsNull"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="FountainNotFoundException"></exception>
         /// <exception cref="DeviceAlreadyAssigned"></exception>
+        /// <exception cref="DeviceNotFoundException"></exception>
         /// <exception cref="FountainAlreadyAssigned"></exception>
         public async Task<Fountain> AddContinuousUseDeviceToFountainAsync(int fountainId, int continuousUseDeviceId)
         {

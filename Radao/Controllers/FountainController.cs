@@ -163,8 +163,8 @@ namespace Radao.Controllers
         /// <param name="fountainId"></param>
         /// <param name="deviceId"></param>
         /// <returns></returns>
-        [HttpPost("{fountainId}/device")]
-        public async Task<IActionResult> AddContinuousUseDeviceToFountain(int fountainId, [FromBody] int deviceId)
+        [HttpPost("{fountainId}/device/{deviceId}")]
+        public async Task<IActionResult> AddContinuousUseDeviceToFountain(int fountainId, int deviceId)
         {
             try
             {

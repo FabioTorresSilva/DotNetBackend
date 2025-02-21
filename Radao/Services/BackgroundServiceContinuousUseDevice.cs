@@ -47,7 +47,7 @@ namespace Radao.Services
                     if(daysPassed >= cd.AnalysisFrequency)
                     {
                         // Creates and adds new WaterAnalysis
-                        WaterAnalysis waterAnalysis = new WaterAnalysis(new Random().Next(0, 501), ((int)cd.Id), today, cd.Id);
+                        WaterAnalysis waterAnalysis = new WaterAnalysis(new Random().Next(0, 201), ((int)cd.Id), today, cd.Id);
                         waterAnalysisService.AddWaterAnalysisAsync(waterAnalysis);
                         
                         // Updates LastAnalysisDate on the ContinuousUseDevice

@@ -66,7 +66,7 @@ namespace Radao.Controllers
             try
             {
                 // Check if the id is valid
-                var device = await _deviceService.GetDeviceByIdAsync(id);
+                var device = await _deviceService.GetDeviceById(id);
 
                 // Map the domain model to the DTO and return it
                 var resultDto = _deviceMapper.DeviceToFullDto(device);

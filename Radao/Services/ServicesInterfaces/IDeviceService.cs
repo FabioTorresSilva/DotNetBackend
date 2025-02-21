@@ -21,7 +21,7 @@ namespace Radao.Services.ServicesInterfaces
         /// <summary>
         /// Gets a Device by id.
         /// </summary>
-        Task<Device> GetDeviceByIdAsync(int id);
+        Task<Device> GetDeviceById(int id);
 
         /// <summary>
         /// Gets the list of Device.

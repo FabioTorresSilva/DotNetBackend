@@ -1,5 +1,6 @@
 ﻿using Radao.Data;
 using Radao.Dtos;
+using Radao.Enums;
 using Radao.Exceptions;
 using Radao.Models;
 using Radao.Services.ServicesInterfaces;
@@ -65,6 +66,14 @@ namespace Radao.Services
 
             // Adds waterAnalysis to the database
             await _context.WaterAnalysis.AddAsync(waterAnalysis);
+
+            // Updates SusceptibilityIndex on fountain
+            if (waterAnalysis.RadonConcentration <= 50)
+                fountain.SusceptibilityIndex = SusceptibilityIndex.Low;
+            else if (waterAnalysis.RadonConcentration > 150)
+                fountain.SusceptibilityIndex = SusceptibilityIndex.High;
+            else
+                fountain.SusceptibilityIndex = SusceptibilityIndex.Moderate;
 
             // Saves database changes
             await _context.SaveChangesAsync();

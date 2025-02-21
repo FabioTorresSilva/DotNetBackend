@@ -108,7 +108,7 @@ namespace Radao.Services
         /// <returns></returns>
         /// <exception cref="DbSetNotInitialize"></exception>
         /// <exception cref="ObjIsNull"></exception>
-        public async Task<Device> UpdateDeviceAsync(Device updatedDevice)
+        public async Task<Device> UpdateDevice(Device updatedDevice)
         {
             // Ensure database exists
             if (_context.Devices == null)
@@ -119,7 +119,7 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Gets device with Id equal to the deviceIdDto
-            var device = await _context.Devices.SingleOrDefaultAsync(c => c.Id == updatedDevice.Id);
+            var device = _context.Devices.SingleOrDefault(c => c.Id == updatedDevice.Id);
 
             // Ensures deviceIdDto exists in the context
             if (device == null)

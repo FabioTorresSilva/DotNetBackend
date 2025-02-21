@@ -127,7 +127,7 @@ namespace Radao.Controllers
                 var updatedDevice = _deviceMapper.IdDtoToDevice(deviceIdDto);
 
                 // Map the domain model to the DTO and return it
-                var device = await _deviceService.UpdateDeviceAsync(updatedDevice);
+                var device = await _deviceService.UpdateDevice(updatedDevice);
                 var resultDto = _deviceMapper.DeviceToIdDto(device);
                 return Ok(resultDto);
             }

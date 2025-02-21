@@ -145,7 +145,7 @@ namespace Radao.Services
 
                 // Ensures fountain is not null
                 if (fountain == null)
-                    throw new ObjIsNull("fonte nao existe");
+                    throw new FountainNotFound();
 
                 // Updates the continuousUseDevice.Fountain argument
                 continuousUseDevice.Fountain = fountain;

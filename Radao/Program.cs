@@ -25,6 +25,9 @@ builder.Services.AddScoped<ContinuousUseDeviceMapper>(); //Register ContinuousUs
 builder.Services.AddScoped<IWaterAnalysisService, WaterAnalysisService>();
 builder.Services.AddScoped<WaterAnalysisMapper>();
 
+// Register the background service
+builder.Services.AddHostedService<BackgroundServiceContinuousUseDevice>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

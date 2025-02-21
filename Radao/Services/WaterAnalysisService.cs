@@ -36,7 +36,7 @@ namespace Radao.Services
         public async Task<WaterAnalysis> AddWaterAnalysisAsync(WaterAnalysis waterAnalysis)
         {
             // Ensure database exists
-            if (_context.Devices == null)
+            if (_context.WaterAnalysis == null)
                 throw new DbSetNotInitialize();
 
             // Ensure waterAnalysis is not null

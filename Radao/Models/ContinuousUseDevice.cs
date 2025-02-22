@@ -48,11 +48,12 @@ namespace Radao.Models
         /// <param name="fountain"></param>
         /// <param name="fountainId"></param>
         /// <param name="lastAnalysisDate"></param>
-        public ContinuousUseDevice(string model, string serialNumber, DateOnly expirationDate, int? fountainId, DateOnly lastAnalysisDate)
+        public ContinuousUseDevice(string model, string serialNumber, DateOnly expirationDate, int? fountainId, int analysisFrequency, DateOnly lastAnalysisDate)
             : base(model, serialNumber, expirationDate)
         {
             FountainId = fountainId;
             LastAnalysisDate = lastAnalysisDate;
+            AnalysisFrequency = analysisFrequency;
         }
 
         /// <summary>
@@ -64,11 +65,12 @@ namespace Radao.Models
         /// <param name="expirationDate"></param>
         /// <param name="fountainId"></param>
         /// <param name="lastAnalysisDate"></param>
-        public ContinuousUseDevice(int id, string model, string serialNumber, DateOnly expirationDate, int? fountainId, DateOnly lastAnalysisDate)
+        public ContinuousUseDevice(int id, string model, string serialNumber, DateOnly expirationDate, int? fountainId, int analysisFrequency, DateOnly lastAnalysisDate)
             : base(id, model, serialNumber, expirationDate)
         {
             FountainId = fountainId;
             LastAnalysisDate = lastAnalysisDate;
+            AnalysisFrequency = analysisFrequency;
         }
     }
 }

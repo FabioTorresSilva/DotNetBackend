@@ -1,26 +1,19 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.DependencyInjection; // Add this namespace
 using Radao.Data;
 using Radao.Models;
+using Radao.Services.ServicesInterfaces;
 
 namespace Radao.Services
 {
     public class BackgroundServiceContinuousUseDevice : BackgroundService
     {
         private readonly ILogger<BackgroundServiceContinuousUseDevice> _logger;
+        private readonly IServiceProvider _serviceProvider; // Store service provider
 
-        private readonly ContinuousUseDeviceService continuousUseDeviceService;
-
-        private readonly WaterAnalysisService waterAnalysisService;
-
-        private readonly RadaoContext _context;
-
-        public BackgroundServiceContinuousUseDevice(ILogger<BackgroundServiceContinuousUseDevice> logger, 
-            ContinuousUseDeviceService continuousUseDeviceService, WaterAnalysisService waterAnalysisService, RadaoContext context)
+        public BackgroundServiceContinuousUseDevice(ILogger<BackgroundServiceContinuousUseDevice> logger, IServiceProvider serviceProvider)
         {
             _logger = logger;
-            this.continuousUseDeviceService = continuousUseDeviceService;
-            this.waterAnalysisService = waterAnalysisService;
-            _context = context;
+            _serviceProvider = serviceProvider; // Initialize service provider
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -29,34 +22,40 @@ namespace Radao.Services
             {
                 _logger.LogInformation("Task executed at: {time}", DateTimeOffset.Now);
 
-                List<ContinuousUseDevice> devices = await continuousUseDeviceService.GetContinuousUseDevices();
-
-                // Gets the current date
-                DateOnly today = DateOnly.FromDateTime(DateTime.Today);
-
-                foreach (ContinuousUseDevice cd in devices)
+                using (var scope = _serviceProvider.CreateScope()) // Create a new scope
                 {
-                    // Ensures Device is attatched to a fountain. If not, continues to the next iteration.
-                    if (cd.Fountain == null)
-                        continue;
+                    var continuousUseDeviceService = scope.ServiceProvider.GetRequiredService<IContinuousUseDeviceService>();
+                    var waterAnalysisService = scope.ServiceProvider.GetRequiredService<IWaterAnalysisService>();
+                    var context = scope.ServiceProvider.GetRequiredService<RadaoContext>();
 
-                    // Gets number of days passed since last analysis
-                    int daysPassed = today.DayNumber - cd.LastAnalysisDate.DayNumber;
+                    List<ContinuousUseDevice> devices = await continuousUseDeviceService.GetContinuousUseDevices();
 
-                    // Ensures that number of days passed is equal or bigger than the frequency
-                    if(daysPassed >= cd.AnalysisFrequency)
+                    // Gets the current date
+                    DateOnly today = DateOnly.FromDateTime(DateTime.Today);
+
+                    foreach (ContinuousUseDevice cd in devices)
                     {
-                        // Creates and adds new WaterAnalysis
-                        WaterAnalysis waterAnalysis = new WaterAnalysis(new Random().Next(0, 201), ((int)cd.Id), today, cd.Id);
-                        waterAnalysisService.AddWaterAnalysisAsync(waterAnalysis);
-                        
-                        // Updates LastAnalysisDate on the ContinuousUseDevice
-                        cd.LastAnalysisDate = today;
-                        await _context.SaveChangesAsync();
+                        // Ensures Device is attached to a fountain. If not, continues to the next iteration.
+                        if (cd.Fountain == null)
+                            continue;
 
+                        // Gets number of days passed since last analysis
+                        int daysPassed = today.DayNumber - cd.LastAnalysisDate.DayNumber;
+
+                        // Ensures that number of days passed is equal or bigger than the frequency
+                        if (daysPassed >= cd.AnalysisFrequency)
+                        {
+                            // Creates and adds new WaterAnalysis
+                            WaterAnalysis waterAnalysis = new WaterAnalysis(new Random().Next(0, 201), ((int)cd.Id), today, cd.Id);
+                            await waterAnalysisService.AddWaterAnalysisAsync(waterAnalysis);
+
+                            // Updates LastAnalysisDate on the ContinuousUseDevice
+                            cd.LastAnalysisDate = today;
+                            await context.SaveChangesAsync();
+                        }
                     }
-
                 }
+
                 await Task.Delay(TimeSpan.FromHours(24), stoppingToken); // Wait 24 hours
             }
         }

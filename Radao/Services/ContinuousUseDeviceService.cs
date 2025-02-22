@@ -101,8 +101,8 @@ namespace Radao.Services
             List<ContinuousUseDevice> continuousUseDevices = _context.ContinuousUseDevices.ToList();
 
             // Ensures list is not empty
-            if (continuousUseDevices.Count == 0)
-                throw new EmptyList();
+            //if (continuousUseDevices.Count == 0)
+              //  throw new EmptyList();
 
             return continuousUseDevices;
         }

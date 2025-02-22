@@ -44,16 +44,7 @@ namespace Radao.Services
             // Check if the fountain is null
             if (fountainFull == null)
                 throw new ParamIsNull();
-
-            if(fountainFull.ContinuousUseDeviceId != null)
-            {
-                // Check if the device exists in the database
-                var existingDevice = _context.ContinuousUseDevices.Find(fountainFull.ContinuousUseDeviceId);
-                if (existingDevice == null)
-                    throw new DeviceNotFoundException();
-            }
             
-
             // Check if the fountain already exists
             var existingFountain = _context.Fountains.FirstOrDefault(f => f.Latitude == fountainFull.Latitude && f.Longitude == fountainFull.Longitude);
 
@@ -61,13 +52,24 @@ namespace Radao.Services
             if (existingFountain != null)
                 throw new FountainAlreadyExists();
 
-            // If a Fountain already has an associated device, prevent adding a new one
-            if (fountainFull.ContinuousUseDeviceId != null)
+          if(fountainFull.ContinuousUseDeviceId != null)
             {
-                 //Checks if the device exists in db 
-                var deviceAlreadyAssigned = _context.ContinuousUseDevices.FirstOrDefault(d => d.Id == fountainFull.ContinuousUseDeviceId);
-                if (deviceAlreadyAssigned != null)
+                // Check if the device exists in the database
+                var existingDevice = _context.ContinuousUseDevices.Find(fountainFull.ContinuousUseDeviceId);
+                if (existingDevice == null)
+                    throw new DeviceNotFoundException();
+                // Check if the device already has a fountain 
+                if (existingDevice.FountainId != null)
                     throw new DeviceAlreadyAssigned();
+                // Add the fountain
+                await _context.Fountains.AddAsync(fountainFull);
+
+                //Updates Device
+                existingDevice.FountainId = fountainFull.Id;
+                existingDevice.Fountain = fountainFull;
+                await _context.SaveChangesAsync();
+
+                return fountainFull;
             }
 
             // Add the fountain to the database

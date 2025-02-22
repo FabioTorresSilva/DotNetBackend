@@ -15,7 +15,7 @@ namespace Radao.Mapper
         /// <returns></returns>
         public ContinuousUseDevice FullDtoToContinuousUseDevice(ContinuousUseDeviceFullDto continuousUseDeviceFullDto) 
         {
-            return new ContinuousUseDevice(continuousUseDeviceFullDto.Model, continuousUseDeviceFullDto.SerialNumber, continuousUseDeviceFullDto.ExpirationDate, continuousUseDeviceFullDto.FountainId, continuousUseDeviceFullDto.LastAnalysisDate);
+            return new ContinuousUseDevice(continuousUseDeviceFullDto.Model, continuousUseDeviceFullDto.SerialNumber, continuousUseDeviceFullDto.ExpirationDate, continuousUseDeviceFullDto.FountainId, continuousUseDeviceFullDto.AnalysisFrequency, continuousUseDeviceFullDto.LastAnalysisDate);
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Radao.Mapper
         /// <returns></returns>
         public ContinuousUseDevice IdDtoToContinuousUseDevice(ContinuousUseDeviceIdDto continuousUseDeviceIdDto)
         {
-            return new ContinuousUseDevice(continuousUseDeviceIdDto.Id, continuousUseDeviceIdDto.Model, continuousUseDeviceIdDto.SerialNumber, continuousUseDeviceIdDto.ExpirationDate, continuousUseDeviceIdDto.FountainId, continuousUseDeviceIdDto.LastAnalysisDate);
+            return new ContinuousUseDevice(continuousUseDeviceIdDto.Id, continuousUseDeviceIdDto.Model, continuousUseDeviceIdDto.SerialNumber, continuousUseDeviceIdDto.ExpirationDate, continuousUseDeviceIdDto.FountainId, continuousUseDeviceIdDto.AnalysisFrequency, continuousUseDeviceIdDto.LastAnalysisDate);
         }
 
         /// <summary>

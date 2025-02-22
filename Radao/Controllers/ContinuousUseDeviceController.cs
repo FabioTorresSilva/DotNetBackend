@@ -163,7 +163,12 @@ namespace Radao.Controllers
             {
                 return StatusCode(500, e.Message);
             }
+            catch (ContinuousUseDeviceNotFound e)
+            {
+                return NotFound(e.Message);
+            }
         }
+        
 
     }
 }

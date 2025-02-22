@@ -177,8 +177,8 @@ namespace Radao.Services
                 throw new ParamIsNull();
 
             // Find the device
-            var device = await _context.ContinuousUseDevices.FindAsync(deviceId);
-            if (device == null)
+            var device =  _context.ContinuousUseDevices.SingleOrDefault(c => c.Id == deviceId);
+            if (!(device is ContinuousUseDevice))
                 throw new ContinuousUseDeviceNotFound();
 
             // Update periodicity

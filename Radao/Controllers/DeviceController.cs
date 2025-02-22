@@ -53,6 +53,10 @@ namespace Radao.Controllers
             {
                 return BadRequest(e.Message);
             }
+            catch (DeviceAlreadyExists e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         /// <summary>

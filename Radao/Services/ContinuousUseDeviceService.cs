@@ -51,6 +51,13 @@ namespace Radao.Services
                 continuousUseDevice.Fountain = fountain;
             }
 
+            // Ensure Serial number doesnot exist
+            var cDeviceExists = _context.ContinuousUseDevices.SingleOrDefault(c => c.SerialNumber == continuousUseDevice.SerialNumber);
+            var deviceExists = _context.Devices.SingleOrDefault(c => c.SerialNumber == continuousUseDevice.SerialNumber);
+
+            if (deviceExists != null || cDeviceExists != null)
+                throw new DeviceAlreadyExists();
+
             // Adds continuousUseDevice to the database
             await _context.ContinuousUseDevices.AddAsync(continuousUseDevice);
 
@@ -129,6 +136,13 @@ namespace Radao.Services
             // Ensures continuousUseDevice is not null
             if (continuousUseDevice == null)
                 throw new ContinuousUseDeviceNotFound();
+
+            // Ensure Serial number doesnot exist
+            var cDeviceExists = _context.ContinuousUseDevices.SingleOrDefault(c => c.SerialNumber == continuousUseDevice.SerialNumber);
+            var deviceExists = _context.Devices.SingleOrDefault(c => c.SerialNumber == continuousUseDevice.SerialNumber);
+
+            if (deviceExists != null || cDeviceExists != null)
+                throw new DeviceAlreadyExists();
 
             // Updates the continuousUseDevice object
             continuousUseDevice.Model = updatedContinuousUseDevice.Model;

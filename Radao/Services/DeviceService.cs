@@ -42,6 +42,13 @@ namespace Radao.Services
             // Ensure device is not null
             if (device == null)
                 throw new ParamIsNull();
+            
+            // Ensure Serial number doesnot exist
+            var deviceExists = _context.Devices.SingleOrDefault(c => c.SerialNumber == device.SerialNumber);
+
+
+            if (deviceExists != null )
+                throw new DeviceAlreadyExists();
 
             // Adds device to the database
             await _context.Devices.AddAsync(device);
@@ -125,10 +132,16 @@ namespace Radao.Services
             if (device == null)
                 throw new ObjIsNull();
 
+            // Ensure Serial number doesnot exist
+            var deviceExists = _context.Devices.SingleOrDefault(c => c.SerialNumber == device.SerialNumber);
+
+            if (deviceExists != null)
+                throw new DeviceAlreadyExists();
+
             // Updates the device on the database
             device.Model = updatedDevice.Model;
-            device.SerialNumber = updatedDevice.SerialNumber;
             device.ExpirationDate = updatedDevice.ExpirationDate;
+            device .SerialNumber = updatedDevice.SerialNumber;
 
             // Saves context changes
             await _context.SaveChangesAsync();

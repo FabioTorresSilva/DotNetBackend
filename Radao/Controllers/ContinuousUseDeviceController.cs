@@ -53,6 +53,10 @@ namespace Radao.Controllers
             {
                 return BadRequest(e.Message);
             }
+            catch (InvalidFrequency e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         /// <summary>

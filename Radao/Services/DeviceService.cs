@@ -46,7 +46,6 @@ namespace Radao.Services
             // Ensure Serial number doesnot exist
             var deviceExists = _context.Devices.SingleOrDefault(c => c.SerialNumber == device.SerialNumber);
 
-
             if (deviceExists != null )
                 throw new DeviceAlreadyExists();
 

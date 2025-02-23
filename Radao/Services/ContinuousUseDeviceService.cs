@@ -58,6 +58,10 @@ namespace Radao.Services
             if (deviceExists != null || cDeviceExists != null)
                 throw new DeviceAlreadyExists();
 
+            // Ensure Frequency is valid 
+            if (continuousUseDevice.AnalysisFrequency <= 0)
+                throw new InvalidFrequency();
+
             // Adds continuousUseDevice to the database
             await _context.ContinuousUseDevices.AddAsync(continuousUseDevice);
 

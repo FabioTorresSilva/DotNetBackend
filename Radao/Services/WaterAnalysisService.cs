@@ -77,11 +77,18 @@ namespace Radao.Services
 
             // Updates SusceptibilityIndex on fountain
             if (waterAnalysis.RadonConcentration <= 50)
+            {
                 fountain.SusceptibilityIndex = SusceptibilityIndex.Low;
-            else if (waterAnalysis.RadonConcentration > 150)
+                fountain.IsDrinkable = true;
+            }
+            else if (waterAnalysis.RadonConcentration > 150) {
                 fountain.SusceptibilityIndex = SusceptibilityIndex.High;
-            else
-                fountain.SusceptibilityIndex = SusceptibilityIndex.Moderate;
+                fountain.IsDrinkable = false;
+            }
+            else { 
+                fountain.SusceptibilityIndex = SusceptibilityIndex.Moderate; 
+                fountain.IsDrinkable = true;
+            }
 
             // Saves database changes
             await _context.SaveChangesAsync();

@@ -37,20 +37,6 @@ namespace Radao.Services
             if (continuousUseDevice == null)
                 throw new ParamIsNull();
 
-            // Checks if updatedContinuousUseDeviceIdDto.FountainId exists
-            if (continuousUseDevice.FountainId != null && continuousUseDevice.Fountain == null)
-            {
-                // Gets Fountain with Id equal to the updatedContinuousUseDeviceIdDto.FountainId
-                var fountain = _context.Fountains.SingleOrDefault(c => c.Id == continuousUseDevice.FountainId);
-
-                // Ensures fountain is not null
-                if (fountain == null)
-                    throw new ObjIsNull();
-
-                // Updates the continuousUseDevice.Fountain argument
-                continuousUseDevice.Fountain = fountain;
-            }
-
             // Ensure Serial number doesnot exist
             var cDeviceExists = _context.ContinuousUseDevices.SingleOrDefault(c => c.SerialNumber == continuousUseDevice.SerialNumber);
             var deviceExists = _context.Devices.SingleOrDefault(c => c.SerialNumber == continuousUseDevice.SerialNumber);
@@ -61,6 +47,26 @@ namespace Radao.Services
             // Ensure Frequency is valid 
             if (continuousUseDevice.AnalysisFrequency <= 0)
                 throw new InvalidFrequency();
+
+            // Checks if updatedContinuousUseDeviceIdDto.FountainId exists
+            if (continuousUseDevice.FountainId != null)
+            {
+                // Gets Fountain with Id equal to the updatedContinuousUseDeviceIdDto.FountainId
+                var fountain = _context.Fountains.SingleOrDefault(c => c.Id == continuousUseDevice.FountainId);
+
+                // Ensures fountain is not null
+                if (fountain == null)
+                    throw new ObjIsNull();
+
+                // Ensures fountain has no device
+                if (fountain.ContinuousUseDeviceId != null)
+                    throw new FountainAlreadyAssigned();
+
+                // Updates the continuousUseDevice and fountain 
+                fountain.ContinuousUseDevice = continuousUseDevice;
+                fountain.ContinuousUseDeviceId = continuousUseDevice.Id;
+                continuousUseDevice.Fountain = fountain;
+            }
 
             // Adds continuousUseDevice to the database
             await _context.ContinuousUseDevices.AddAsync(continuousUseDevice);

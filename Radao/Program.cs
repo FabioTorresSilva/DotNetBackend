@@ -15,18 +15,27 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Register services
+// Register your application services
 builder.Services.AddScoped<IFountainService, FountainService>();
 builder.Services.AddScoped<FountainMapper>(); // Register FountainMapper
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<DeviceMapper>(); // Register DeviceMapper
-builder.Services.AddScoped<IContinuousUseDeviceService, ContinuousUseDeviceService>(); 
-builder.Services.AddScoped<ContinuousUseDeviceMapper>(); //Register ContinuousUseDeviceMapper
+builder.Services.AddScoped<IContinuousUseDeviceService, ContinuousUseDeviceService>();
+builder.Services.AddScoped<ContinuousUseDeviceMapper>(); // Register ContinuousUseDeviceMapper
 builder.Services.AddScoped<IWaterAnalysisService, WaterAnalysisService>();
 builder.Services.AddScoped<WaterAnalysisMapper>();
 
-// Register the background service
-builder.Services.AddHostedService<BackgroundServiceContinuousUseDevice>();
+// Configure CORS: allow Angular (http://localhost:4200)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
+});
 
 var app = builder.Build();
 
@@ -37,10 +46,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+/*app.UseHttpsRedirection();*/
+app.MapControllers();
+
+app.UseCors("AllowAngular");
 
 app.UseAuthorization();
 
-app.MapControllers();
 
 app.Run();

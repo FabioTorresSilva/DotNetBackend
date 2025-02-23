@@ -62,6 +62,14 @@ namespace Radao.Controllers
             {
                 return NotFound(e.Message);
             }
+            catch (InvalidRadonValue e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (InvalidDate e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         /// <summary>
@@ -151,6 +159,14 @@ namespace Radao.Controllers
             catch (ParamIsNull e)
             {
                 return BadRequest(e.Message);
+            }
+            catch (InvalidRadonValue e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (InvalidDate e)
+            {
+                return NotFound(e.Message);
             }
         }
 

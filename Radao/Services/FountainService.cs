@@ -52,7 +52,11 @@ namespace Radao.Services
             if (existingFountain != null)
                 throw new FountainAlreadyExists();
 
-          if(fountainFull.ContinuousUseDeviceId != null)
+            // Explicitly check if newIndex is a valid enum value
+            if (!Enum.IsDefined(typeof(SusceptibilityIndex), fountainFull.SusceptibilityIndex))
+                throw new InvalidEnumValueException();
+
+            if (fountainFull.ContinuousUseDeviceId != null)
             {
                 // Check if the device exists in the database
                 var existingDevice = _context.ContinuousUseDevices.Find(fountainFull.ContinuousUseDeviceId);
@@ -142,6 +146,10 @@ namespace Radao.Services
             // Ensure the fountain exists
             if (fountain == null)
                 throw new ObjIsNull();
+
+            // Explicitly check if newIndex is a valid enum value
+            if (!Enum.IsDefined(typeof(SusceptibilityIndex), updatedfountain.SusceptibilityIndex))
+                throw new InvalidEnumValueException();
 
             // Update the fountain
             fountain.Description = updatedfountain.Description;

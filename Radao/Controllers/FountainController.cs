@@ -72,6 +72,10 @@ namespace Radao.Controllers
             {
                 return BadRequest(e.Message);
             }
+            catch (InvalidEnumValueException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         /// <summary>
@@ -154,6 +158,10 @@ namespace Radao.Controllers
             catch (ObjIsNull e)
             {
                 return NotFound(e.Message);
+            }
+            catch (InvalidEnumValueException e)
+            {
+                return BadRequest(e.Message);
             }
         }
 

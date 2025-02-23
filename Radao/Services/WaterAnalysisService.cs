@@ -64,6 +64,14 @@ namespace Radao.Services
             // Updates the updatedWaterAnalysis.Device argument
             waterAnalysis.Device = device;
 
+            // Ensures Radon Concentration is valid
+            if (waterAnalysis.RadonConcentration < 0)
+                throw new InvalidRadonValue();
+
+            // Ensures Date is valid
+            if (waterAnalysis.Date > DateOnly.FromDateTime(DateTime.Today))
+                throw new InvalidDate();
+
             // Adds waterAnalysis to the database
             await _context.WaterAnalysis.AddAsync(waterAnalysis);
 
@@ -154,6 +162,14 @@ namespace Radao.Services
             // Ensures waterAnalysis is not null
             if (waterAnalysis == null)
                 throw new ObjIsNull();
+
+            // Ensures Radon Concentration is valid
+            if (updatedWaterAnalysis.RadonConcentration < 0)
+                throw new InvalidRadonValue();
+
+            // Ensures Date is valid
+            if (updatedWaterAnalysis.Date > DateOnly.FromDateTime(DateTime.Today))
+                throw new InvalidDate();
 
             // Updates the WaterAnalysis object on the database
             waterAnalysis.RadonConcentration = updatedWaterAnalysis.RadonConcentration;

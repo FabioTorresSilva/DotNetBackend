@@ -2,6 +2,7 @@
 using Radao.Dtos;
 using Radao.Exceptions;
 using Radao.Mapper;
+using Radao.Models;
 using Radao.Services;
 using Radao.Services.ServicesInterfaces;
 
@@ -73,7 +74,7 @@ namespace Radao.Controllers
                 var continuousUseDevice = await _continuousUseDeviceService.GetContinuousUseDeviceById(id);
 
                 // Map the domain model to the DTO and return it
-                var resultDto = _continuousUseDeviceMapper.ContinuousUseDeviceToFullDto(continuousUseDevice);
+                var resultDto = _continuousUseDeviceMapper.ContinuousUseDeviceToIdDto(continuousUseDevice);
 
                 return Ok(resultDto);
             }
@@ -99,7 +100,7 @@ namespace Radao.Controllers
                 var continuousUseDevices = await _continuousUseDeviceService.GetContinuousUseDevices();
 
                 // Map the domain models to the DTOs and return them
-                var continuousUseDeviceDto = continuousUseDevices.Select(d => _continuousUseDeviceMapper.ContinuousUseDeviceToFullDto(d));
+                var continuousUseDeviceDto = continuousUseDevices.Select(d => _continuousUseDeviceMapper.ContinuousUseDeviceToIdDto(d));
 
                 return Ok(continuousUseDeviceDto);
             }
@@ -161,7 +162,7 @@ namespace Radao.Controllers
             try
             {
                 var updatedDevice = await _continuousUseDeviceService.UpdateDeviceAnalysisFrequencyAsync(deviceId, newPeriodicity);
-                return Ok(updatedDevice);
+                return Ok(_continuousUseDeviceMapper.ContinuousUseDeviceToIdDto(updatedDevice));
             }
             catch (ParamIsNull e)
             {

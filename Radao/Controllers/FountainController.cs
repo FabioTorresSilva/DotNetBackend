@@ -37,12 +37,12 @@ namespace Radao.Controllers
         /// <param name="fountainDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> AddFountain([FromBody] FountainIdDto fountainDto)
+        public async Task<IActionResult> AddFountain([FromBody] FountainFullDto fountainDto)
         {
             try
             {
                 // Map the DTO to the domain model
-                var fountain = _fountainMapper.IdDtoToFountain(fountainDto);
+                var fountain = _fountainMapper.FullDtoToFountain(fountainDto);
 
                 // Add the fountain
                 var addedFountain = await _fountainService.AddFountainAsync(fountain);

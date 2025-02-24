@@ -36,12 +36,12 @@ namespace Radao.Controllers
         /// <param name="waterAnalysisDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> AddWaterAnalysis([FromBody] WaterAnalysisIdDto waterAnalysisDto)
+        public async Task<IActionResult> AddWaterAnalysis([FromBody] WaterAnalysisFullDto waterAnalysisDto)
         {
             try
             {
                 // Map the DTO to the domain model using the mapper
-                var waterAnalysis = _waterAnalysisMapper.IdDtoToWaterAnalysis(waterAnalysisDto);
+                var waterAnalysis = _waterAnalysisMapper.FullDtoToWaterAnalysis(waterAnalysisDto);
 
                 // Add the water analysis
                 var addedWaterAnalysis = await _waterAnalysisService.AddWaterAnalysisAsync(waterAnalysis);

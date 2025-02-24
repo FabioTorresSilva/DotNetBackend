@@ -132,10 +132,13 @@ namespace Radao.Services
                 throw new ObjIsNull();
 
             // Ensure Serial number doesnot exist
-            var deviceExists = _context.Devices.SingleOrDefault(c => c.SerialNumber == device.SerialNumber);
+            if (device.SerialNumber != updatedDevice.SerialNumber)
+            {
+                Device deviceExists = _context.Devices.SingleOrDefault(c => c.SerialNumber == updatedDevice.SerialNumber);
 
-            if (deviceExists != null)
-                throw new DeviceAlreadyExists();
+                if (deviceExists != null )
+                  throw new DeviceAlreadyExists();
+            }
 
             // Updates the device on the database
             device.Model = updatedDevice.Model;

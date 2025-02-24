@@ -37,17 +37,17 @@ namespace Radao.Controllers
         /// <param name="fountainDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> AddFountain([FromBody] FountainFullDto fountainDto)
+        public async Task<IActionResult> AddFountain([FromBody] FountainIdDto fountainDto)
         {
             try
             {
                 // Map the DTO to the domain model
-                var fountain = _fountainMapper.FullDtoToFountain(fountainDto);
+                var fountain = _fountainMapper.IdDtoToFountain(fountainDto);
 
                 // Add the fountain
                 var addedFountain = await _fountainService.AddFountainAsync(fountain);
 
-                var resultDto = _fountainMapper.FountainToFullDto(addedFountain);
+                var resultDto = _fountainMapper.FountainToIdDto(addedFountain);
 
                 // Map the domain model to the DTO and return it
                 return CreatedAtAction(nameof(GetFountainById), new { id = addedFountain.Id }, resultDto);
@@ -92,7 +92,7 @@ namespace Radao.Controllers
                 var fountain = await _fountainService.GetFountainByIdAsync(id);
 
                 // Map the domain model to the DTO and return it
-                var resultDto = _fountainMapper.FountainToFullDto(fountain);
+                var resultDto = _fountainMapper.FountainToIdDto(fountain);
 
                 return Ok(resultDto);
             }
@@ -180,7 +180,7 @@ namespace Radao.Controllers
                 var fountain = await _fountainService.AddContinuousUseDeviceToFountainAsync(fountainId, deviceId);
 
                 // Map the updated fountain to the DTO for the response.
-                var resultDto = _fountainMapper.FountainToFullDto(fountain);
+                var resultDto = _fountainMapper.FountainToIdDto(fountain);
 
                 return Ok(resultDto);
             }
@@ -232,7 +232,7 @@ namespace Radao.Controllers
                 var updatedFountain = await _fountainService.RemoveContinuousUseDeviceFromFountainAsync(fountainId);
 
                 // Map the updated fountain to the DTO.
-                var resultDto = _fountainMapper.FountainToFullDto(updatedFountain);
+                var resultDto = _fountainMapper.FountainToIdDto(updatedFountain);
 
                 return Ok(resultDto);
             }
@@ -268,7 +268,7 @@ namespace Radao.Controllers
                 var fountains = await _fountainService.GetFountainsByDescriptionAsync(description);
 
                 // Map the result to DTOs
-                var fountainsDto = fountains.Select(f => _fountainMapper.FountainToFullDto(f));
+                var fountainsDto = fountains.Select(f => _fountainMapper.FountainToIdDto(f));
 
                 // Return the results
                 return Ok(fountainsDto);
@@ -331,7 +331,7 @@ namespace Radao.Controllers
                 var updatedFountain = await _fountainService.UpdateFountainSusceptibilityAsync(fountainId, newIndex);
 
                 // Map the updated fountain entity to a DTO
-                var updatedFountainDto = _fountainMapper.FountainToFullDto(updatedFountain);
+                var updatedFountainDto = _fountainMapper.FountainToIdDto(updatedFountain);
 
                 // Return the updated fountain dto in the response
                 return Ok(updatedFountainDto);
@@ -369,7 +369,7 @@ namespace Radao.Controllers
                 var updatedFountain = await _fountainService.UpdateFountainContinuousUseDeviceAsync(fountainId, newDeviceId);
 
                 // Map the updated fountain entity to a full DTO
-                var updatedFountainDto = _fountainMapper.FountainToFullDto(updatedFountain);
+                var updatedFountainDto = _fountainMapper.FountainToIdDto(updatedFountain);
 
                 // Return the updated fountain DTO
                 return Ok(updatedFountainDto);
@@ -403,7 +403,7 @@ namespace Radao.Controllers
                 // selects water analysis / the ammount of water analysis
                 var waterAnalyses = await _fountainService.GetWaterAnalysisAsync(fountainId, count);
                 // converts analysis found to a dto
-                var waterAnalysesDto = waterAnalyses.Select(w => _waterAnalysisMapper.WaterAnalysisToFullDto(w));
+                var waterAnalysesDto = waterAnalyses.Select(w => _waterAnalysisMapper.WaterAnalysisToIdDto(w));
 
                 // return the list of water analysis
                 return Ok(waterAnalysesDto);
@@ -429,7 +429,7 @@ namespace Radao.Controllers
         /// <param name="waterAnalysisDto"></param>
         /// <returns></returns>
         [HttpPost("{fountainId}/water-analysis")]
-        public async Task<IActionResult> AddWaterAnalysisAsync(int fountainId, [FromBody] WaterAnalysisFullDto waterAnalysisDto)
+        public async Task<IActionResult> AddWaterAnalysisAsync(int fountainId, [FromBody] WaterAnalysisIdDto waterAnalysisDto)
         {
             try
             {
@@ -438,7 +438,7 @@ namespace Radao.Controllers
                     return BadRequest("Invalid water analysis data.");
 
                 // Map dto to WaterAnalysis
-                var waterAnalysis = _waterAnalysisMapper.FullDtoToWaterAnalysis(waterAnalysisDto);
+                var waterAnalysis = _waterAnalysisMapper.IdDtoToWaterAnalysis(waterAnalysisDto);
 
                 // Call the service to add it
                 var newWaterAnalysis = await _fountainService.AddWaterAnalysisAsync(fountainId, waterAnalysis);

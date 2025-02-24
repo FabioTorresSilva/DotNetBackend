@@ -151,6 +151,14 @@ namespace Radao.Services
             if (!Enum.IsDefined(typeof(SusceptibilityIndex), updatedfountain.SusceptibilityIndex))
                 throw new InvalidEnumValueException();
 
+            // Ensure location does not exist
+            if(fountain.Latitude != updatedfountain.Latitude || fountain.Longitude != updatedfountain.Longitude)
+            {
+                Fountain locationExists = _context.Fountains.FirstOrDefault(f => f.Latitude == updatedfountain.Latitude && f.Longitude == updatedfountain.Longitude);
+                if (locationExists != null)
+                    throw new FountainAlreadyAssigned("Location already exists.");
+            }
+
             // Update the fountain
             fountain.Description = updatedfountain.Description;
             fountain.SusceptibilityIndex = updatedfountain.SusceptibilityIndex;
@@ -398,6 +406,10 @@ namespace Radao.Services
             if (newContinuousUseDevice == null)
                 throw new ObjIsNull();
 
+            // Ensures Device is not in use already
+            if (newContinuousUseDevice.FountainId != null)
+                throw new DeviceAlreadyAssigned("Device already assign to another fountain.");
+
             // Swap the devices.
             fountain.ContinuousUseDevice = newContinuousUseDevice;
             fountain.ContinuousUseDeviceId = newContinuousUseDeviceId;
@@ -475,15 +487,24 @@ namespace Radao.Services
             if (fountain == null)
                 throw new ObjIsNull();
 
-            if (waterAnalysis.DeviceId != null)
+            if (waterAnalysis.DeviceId <= 0)
             {
-                var device = _context.ContinuousUseDevices.Find(waterAnalysis.DeviceId);
-                if (device?.FountainId != fountainId)
-                {
-                    throw new AssociatedToAnotherFountain();
-                }
+                throw new ParamIsNull();
             }
+
+            // Ensure if it is a ContinuousUseDevice, it is not in use already
+            var device = _context.ContinuousUseDevices.Find(waterAnalysis.DeviceId);
             
+            if (device != null)
+            {
+                
+                    if (device.FountainId != fountainId)
+                    {
+                        throw new AssociatedToAnotherFountain();
+                    }
+                
+            }
+
             // Assign the fountain ID to the new WaterAnalysis.
             waterAnalysis.FountainId = fountainId;
 

@@ -148,11 +148,14 @@ namespace Radao.Services
                 throw new ContinuousUseDeviceNotFound();
 
             // Ensure Serial number doesnot exist
-            var cDeviceExists = _context.ContinuousUseDevices.SingleOrDefault(c => c.SerialNumber == continuousUseDevice.SerialNumber);
-            var deviceExists = _context.Devices.SingleOrDefault(c => c.SerialNumber == continuousUseDevice.SerialNumber);
+            if (continuousUseDevice.SerialNumber != updatedContinuousUseDevice.SerialNumber)
+            {
+                ContinuousUseDevice cDeviceExists = _context.ContinuousUseDevices.SingleOrDefault(c => c.SerialNumber == updatedContinuousUseDevice.SerialNumber && c.Id == continuousUseDevice.Id);
+                Device deviceExists = _context.Devices.SingleOrDefault(c => c.SerialNumber == updatedContinuousUseDevice.SerialNumber);
 
-            if (deviceExists != null || cDeviceExists != null)
-                throw new DeviceAlreadyExists();
+                if (deviceExists != null || cDeviceExists!= null)
+                    throw new DeviceAlreadyExists();
+            }
 
             // Updates the continuousUseDevice object
             continuousUseDevice.Model = updatedContinuousUseDevice.Model;

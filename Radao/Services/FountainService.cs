@@ -62,9 +62,11 @@ namespace Radao.Services
                 var existingDevice = _context.ContinuousUseDevices.Find(fountainFull.ContinuousUseDeviceId);
                 if (existingDevice == null)
                     throw new DeviceNotFoundException();
+
                 // Check if the device already has a fountain 
-                if (existingDevice.FountainId != null)
-                    throw new DeviceAlreadyAssigned();
+                if (existingDevice.FountainId >= 0 && existingDevice.FountainId != fountainFull.Id)
+                    throw new DeviceAlreadyAssigned("device already has a fountain");
+                
                 // Add the fountain
                 await _context.Fountains.AddAsync(fountainFull);
 

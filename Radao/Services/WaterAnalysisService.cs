@@ -76,17 +76,22 @@ namespace Radao.Services
             await _context.WaterAnalysis.AddAsync(waterAnalysis);
 
             // Updates SusceptibilityIndex on fountain
+            // if RadonConc <= 50 low Index and fountain is drinkable
             if (waterAnalysis.RadonConcentration <= 50)
             {
                 fountain.SusceptibilityIndex = SusceptibilityIndex.Low;
                 fountain.IsDrinkable = true;
             }
-            else if (waterAnalysis.RadonConcentration > 150) {
+            // if RadonConc > 150 High Index and fountain is not drinkable
+            else if (waterAnalysis.RadonConcentration > 150)
+            {
                 fountain.SusceptibilityIndex = SusceptibilityIndex.High;
                 fountain.IsDrinkable = false;
             }
-            else { 
-                fountain.SusceptibilityIndex = SusceptibilityIndex.Moderate; 
+            // if between 51 and 150 Moderate and Drinkable
+            else
+            {
+                fountain.SusceptibilityIndex = SusceptibilityIndex.Moderate;
                 fountain.IsDrinkable = true;
             }
 
@@ -183,14 +188,14 @@ namespace Radao.Services
             waterAnalysis.FountainId = updatedWaterAnalysis.FountainId;
             waterAnalysis.Date = updatedWaterAnalysis.Date;
             waterAnalysis.DeviceId = updatedWaterAnalysis.DeviceId;
-            
+
 
             // Gets Fountain with Id equal to the updatedContinuousUseDeviceIdDto.FountainId
             var fountain = _context.Fountains.SingleOrDefault(c => c.Id == updatedWaterAnalysis.FountainId);
 
             // Ensures fountain is not null
             if (fountain == null)
-               throw new ObjIsNull();
+                throw new ObjIsNull();
 
             // Updates the waterAnalysis.Fountain argument
             waterAnalysis.Fountain = fountain;
@@ -211,5 +216,59 @@ namespace Radao.Services
 
             return waterAnalysis;
         }
+
+        /// <summary>
+        /// Gets aggregated water analysis data for a list of favorite fountains.
+        /// </summary>
+        /// <param name="favoriteFountains">List of user favorite fountains</param>
+        /// <exception cref="DbSetNotInitialize">Thrown when the WaterAnalysis DbSet is not initialized.</exception>
+        /// <exception cref="ParamIsNull">Thrown when the favoriteFountains parameter is null or empty.</exception>
+        /// <exception cref="EmptyList">Thrown when no water analysis records are found for the given fountains.</exception>
+        public async Task<UserFavoritesWaterAnalysisDto> GetFavoriteFountainsAnalysis(List<Fountain> favoriteFountains)
+        {
+            //ensures db set initialized
+            if (_context.WaterAnalysis == null)
+                throw new DbSetNotInitialize();
+
+            // checks if there are favorite fountains 
+            if (favoriteFountains == null || !favoriteFountains.Any())
+                throw new ParamIsNull();
+
+            var fountainIds = favoriteFountains.Select(f => f.Id).ToList();
+
+            // Retrieve water analysis records including fountain data
+            var waterAnalyses = _context.WaterAnalysis
+                .Include(wa => wa.Fountain)
+                .Where(wa => fountainIds.Contains(wa.FountainId))
+                .ToList();
+
+            //checks if there are water analysis
+            if (!waterAnalyses.Any())
+                throw new EmptyList();
+
+            // organize data to later send 
+            int totalTests = waterAnalyses.Count;
+            var lowestRecord = waterAnalyses.OrderBy(wa => wa.RadonConcentration).First();
+            var highestRecord = waterAnalyses.OrderByDescending(wa => wa.RadonConcentration).First();
+            int drinkableTests = waterAnalyses.Count(wa => wa.RadonConcentration <= 150);
+            double drinkablePercentage = (drinkableTests * 100.0) / totalTests;
+
+            // Load complete fountain details to get the id
+            var fountains = _context.Fountains
+                .Where(f => fountainIds.Contains(f.Id))
+                .ToDictionary(f => f.Id, f => f.Description);
+
+            // returns the dto format with the favorites data
+            return new UserFavoritesWaterAnalysisDto
+            {
+                TotalTests = totalTests,
+                LowestRadonValue = lowestRecord.RadonConcentration,
+                LowestRadonFountain = fountains.ContainsKey(lowestRecord.FountainId) ? fountains[lowestRecord.FountainId] : "Unknown Fountain",
+                HighestRadonValue = highestRecord.RadonConcentration,
+                HighestRadonFountain = fountains.ContainsKey(highestRecord.FountainId) ? fountains[highestRecord.FountainId] : "Unknown Fountain",
+                DrinkablePercentage = drinkablePercentage
+            };
+        }
+
     }
 }

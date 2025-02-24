@@ -113,5 +113,11 @@ namespace Radao.Models
             Longitude = longitude;
             Latitude = latitude;
         }
+
+        /// <summary>
+        /// Default constructor with no args for userfav stats
+        /// </summary>
+        public Fountain()
+        {}
     }
 }

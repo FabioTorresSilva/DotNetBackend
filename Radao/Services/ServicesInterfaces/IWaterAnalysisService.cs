@@ -27,5 +27,13 @@ namespace Radao.Services.ServicesInterfaces
         /// Gets the list of WaterAnalysis.
         /// </summary>
         Task<List<WaterAnalysis>> GetWaterAnalysis();
+
+        /// <summary>
+        /// Gets usefull stats using user favorites list
+        /// </summary>
+        /// <param name="favoriteFountains"></param>
+        /// <returns></returns>
+        Task<UserFavoritesWaterAnalysisDto> GetFavoriteFountainsAnalysis(List<Fountain> favoriteFountains);
+
     }
 }

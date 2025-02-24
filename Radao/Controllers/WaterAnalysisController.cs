@@ -170,7 +170,46 @@ namespace Radao.Controllers
             }
         }
 
-        
+        /// <summary>
+        /// Gets aggregated water analysis data for the user's favorite fountains.
+        /// </summary>
+        /// <param name="favoritesDto">DTO containing a list of favorite fountain IDs.</param>
+        /// <returns>
+        /// A DTO with:
+        /// - Total number of tests,
+        /// - The lowest radon value and corresponding fountain,
+        /// - The highest radon value and corresponding fountain,
+        /// - The percentage of tests that indicated the water was drinkable.
+        /// </returns>
+        [HttpPost("favorites/analysis")]
+        public async Task<IActionResult> GetUserFavoriteFountainsAnalysis([FromBody] UserFavoritesFountainsDto   favoritesDto)
+        {
+            try
+            {
+                if (favoritesDto == null || favoritesDto.FavoriteFountainIds == null || !favoritesDto.FavoriteFountainIds.Any())
+                    return BadRequest("No favorite fountains provided.");
 
+                // Map the list of fountain IDs to a list of Fountain objects
+                var favoriteFountains = favoritesDto.FavoriteFountainIds
+                    .Select(id => new Fountain { Id = id })
+                    .ToList();
+
+                var analysisDto = await _waterAnalysisService.GetFavoriteFountainsAnalysis(favoriteFountains);
+
+                return Ok(analysisDto);
+            }
+            catch (DbSetNotInitialize e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            catch (ParamIsNull e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (EmptyList e)
+            {
+                return NotFound(e.Message);
+            }
+        }
     }
 }

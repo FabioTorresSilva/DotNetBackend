@@ -89,5 +89,7 @@ namespace Radao.Models
             Date = date;
             DeviceId = deviceId;
         }
+
+        public WaterAnalysis() { }
     }
 }

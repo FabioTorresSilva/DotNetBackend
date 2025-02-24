@@ -36,18 +36,18 @@ namespace Radao.Controllers
         /// <param name="waterAnalysisDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> AddWaterAnalysis([FromBody] WaterAnalysisFullDto waterAnalysisDto)
+        public async Task<IActionResult> AddWaterAnalysis([FromBody] WaterAnalysisIdDto waterAnalysisDto)
         {
             try
             {
                 // Map the DTO to the domain model using the mapper
-                var waterAnalysis = _waterAnalysisMapper.FullDtoToWaterAnalysis(waterAnalysisDto);
+                var waterAnalysis = _waterAnalysisMapper.IdDtoToWaterAnalysis(waterAnalysisDto);
 
                 // Add the water analysis
                 var addedWaterAnalysis = await _waterAnalysisService.AddWaterAnalysisAsync(waterAnalysis);
 
                 // Map the domain model to the DTO and return it
-                var resultDto = _waterAnalysisMapper.WaterAnalysisToFullDto(addedWaterAnalysis);
+                var resultDto = _waterAnalysisMapper.WaterAnalysisToIdDto(addedWaterAnalysis);
                 return Ok(addedWaterAnalysis);
             }
             catch (DbSetNotInitialize e)
@@ -86,7 +86,7 @@ namespace Radao.Controllers
                 var waterAnalysis = await _waterAnalysisService.GetWaterAnalysisById(id);
 
                 // Map the domain model to the DTO and return it
-                var resultDto = _waterAnalysisMapper.WaterAnalysisToFullDto(waterAnalysis);
+                var resultDto = _waterAnalysisMapper.WaterAnalysisToIdDto(waterAnalysis);
                 return Ok(resultDto);
             }
             catch (DbSetNotInitialize e)
@@ -112,7 +112,7 @@ namespace Radao.Controllers
                 var analysis = await _waterAnalysisService.GetWaterAnalysis();
 
                 // Map the domain model to the DTO and return it
-                var analysisDto = analysis.Select(a => _waterAnalysisMapper.WaterAnalysisToFullDto(a));
+                var analysisDto = analysis.Select(a => _waterAnalysisMapper.WaterAnalysisToIdDto(a));
                 return Ok(analysisDto);
             }
             catch (DbSetNotInitialize e)

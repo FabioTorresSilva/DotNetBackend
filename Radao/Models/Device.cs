@@ -63,5 +63,4 @@ namespace Radao.Models
             ExpirationDate = expirationDate;
         }
     }
-
 }

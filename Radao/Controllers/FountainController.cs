@@ -119,7 +119,7 @@ namespace Radao.Controllers
                 var fountains = await _fountainService.GetFountainsAsync();
 
                 // Map the domain model to the DTO and return it
-                var fountainsDto = fountains.Select(f => _fountainMapper.FountainToFullDto(f));
+                var fountainsDto = fountains.Select(f => _fountainMapper.FountainToIdDto(f));
                 return Ok(fountainsDto);
             }
             catch (ObjIsNull e)
